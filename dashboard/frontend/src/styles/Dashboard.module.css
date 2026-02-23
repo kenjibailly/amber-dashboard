@@ -1,0 +1,258 @@
+.container {
+  min-height: 100vh;
+}
+
+/* ─────────── Navbar ─────────── */
+.navBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 3px solid rgb(43, 41, 63);
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* ─────────── Avatar ─────────── */
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+/* ─────────── Buttons ─────────── */
+.button {
+  background-color: #4b4372;
+  border-radius: 5px;
+  color: white;
+  border: 1px solid var(--purple-color);
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.button:hover {
+  background: var(--purple-color2);
+}
+
+/* ─────────── Dropdown / Select ─────────── */
+.select {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  box-sizing: border-box;
+  background-color: var(--tertiary-color);
+  color: white;
+  width: 100%;
+  max-width: 250px;
+}
+
+.dropdown {
+  position: relative;
+  width: 250px;
+}
+
+.selected {
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: var(--secondary-color);
+  color: #fff;
+  cursor: pointer;
+}
+
+.menu {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  right: 0;
+  background: var(--secondary-color);
+  border-radius: 6px;
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.option:hover {
+  background: var(--secondary-color2);
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.selectedGuild {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.guildIcon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* ─────────── Mobile Responsiveness ─────────── */
+@media (max-width: 768px) {
+
+  .dropdown {
+    width: 100%;
+  }
+
+  .button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+  }
+
+  .navBar .button {
+    width: unset;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+  }
+
+  .selected {
+    width: 100%;
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .navBar {
+    padding: 0.75rem;
+  }
+
+  .avatar {
+    width: 28px;
+    height: 28px;
+  }
+
+  .button {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+
+  .dropdown {
+    width: 100%;
+  }
+
+  .menu {
+    max-height: 150px;
+  }
+}
+
+.navLinkContainer {
+  display: flex;
+  align-items: center;
+}
+
+.navLink {
+  margin-right: 2rem;
+  color: var(--purple-color);
+  font-weight: bold;
+  font-size: large;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: var(--secondary-color);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table thead {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-color);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.table td {
+  padding: 1rem;
+  color: var(--text-color);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.moduleBadge {
+  display: inline-block;
+  background: var(--primary-color);
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding: 1rem;
+  background: var(--secondary-color);
+  border-radius: 8px;
+}
+
+.paginationButton {
+  padding: 0.5rem 1rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.paginationButton:hover:not(:disabled) {
+  opacity: 0.8;
+}
+
+.paginationButton:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.paginationInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--text-color);
+}
+
+.paginationDetails {
+  font-size: 0.875rem;
+  color: var(--muted-text);
+}

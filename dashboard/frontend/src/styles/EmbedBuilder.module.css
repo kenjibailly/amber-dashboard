@@ -1,0 +1,178 @@
+.controls {
+  background: var(--secondary-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.controlGroup {
+  margin-bottom: 1rem;
+}
+
+.controlGroup:last-child {
+  margin-bottom: 0;
+}
+
+.controlGroup label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.controlGroup select,
+.controlGroup input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background-color: var(--tertiary-color);
+  border: none;
+  color: white;
+}
+
+.loadMessage {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.loadMessage input {
+  flex: 1;
+}
+
+.loadMessage button {
+  padding: 0.75rem 1.5rem;
+  background-color: #4b4372;
+  border: 1px solid var(--purple-color);
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.loadMessage button:hover {
+  background: var(--purple-color2);
+}
+
+.sendButton {
+  width: 100%;
+  padding: 1rem;
+  background: var(--pink-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.sendButton:hover {
+  background: var(--pink-color2);
+}
+
+.builderContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.editorPanel {
+  background: var(--secondary-color);
+  border-radius: 8px;
+}
+
+.previewPanel {
+  position: sticky;
+  top: 2rem;
+  background: #36393f;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.previewPanel h3 {
+  color: white;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .builderContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .previewPanel {
+    position: static;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .controls {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .controlGroup select,
+  .controlGroup input {
+    font-size: 0.9rem;
+    padding: 0.65rem;
+  }
+
+  .loadMessage {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .loadMessage button {
+    width: 100%;
+    padding: 0.75rem;
+  }
+
+  .sendButton {
+    font-size: 1rem;
+    padding: 0.85rem;
+  }
+
+  .builderContainer {
+    gap: 1.5rem;
+  }
+
+  .previewPanel {
+    padding: 1rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .controls {
+    padding: 0.85rem;
+  }
+
+  .controlGroup label {
+    font-size: 0.9rem;
+  }
+
+  .controlGroup select,
+  .controlGroup input {
+    font-size: 0.85rem;
+    padding: 0.6rem;
+  }
+
+  .loadMessage button {
+    font-size: 0.9rem;
+    padding: 0.7rem;
+  }
+
+  .sendButton {
+    font-size: 0.95rem;
+    padding: 0.75rem;
+  }
+
+  .previewPanel {
+    padding: 0.85rem;
+  }
+}

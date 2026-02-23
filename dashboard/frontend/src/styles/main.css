@@ -1,0 +1,39 @@
+:root {
+  --main-color: #0e1015;
+  --secondary-color: #181a20;
+  --secondary-color2: #242731;
+  --tertiary-color: #2e323e;
+  --tertiary-color2: rgb(57, 61, 75);
+  --purple-color: #7268a6;
+  --purple-color2: rgb(140, 128, 200);
+  --pink-color: #ff0048;
+  --pink-color2: rgb(254, 39, 85);
+  --white2: #adadad;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--main-color);
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+  box-sizing: border-box;
+}
+
+.epr-icn-search {
+  left: 90% !important;
+}

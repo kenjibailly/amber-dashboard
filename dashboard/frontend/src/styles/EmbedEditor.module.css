@@ -1,0 +1,426 @@
+.editor {
+  padding: 1.5rem;
+}
+
+.section {
+  margin-bottom: 1.5rem;
+}
+
+.section label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: white;
+  font-size: 0.95rem;
+}
+
+.section input,
+.section textarea {
+  width: 100%;
+  padding: 0.75rem;
+  padding-right: 0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background-color: var(--tertiary-color);
+  border: none;
+  color: white;
+}
+
+.section textarea {
+  resize: vertical;
+}
+
+.collapsible {
+  background-color: var(--tertiary-color);
+  border: 3px solid #3a3f4d;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.header {
+  padding: 1rem;
+  background: var(--secondary-color);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  border-radius: 6px;
+}
+
+.content {
+  padding: 1rem;
+}
+
+.field {
+  margin-bottom: 1rem;
+  flex: 1;
+}
+
+.field:last-child {
+  margin-bottom: 0;
+}
+
+.field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 0.75rem;
+  padding-right: 0;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background-color: var(--secondary-color);
+  color: white;
+  box-sizing: border-box;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.charCount {
+  color: #666;
+  font-size: 0.85rem;
+  font-weight: normal;
+  float: right;
+}
+
+.fieldWithButton {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.fieldWithCheckbox {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.addUrlButton,
+.colorPickerButton,
+.trashButton {
+  padding: 0.5rem 1rem;
+  background: var(--purple-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  min-width: 44px;
+  margin: auto;
+  margin-top: 28px;
+}
+
+.trashButton {
+  margin-right: 0;
+  margin-top: 0;
+}
+
+.addUrlButton:hover,
+.colorPickerButton:hover {
+  background: var(--purple-color2);
+}
+
+.trashButton {
+  background: #ed4245;
+}
+
+.trashButton:hover {
+  background: #c03537;
+}
+
+.colorPicker {
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.inlineCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: normal;
+  cursor: pointer;
+  white-space: nowrap;
+  padding-bottom: 0.75rem;
+}
+
+.inlineCheckbox input {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.addButton {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--purple-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.addButton:hover {
+  background: var(--purple-color2);
+}
+
+.addMenu {
+  background: var(--secondary-color);
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.menuLabel {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.menuButton {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--purple-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.menuButton:hover {
+  background: var(--purple-color2);
+}
+
+.componentRow {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: var(--secondary-color);
+  border-radius: 6px;
+}
+
+.buttonComponent {
+  background: var(--tertiary-color);
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.buttonComponent:last-child {
+  margin-bottom: 0;
+}
+
+.componentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.emojiButton {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--secondary-color);
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.secondaryButton {
+  width: 100%;
+  padding: 0.75rem;
+  background: #747f8d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.secondaryButton:hover {
+  background: #5f6872;
+}
+
+.info {
+  padding: 0.75rem;
+  background: #e3f2fd;
+  border-left: 3px solid #2196f3;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+/* -------- Responsive Adjustments -------- */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .editor {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .fieldWithButton,
+  .fieldWithCheckbox {
+    flex-wrap: wrap;
+  }
+
+  .addUrlButton,
+  .colorPickerButton,
+  .trashButton {
+    margin-top: 0.5rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .editor {
+    padding: 0.85rem;
+  }
+
+  .section label,
+  .field label {
+    font-size: 0.85rem;
+  }
+
+  .section input,
+  .section textarea,
+  .field input,
+  .field textarea {
+    font-size: 0.85rem;
+    padding: 0.6rem;
+  }
+
+  .fieldWithButton,
+  .fieldWithCheckbox {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .addUrlButton,
+  .colorPickerButton,
+  .trashButton {
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+
+  .addButton,
+  .menuButton,
+  .secondaryButton {
+    font-size: 0.95rem;
+    padding: 0.7rem;
+  }
+
+  .componentHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .editor {
+    padding: 0.75rem;
+  }
+
+  .section label,
+  .field label {
+    font-size: 0.8rem;
+  }
+
+  .addButton,
+  .menuButton,
+  .secondaryButton {
+    font-size: 0.9rem;
+    padding: 0.65rem;
+  }
+
+  .info {
+    font-size: 0.85rem;
+    padding: 0.6rem;
+  }
+}
+.emojiPickerWrapper {
+  position: absolute; /* Changed from absolute to fixed */
+  z-index: 1000;
+  left: 50%;
+  transform: translateX(-50%); /* Center it horizontally */
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: min(350px, 90vw);
+}
+
+/* Rest of your CSS stays the same */
+.customEmojis {
+  background: #2b2d31;
+  border-top: 1px solid #3f4147;
+  padding: 1rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.customEmojisHeader {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #dbdee1;
+}
+
+.customEmojiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  gap: 0.5rem;
+}
+
+.customEmojiButton {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.customEmojiButton:hover {
+  background: #3f4147;
+}
+
+.customEmojiButton img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

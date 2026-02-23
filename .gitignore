@@ -1,0 +1,6 @@
+node_modules
+.env
+mongodb/db
+docker-compose.yml
+app/mongodb/URI.js
+dashboard/frontend/vite.config.js
