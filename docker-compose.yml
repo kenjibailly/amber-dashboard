@@ -1,0 +1,64 @@
+---
+services:
+  discord_bot_amber_dashboard:
+    build: ./app
+    container_name: discord_bot_amber_dashboard
+    restart: unless-stopped
+    command: "nodemon bot.js"
+    volumes:
+      - ./app:/home/ubuntu/amber
+      - /home/ubuntu/amber/node_modules
+    env_file:
+      - .env
+    ports:
+      - "3001:3000"
+    networks:
+      - docker_swag
+  discord_bot_amber_dashboard_db:
+    image: mongo
+    container_name: discord_bot_amber_dashboard_db
+    restart: unless-stopped
+    ports:
+      - 27024:27017
+    volumes:
+      # - ./mongodb/config/mongod.conf.orig:/etc/mongod.conf.orig
+      - ./mongodb/db/:/data/db
+      - ./mongodb/config/init-scripts/init-db.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_INITDB_DATABASE=root-db
+    env_file:
+      - .env
+    networks:
+      - docker_swag
+  discord_dashboard_amber:
+    build: ./dashboard
+    container_name: discord_dashboard_amber
+    restart: unless-stopped
+    command: sh -c "cd /app/frontend && npm run dev -- --host & cd /app/backend && npm run dev"
+    ports:
+      - 8091:8080
+      - 5174:5173
+    environment:
+      - MONGO_URI=mongodb://discord_bot_amber_dashboard_db:27017/amber
+      - DISCORD_CLIENT_ID=${APP_ID}
+      - DISCORD_CLIENT_SECRET=${DISCORD_CLIENT_SECRET}
+      - DISCORD_BOT_TOKEN=${DISCORD_TOKEN}
+      - VITE_DISCORD_CLIENT_ID=${APP_ID}
+      - DOMAIN=${DOMAIN}
+    depends_on:
+      - discord_bot_amber_dashboard_db
+    volumes:
+      - ./dashboard:/app
+      - /app/node_modules
+      - /app/backend/node_modules
+      - /app/frontend/node_modules
+      - /app/frontend/dist
+    env_file:
+      - .env
+    networks:
+      - docker_swag
+networks:
+  docker_swag:
+    external: true
