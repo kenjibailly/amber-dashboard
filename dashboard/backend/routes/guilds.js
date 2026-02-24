@@ -429,6 +429,49 @@ router.get(
 );
 
 router.get(
+  "/:guildId/users",
+  requireAuth,
+  checkGuildPermission,
+  async (req, res) => {
+    const { guildId } = req.params;
+
+    try {
+      // Fetch members from Discord API (limit 1000 is the max per request)
+      const response = await axios.get(
+        `https://discord.com/api/v10/guilds/${guildId}/members?limit=1000`,
+        {
+          headers: {
+            Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+          },
+        },
+      );
+
+      const users = response.data
+        .filter((member) => !member.user.bot) // exclude bots
+        .map((member) => ({
+          id: member.user.id,
+          username: member.user.username,
+          globalName: member.user.global_name,
+          nickname: member.nick,
+          avatar: member.user.avatar,
+        }))
+        .sort((a, b) =>
+          (a.globalName || a.username).localeCompare(
+            b.globalName || b.username,
+          ),
+        );
+
+      console.log(`Fetched ${users.length} users for guild ${guildId}`);
+
+      res.json({ users });
+    } catch (err) {
+      console.error("Error fetching guild users:", err);
+      res.status(500).json({ error: "Failed to fetch guild users" });
+    }
+  },
+);
+
+router.get(
   "/:guildId/roles",
   requireAuth,
   checkGuildPermission,

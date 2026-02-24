@@ -18,8 +18,8 @@ router.get("/modules", requireAuth, async (req, res) => {
     const availableModules = [
       {
         id: "status",
-        title: "Airona Status",
-        description: "Set a status for Airona.",
+        title: "Amber Status",
+        description: "Set a status for Amber.",
         category: "admin",
       },
     ];
@@ -42,6 +42,48 @@ router.get("/modules", requireAuth, async (req, res) => {
       enabled: moduleStates[mod.id]?.enabled || false,
       settings: moduleStates[mod.id]?.settings || {},
     }));
+    res.json({ modules });
+  } catch (err) {
+    console.error("Error fetching modules:", err);
+    res.status(500).json({ error: "Failed to fetch modules" });
+  }
+});
+
+router.get("/guilds/:guildId/modules", requireAuth, async (req, res) => {
+  const { guildId } = req.params;
+
+  try {
+    // Define available modules (you can move this to a config file later)
+    // In the GET "/:guildId/modules" route, update availableModules:
+    const availableModules = [
+      {
+        id: "joinleave",
+        title: "Join Leave",
+        description:
+          "Let members join and leave certain channels using a secret command",
+        category: "admin",
+      },
+    ];
+
+    // Get module states from database
+    const dbModules = await AdminModule.find();
+
+    // Create a map of module states
+    const moduleStates = {};
+    dbModules.forEach((mod) => {
+      moduleStates[mod.moduleId] = {
+        enabled: mod.enabled,
+        settings: mod.settings,
+      };
+    });
+
+    // Combine available modules with their states
+    const modules = availableModules.map((mod) => ({
+      ...mod,
+      enabled: moduleStates[mod.id]?.enabled || false,
+      settings: moduleStates[mod.id]?.settings || {},
+    }));
+
     res.json({ modules });
   } catch (err) {
     console.error("Error fetching modules:", err);
@@ -86,6 +128,51 @@ router.post("/modules/:moduleId/toggle", requireAuth, async (req, res) => {
   }
 });
 
+// Toggle module for a guild
+router.post(
+  "/guilds/:guildId/modules/:moduleId/toggle",
+  requireAuth,
+  async (req, res) => {
+    const { guildId, moduleId } = req.params;
+    const { enabled } = req.body;
+
+    try {
+      // Find or create the module document
+      let adminModule = await AdminModule.findOne({ guildId, moduleId });
+
+      if (adminModule) {
+        // Update existing
+        adminModule.enabled = enabled;
+        adminModule.updatedAt = new Date();
+        await adminModule.save();
+      } else {
+        // Create new
+        adminModule = new AdminModule({
+          guildId,
+          moduleId,
+          enabled,
+        });
+        await adminModule.save();
+      }
+
+      console.log(
+        `Admin module ${moduleId} for guild ${guildId} set to ${enabled}`,
+      );
+
+      res.json({
+        success: true,
+        guildId,
+        moduleId,
+        enabled,
+        updatedAt: adminModule.updatedAt,
+      });
+    } catch (err) {
+      console.error("Error toggling module:", err);
+      res.status(500).json({ error: "Failed to toggle module" });
+    }
+  },
+);
+
 // Get specific module settings
 router.get("/modules/:moduleId", requireAuth, async (req, res) => {
   const { moduleId } = req.params;
@@ -113,6 +200,40 @@ router.get("/modules/:moduleId", requireAuth, async (req, res) => {
     res.status(500).json({ error: "Failed to fetch module" });
   }
 });
+
+// Get specific module settings
+router.get(
+  "/guilds/:guildId/modules/:moduleId",
+  requireAuth,
+  async (req, res) => {
+    const { guildId, moduleId } = req.params;
+
+    try {
+      let adminModule = await AdminModule.findOne({ guildId, moduleId });
+
+      if (!adminModule) {
+        // Return default state if not found
+        return res.json({
+          guildId,
+          moduleId,
+          enabled: false,
+          settings: {},
+        });
+      }
+
+      res.json({
+        guildId: adminModule.guildId,
+        moduleId: adminModule.moduleId,
+        enabled: adminModule.enabled,
+        settings: adminModule.settings,
+        updatedAt: adminModule.updatedAt,
+      });
+    } catch (err) {
+      console.error("Error fetching module:", err);
+      res.status(500).json({ error: "Failed to fetch module" });
+    }
+  },
+);
 
 // Update module settings (for detailed settings page)
 router.put("/modules/:moduleId/settings", requireAuth, async (req, res) => {
@@ -149,5 +270,49 @@ router.put("/modules/:moduleId/settings", requireAuth, async (req, res) => {
     res.status(500).json({ error: "Failed to update settings" });
   }
 });
+
+router.put(
+  "/guilds/:guildId/modules/:moduleId/settings",
+  requireAuth,
+  async (req, res) => {
+    const { guildId, moduleId } = req.params;
+    const { settings } = req.body;
+
+    console.log(
+      `Update settings - Admin Module: ${moduleId} for Guild: ${guildId}`,
+      settings,
+    );
+
+    try {
+      let adminModule = await AdminModule.findOne({ guildId, moduleId });
+
+      if (adminModule) {
+        adminModule.settings = settings;
+        adminModule.updatedAt = new Date();
+        await adminModule.save();
+      } else {
+        // Create with settings
+        adminModule = new AdminModule({
+          guildId,
+          moduleId,
+          enabled: false,
+          settings,
+        });
+        await adminModule.save();
+      }
+
+      res.json({
+        success: true,
+        guildId,
+        moduleId,
+        settings: adminModule.settings,
+        updatedAt: adminModule.updatedAt,
+      });
+    } catch (err) {
+      console.error("Error updating module settings:", err);
+      res.status(500).json({ error: "Failed to update settings" });
+    }
+  },
+);
 
 module.exports = router;

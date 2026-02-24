@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import WelcomeSettings from "../components/modules/WelcomeSettings";
 import AutoRoleSettings from "../components/modules/AutoRoleSettings";
@@ -10,14 +10,15 @@ import TicketsSettings from "../components/modules/TicketsSettings";
 import StatusSettings from "../components/modules/StatusSettings";
 import AddRoleSettings from "../components/modules/AddRoleSettings";
 import CustomCommandSettings from "../components/modules/CustomCommandSettings";
+import JoinLeaveSettings from "../components/modules/JoinLeaveSettings";
 
 export default function ModuleSettings() {
   const { guildId, moduleId } = useParams();
   const navigate = useNavigate();
   const { user, guilds, loading } = useAuth();
 
-  // Check if this is an admin module (no guildId in route)
-  const isAdminModule = !guildId;
+  // Check if this is an admin module
+  const isAdminModule = location.pathname.startsWith("/admin");
 
   const renderModuleSettings = () => {
     switch (moduleId) {
@@ -37,6 +38,8 @@ export default function ModuleSettings() {
         return <CustomCommandSettings guildId={guildId} user={user} />;
       case "status":
         return <StatusSettings />;
+      case "joinleave":
+        return <JoinLeaveSettings guildId={guildId} />;
       default:
         return (
           <div>
@@ -55,6 +58,7 @@ export default function ModuleSettings() {
       tickets: "Tickets",
       customcommands: "Custom Commands",
       status: "Status",
+      joinleave: "Join Leave",
     };
     return titles[moduleId] || moduleId;
   };
@@ -70,7 +74,9 @@ export default function ModuleSettings() {
         <button
           className={styles.button}
           onClick={() =>
-            isAdminModule ? navigate(`/admin`) : navigate(`/guild/${guildId}`)
+            isAdminModule
+              ? navigate(guildId ? `/admin/guild/${guildId}` : `/admin`)
+              : navigate(`/guild/${guildId}`)
           }
           style={{ marginBottom: "1rem" }}
         >

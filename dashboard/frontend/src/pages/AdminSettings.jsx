@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import ModuleCard from "../components/ModuleCard";
@@ -13,6 +13,7 @@ export default function AdminSettings() {
   const [hasPermission, setHasPermission] = useState(false);
   const [modules, setModules] = useState([]);
   const [modulesLoading, setModulesLoading] = useState(true);
+  const { guildId = "" } = useParams();
 
   useEffect(() => {
     if (!loading && user) {
@@ -23,13 +24,15 @@ export default function AdminSettings() {
         navigate("/dashboard");
       }
     }
-  }, [user, loading, navigate]);
+  }, [user, loading, navigate, guildId]);
 
   const fetchModules = async () => {
     try {
-      const response = await axios.get(`/api/admin/modules`, {
-        withCredentials: true,
-      });
+      const url = guildId
+        ? `/api/admin/guilds/${guildId}/modules`
+        : `/api/admin/modules`;
+
+      const response = await axios.get(url, { withCredentials: true });
       setModules(response.data.modules);
       setModulesLoading(false);
     } catch (err) {
@@ -40,17 +43,20 @@ export default function AdminSettings() {
 
   const handleModuleToggle = async (moduleId, newState) => {
     try {
+      const url = guildId
+        ? `/api/admin/guilds/${guildId}/modules`
+        : `/api/admin/modules`;
       await axios.post(
-        `/api/admin/modules/${moduleId}/toggle`,
+        `${url}/${moduleId}/toggle`,
         {
           enabled: newState,
         },
-        { withCredentials: true }
+        { withCredentials: true },
       );
       setModules(
         modules.map((m) =>
-          m.id === moduleId ? { ...m, enabled: newState } : m
-        )
+          m.id === moduleId ? { ...m, enabled: newState } : m,
+        ),
       );
     } catch (err) {
       console.error("Failed to toggle module:", err);
@@ -70,7 +76,12 @@ export default function AdminSettings() {
 
   return (
     <div className={styles.container}>
-      <Navbar user={user} guilds={guilds} />
+      <Navbar
+        user={user}
+        guilds={guilds}
+        basePath="/admin"
+        selectedGuildId={guildId}
+      />
       <div style={{ padding: "2rem" }}>
         <h1>Admin Settings</h1>
 
@@ -93,6 +104,8 @@ export default function AdminSettings() {
                     onToggle={(newState) =>
                       handleModuleToggle(module.id, newState)
                     }
+                    guildId={guildId}
+                    basePath="/admin"
                   />
                 ))
               )}

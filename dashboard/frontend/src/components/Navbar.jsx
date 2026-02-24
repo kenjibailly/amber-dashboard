@@ -2,17 +2,21 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import styles from "../styles/Dashboard.module.css";
 
-export default function Navbar({ user, guilds = [], selectedGuildId = "" }) {
+export default function Navbar({
+  user,
+  guilds = [],
+  selectedGuildId = "",
+  basePath = "",
+}) {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
 
   const handleSelect = (guildId) => {
-    // Simulate what you used to do in handleGuildChange
     if (guildId) {
-      navigate(`/guild/${guildId}`);
+      navigate(`${basePath}/guild/${guildId}`);
     } else {
-      navigate("/dashboard");
+      navigate(basePath || "/dashboard");
     }
     setOpen(false);
   };
@@ -53,7 +57,7 @@ export default function Navbar({ user, guilds = [], selectedGuildId = "" }) {
                 <div className={styles.selectedGuild}>
                   <img
                     src={getGuildIconUrl(
-                      guilds.find((g) => g.id === selectedGuildId)
+                      guilds.find((g) => g.id === selectedGuildId),
                     )}
                     alt={
                       guilds.find((g) => g.id === selectedGuildId)?.name ||

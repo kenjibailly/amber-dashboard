@@ -9,6 +9,7 @@ export default function ModuleCard({
   enabled,
   onToggle,
   guildId, // Optional - only provided for guild modules
+  basePath = "",
 }) {
   const [isEnabled, setIsEnabled] = useState(enabled);
   const [isToggling, setIsToggling] = useState(false);
@@ -33,8 +34,10 @@ export default function ModuleCard({
   const handleCardClick = () => {
     // If guildId is provided, it's a guild module
     // Otherwise, it's an admin module
-    if (guildId) {
+    if (guildId && basePath != "/admin") {
       navigate(`/guild/${guildId}/module/${moduleId}`);
+    } else if (guildId && basePath == "/admin") {
+      navigate(`/admin/guild/${guildId}/module/${moduleId}`);
     } else {
       navigate(`/admin/module/${moduleId}`);
     }

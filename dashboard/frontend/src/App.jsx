@@ -10,8 +10,6 @@ import AdminSettings from "./pages/AdminSettings";
 import ChangeLogs from "./pages/ChangeLogs";
 import CustomCommandEditor from "./pages/CustomCommandEditor";
 
-console.log("VITE ENV:", import.meta.env); // move it here
-
 export default function App() {
   return (
     <Routes>
@@ -97,7 +95,23 @@ export default function App() {
         }
       />
       <Route
+        path="/admin/guild/:guildId"
+        element={
+          <ProtectedRoute>
+            <AdminSettings />
+          </ProtectedRoute>
+        }
+      />
+      <Route
         path="/admin/module/:moduleId"
+        element={
+          <ProtectedRoute>
+            <ModuleSettings />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/guild/:guildId/module/:moduleId"
         element={
           <ProtectedRoute>
             <ModuleSettings />

@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
 
 const adminModuleSchema = new mongoose.Schema({
+  guildId: {
+    type: String,
+    required: false,
+  },
   moduleId: {
     type: String,
     required: true,
-    unique: true,
   },
   enabled: {
     type: Boolean,
@@ -23,5 +26,7 @@ const adminModuleSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
+
+adminModuleSchema.index({ guildId: 1, moduleId: 1 }, { unique: true });
 
 module.exports = mongoose.model("AdminModule", adminModuleSchema);
