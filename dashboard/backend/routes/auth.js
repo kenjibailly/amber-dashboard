@@ -16,7 +16,7 @@ console.log("================================");
 
 router.get("/login", (req, res) => {
   const url = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(
-    REDIRECT_URI
+    REDIRECT_URI,
   )}&response_type=code&scope=identify guilds`;
   console.log("Login redirect URL:", url);
   res.redirect(url);
@@ -39,7 +39,7 @@ router.get("/callback", async (req, res) => {
         redirect_uri: REDIRECT_URI,
         scope: "identify guilds",
       }),
-      { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+      { headers: { "Content-Type": "application/x-www-form-urlencoded" } },
     );
 
     console.log("Token received successfully");
@@ -54,14 +54,14 @@ router.get("/callback", async (req, res) => {
       "https://discord.com/api/users/@me/guilds",
       {
         headers: { Authorization: `Bearer ${tokenResponse.data.access_token}` },
-      }
+      },
     );
 
     const botGuildsResponse = await axios.get(
       "https://discord.com/api/users/@me/guilds",
       {
         headers: { Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}` },
-      }
+      },
     );
 
     const MANAGE_GUILD = 0x20;
@@ -85,7 +85,6 @@ router.get("/callback", async (req, res) => {
         return res.status(500).send("Failed to save session");
       }
       console.log("Session saved, redirecting to frontend dashboard");
-      // CHANGE THIS LINE - redirect to frontend URL
       res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
     });
   } catch (err) {
@@ -95,11 +94,6 @@ router.get("/callback", async (req, res) => {
 });
 
 router.get("/session", (req, res) => {
-  // console.log(
-  //   "Session check - User:",
-  //   req.session.user ? "EXISTS" : "NOT FOUND"
-  // );
-
   if (!req.session.user) {
     return res.status(401).json({ error: "Not authenticated" });
   }
@@ -129,14 +123,14 @@ router.post("/refresh-guilds", async (req, res) => {
       "https://discord.com/api/users/@me/guilds",
       {
         headers: { Authorization: `Bearer ${req.session.accessToken}` },
-      }
+      },
     );
 
     const botGuildsResponse = await axios.get(
       "https://discord.com/api/users/@me/guilds",
       {
         headers: { Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}` },
-      }
+      },
     );
 
     const MANAGE_GUILD = 0x20;
@@ -154,7 +148,7 @@ router.post("/refresh-guilds", async (req, res) => {
   } catch (error) {
     console.error(
       "Error refreshing guilds:",
-      error.response?.data || error.message
+      error.response?.data || error.message,
     );
 
     if (error.response?.status === 401 || error.response?.status === 429) {
