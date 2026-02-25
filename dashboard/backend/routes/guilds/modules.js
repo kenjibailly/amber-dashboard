@@ -48,6 +48,24 @@ const availableModules = [
     description: "Add a custom command",
     category: "general",
   },
+  {
+    id: "economy",
+    title: "Economy",
+    description: "Configure your economy",
+    category: "general",
+  },
+  {
+    id: "staffrole",
+    title: "Staff Role",
+    description: "Set a staff role",
+    category: "general",
+  },
+  {
+    id: "intro",
+    title: "Introduction",
+    description: "Configure the introduction posts",
+    category: "brawlstars",
+  },
 ];
 
 // Get all modules for a guild

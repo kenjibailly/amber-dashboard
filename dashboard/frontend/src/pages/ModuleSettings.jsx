@@ -11,6 +11,9 @@ import StatusSettings from "../components/modules/StatusSettings";
 import AddRoleSettings from "../components/modules/AddRoleSettings";
 import CustomCommandSettings from "../components/modules/CustomCommandSettings";
 import JoinLeaveSettings from "../components/modules/JoinLeaveSettings";
+import EconomySettings from "../components/modules/EconomySettings";
+import StaffRoleSettings from "../components/modules/StaffRoleSettings";
+import IntroductionSettings from "../components/modules/IntroductionSettings";
 
 export default function ModuleSettings() {
   const { guildId, moduleId } = useParams();
@@ -40,6 +43,12 @@ export default function ModuleSettings() {
         return <StatusSettings />;
       case "joinleave":
         return <JoinLeaveSettings guildId={guildId} />;
+      case "economy":
+        return <EconomySettings guildId={guildId} user={user} />;
+      case "staffrole":
+        return <StaffRoleSettings guildId={guildId} user={user} />;
+      case "intro":
+        return <IntroductionSettings guildId={guildId} user={user} />;
       default:
         return (
           <div>
@@ -54,11 +63,15 @@ export default function ModuleSettings() {
       welcome: "Welcome Messages",
       goodbye: "Goodbye Messages",
       autorole: "Auto Role",
+      addrole: "Add Role",
       reactionroles: "Reaction Roles",
       tickets: "Tickets",
       customcommands: "Custom Commands",
       status: "Status",
       joinleave: "Join Leave",
+      economy: "Economy",
+      staffrole: "Staff Role",
+      intro: "Introduction",
     };
     return titles[moduleId] || moduleId;
   };

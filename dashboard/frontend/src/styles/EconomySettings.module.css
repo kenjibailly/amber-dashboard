@@ -1,0 +1,245 @@
+.section {
+  background: var(--card-bg, #2b2d31);
+  border: 1px solid var(--border, #3f4248);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  color: var(--text-primary, #fff);
+}
+
+.sectionDesc {
+  font-size: 0.85rem;
+  color: var(--text-muted, #888);
+  margin: 0 0 1.25rem 0;
+}
+
+/* Reward rows */
+.rewardRow {
+  border: 1px solid var(--border, #3f4248);
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  background: var(--bg-secondary, #1e1f22);
+}
+
+.rewardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rewardLabel {
+  font-weight: 500;
+  color: var(--text-primary, #e0e0e0);
+}
+
+.rewardFields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 500px) {
+  .rewardFields {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.fieldGroup label {
+  font-size: 0.85rem;
+  color: var(--text-muted, #aaa);
+}
+
+.fieldGroup small {
+  font-size: 0.75rem;
+  color: var(--text-muted, #777);
+}
+
+/* Toggle switch */
+.toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggleSlider {
+  width: 40px;
+  height: 22px;
+  background: #4f5058;
+  border-radius: 999px;
+  position: relative;
+  transition: background 0.2s;
+}
+
+.toggleSlider::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.2s;
+}
+
+.toggle input:checked + .toggleSlider {
+  background: #5865f2;
+}
+
+.toggle input:checked + .toggleSlider::after {
+  transform: translateX(18px);
+}
+
+/* Emoji field */
+.emojiField {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.emojiTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-secondary, #1e1f22);
+  border: 1px solid var(--border, #3f4248);
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-primary, #e0e0e0);
+  font-size: 0.9rem;
+  transition: border-color 0.15s;
+  min-width: 160px;
+  text-align: left;
+}
+
+.emojiTrigger:hover {
+  border-color: #5865f2;
+}
+
+.emojiImg {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.emojiNative {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.emojiName {
+  flex: 1;
+  color: var(--text-primary, #e0e0e0);
+}
+
+.emojiPlaceholder {
+  color: var(--text-muted, #777);
+}
+
+.emojiClear {
+  margin-left: auto;
+  color: #888;
+  font-size: 0.75rem;
+  padding: 2px 4px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.emojiClear:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+/* Emoji dropdown */
+.emojiDropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 100;
+  background: #2b2d31;
+  border: 1px solid #3f4248;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  width: 350px;
+}
+
+.emojiTabs {
+  display: flex;
+  border-bottom: 1px solid #3f4248;
+}
+
+.emojiTabs button {
+  flex: 1;
+  padding: 0.5rem;
+  background: transparent;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: color 0.15s, background 0.15s;
+}
+
+.emojiTabs button:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.activeTab {
+  color: #fff !important;
+  border-bottom: 2px solid #5865f2;
+}
+
+.customEmojiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+  gap: 4px;
+  padding: 8px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.customEmojiBtn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 4px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.customEmojiBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #5865f2;
+}
+
+.customEmojiBtn img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
