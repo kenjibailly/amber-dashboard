@@ -36,6 +36,7 @@ async function handleCreateTicketButton(interaction, client) {
     .catch(() => null);
 
   if (!submitted) return;
+  await submitted.deferReply({ ephemeral: true });
 
   // Step 3: Get input from modal
   const reason = submitted.fields.getTextInputValue("ticket-reason");
@@ -63,7 +64,7 @@ async function handleCreateTicketButton(interaction, client) {
     try {
       const allMembers = await interaction.guild.members.fetch();
       const staffMembers = allMembers.filter((member) =>
-        member.roles.cache.has(guildModule.settings.roleId)
+        member.roles.cache.has(guildModule.settings.roleId),
       );
 
       for (const [id, member] of staffMembers) {
@@ -71,7 +72,7 @@ async function handleCreateTicketButton(interaction, client) {
           await thread.members.add(member.id);
         } catch (err) {
           console.warn(
-            `Failed to add staff member ${member.user.tag}: ${err.message}`
+            `Failed to add staff member ${member.user.tag}: ${err.message}`,
           );
         }
       }
@@ -153,7 +154,7 @@ async function handleCreateTicketButton(interaction, client) {
       .setTitle(replyTitle)
       .setDescription(replyDescription)
       .setColor("Green");
-    await submitted.reply({ embeds: [replyEmbed], flags: 64 });
+    await submitted.editReply({ embeds: [replyEmbed] });
   } catch (error) {
     logger.error(error);
   }

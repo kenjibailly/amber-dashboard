@@ -7,23 +7,32 @@ const GuildModule = require("../models/GuildModule");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("add-role")
+    .setName("add")
     .setDescription("Add a role to a user")
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles)
-    .addUserOption((option) =>
-      option
-        .setName("user")
-        .setDescription("The user to assign the role to")
-        .setRequired(true)
-    )
-    .addRoleOption((option) =>
-      option
+    .addSubcommand((subcommand) =>
+      subcommand
         .setName("role")
-        .setDescription("The role to assign to the user")
-        .setRequired(true)
-    ),
-
+        .setDescription("Send the ticket creation message")
+        .addUserOption((option) =>
+          option
+            .setName("user")
+            .setDescription("The user to assign the role to")
+            .setRequired(true),
+        )
+        .addRoleOption((option) =>
+          option
+            .setName("role")
+            .setDescription("The role to assign to the user")
+            .setRequired(true),
+        ),
+    )
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles),
   async execute(interaction) {
+    const subcommand = interaction.options.getSubcommand();
+
+    if (subcommand !== "role") {
+      return;
+    }
     const user = interaction.options.getUser("user");
     const role = interaction.options.getRole("role");
     const member = await interaction.guild.members.fetch(user.id);
@@ -50,7 +59,7 @@ module.exports = {
       let roleToRemove = null;
       if (addRoleModule && addRoleModule.settings?.roleId) {
         const configuredRole = interaction.guild.roles.cache.get(
-          addRoleModule.settings.roleId
+          addRoleModule.settings.roleId,
         );
 
         if (configuredRole && member.roles.cache.has(configuredRole.id)) {
@@ -71,7 +80,7 @@ module.exports = {
         .setDescription(
           roleToRemove
             ? `✅ Successfully added <@&${role.id}> to <@${user.id}> and removed <@&${roleToRemove.id}>.`
-            : `✅ Successfully added <@&${role.id}> to <@${user.id}>.`
+            : `✅ Successfully added <@&${role.id}> to <@${user.id}>.`,
         )
         .setColor("Green");
 
@@ -84,7 +93,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle("Add Role")
         .setDescription(
-          `❌ Failed to assign the role. Check my permissions and role hierarchy.`
+          `❌ Failed to assign the role. Check my permissions and role hierarchy.`,
         )
         .setColor("Red");
       await interaction.reply({
