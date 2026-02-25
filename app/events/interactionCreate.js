@@ -38,21 +38,6 @@ module.exports = {
           }
         }
       }
-      // Find the party command to handle button interactions
-      const partyCommand = interaction.client.commands.get("party");
-      if (partyCommand && partyCommand.handleButton) {
-        try {
-          await partyCommand.handleButton(interaction);
-        } catch (error) {
-          console.error("Button interaction error:", error);
-          if (!interaction.replied && !interaction.deferred) {
-            await interaction.reply({
-              content: "There was an error processing your selection!",
-              ephemeral: true,
-            });
-          }
-        }
-      }
       return;
     }
 
@@ -91,7 +76,7 @@ module.exports = {
           const embed = new EmbedBuilder()
             .setTitle("❌ Module Disabled")
             .setDescription(
-              "This module has been disabled, custom commands cannot be used."
+              "This module has been disabled, custom commands cannot be used.",
             )
             .setColor("Red");
           return await interaction.reply({ embeds: [embed] });
@@ -106,7 +91,7 @@ module.exports = {
           ) {
             const member = interaction.member;
             const hasRole = customCommand.allowedRoles.some((roleId) =>
-              member.roles.cache.has(roleId)
+              member.roles.cache.has(roleId),
             );
 
             if (!hasRole) {
