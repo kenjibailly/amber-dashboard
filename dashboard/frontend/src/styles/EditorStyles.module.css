@@ -53,6 +53,7 @@
   box-sizing: border-box;
   background-color: var(--tertiary-color);
   color: white;
+  max-width: 800px;
 }
 
 .reactionBlock .formGroup select {
@@ -98,6 +99,7 @@
 /* In your editorStyles */
 .multiSelect {
   min-height: 150px;
+  max-width: 800px;
 }
 
 .multiSelect option {
