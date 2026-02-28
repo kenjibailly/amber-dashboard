@@ -5,7 +5,7 @@ import EmojiPicker, { Theme, EmojiStyle } from "emoji-picker-react";
 import Navbar from "../components/Navbar";
 import useAuth from "../hooks/useAuth";
 import styles from "../styles/Dashboard.module.css";
-import editorStyles from "../styles/ReactionRoleEditor.module.css";
+import editorStyles from "../styles/EditorStyles.module.css";
 
 export default function ReactionRoleEditor() {
   const { guildId, reactionRoleId } = useParams();
@@ -64,7 +64,7 @@ export default function ReactionRoleEditor() {
         withCredentials: true,
       });
       const assignableRoles = (response.data.roles || []).filter(
-        (role) => !role.managed
+        (role) => !role.managed,
       );
       setRoles(assignableRoles);
     } catch (err) {
@@ -89,7 +89,7 @@ export default function ReactionRoleEditor() {
         `/guilds/${guildId}/reaction-roles/${reactionRoleId}`,
         {
           withCredentials: true,
-        }
+        },
       );
 
       if (
@@ -149,7 +149,7 @@ export default function ReactionRoleEditor() {
     setFormData((prev) => ({
       ...prev,
       reactions: prev.reactions.map((reaction, i) =>
-        i === index ? { ...reaction, [field]: value } : reaction
+        i === index ? { ...reaction, [field]: value } : reaction,
       ),
     }));
   };
@@ -195,12 +195,16 @@ export default function ReactionRoleEditor() {
           formData,
           {
             withCredentials: true,
-          }
+          },
         );
       } else {
-        await axios.post(`/guilds/${guildId}/reaction-roles/${user.id}/@${user.username}`, formData, {
-          withCredentials: true,
-        });
+        await axios.post(
+          `/guilds/${guildId}/reaction-roles/${user.id}/@${user.username}`,
+          formData,
+          {
+            withCredentials: true,
+          },
+        );
       }
 
       navigate(`/guild/${guildId}/module/reactionroles`);
@@ -384,7 +388,7 @@ export default function ReactionRoleEditor() {
                     onChange={(e) => {
                       const selectedOptions = Array.from(
                         e.target.selectedOptions,
-                        (option) => option.value
+                        (option) => option.value,
                       );
                       updateReaction(index, "roleIds", selectedOptions);
                     }}
@@ -457,7 +461,7 @@ export default function ReactionRoleEditor() {
                 onChange={(e) => {
                   const selectedOptions = Array.from(
                     e.target.selectedOptions,
-                    (option) => option.value
+                    (option) => option.value,
                   );
                   setFormData((prev) => ({
                     ...prev,
@@ -497,7 +501,7 @@ export default function ReactionRoleEditor() {
                 onChange={(e) => {
                   const selectedOptions = Array.from(
                     e.target.selectedOptions,
-                    (option) => option.value
+                    (option) => option.value,
                   );
                   setFormData((prev) => ({
                     ...prev,
@@ -565,8 +569,8 @@ export default function ReactionRoleEditor() {
             {saving
               ? "Saving..."
               : isEdit
-              ? "Update Reaction Role"
-              : "Create Reaction Role"}
+                ? "Update Reaction Role"
+                : "Create Reaction Role"}
           </button>
         </form>
       </div>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "../../styles/ModuleSettings.module.css";
-import editorStyles from "../../styles/ReactionRoleEditor.module.css";
+import editorStyles from "../../styles/EditorStyles.module.css";
 import UserPicker from "../UserPicker";
 
 export default function JoinLeaveSettings({ guildId, user }) {

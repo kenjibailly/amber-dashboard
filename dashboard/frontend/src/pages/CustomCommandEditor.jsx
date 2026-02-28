@@ -5,7 +5,7 @@ import EmojiPicker, { Theme, EmojiStyle } from "emoji-picker-react";
 import Navbar from "../components/Navbar";
 import useAuth from "../hooks/useAuth";
 import styles from "../styles/Dashboard.module.css";
-import editorStyles from "../styles/ReactionRoleEditor.module.css";
+import editorStyles from "../styles/EditorStyles.module.css";
 import moduleSettingsStyles from "../styles/ModuleSettings.module.css";
 
 export default function CustomCommandEditor() {
@@ -44,7 +44,7 @@ export default function CustomCommandEditor() {
         withCredentials: true,
       });
       const assignableRoles = (response.data.roles || []).filter(
-        (role) => !role.managed
+        (role) => !role.managed,
       );
       setRoles(assignableRoles);
     } catch (err) {
@@ -58,7 +58,7 @@ export default function CustomCommandEditor() {
         `/guilds/${guildId}/custom-commands/${customCommandId}`,
         {
           withCredentials: true,
-        }
+        },
       );
 
       if (
@@ -138,7 +138,7 @@ export default function CustomCommandEditor() {
           formData,
           {
             withCredentials: true,
-          }
+          },
         );
       } else {
         await axios.post(
@@ -146,7 +146,7 @@ export default function CustomCommandEditor() {
           formData,
           {
             withCredentials: true,
-          }
+          },
         );
       }
 
@@ -282,7 +282,7 @@ export default function CustomCommandEditor() {
                     setFormData((prev) => ({
                       ...prev,
                       replies: prev.replies.map((r, i) =>
-                        i === index ? e.target.value : r
+                        i === index ? e.target.value : r,
                       ),
                     }));
                   }}
@@ -346,7 +346,7 @@ export default function CustomCommandEditor() {
                 onChange={(e) => {
                   const selectedOptions = Array.from(
                     e.target.selectedOptions,
-                    (option) => option.value
+                    (option) => option.value,
                   );
                   setFormData((prev) => ({
                     ...prev,
@@ -442,8 +442,8 @@ export default function CustomCommandEditor() {
             {saving
               ? "Saving..."
               : isEdit
-              ? "Update Custom Command"
-              : "Create Custom Command"}
+                ? "Update Custom Command"
+                : "Create Custom Command"}
           </button>
         </form>
       </div>

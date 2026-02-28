@@ -1,5 +1,7 @@
 const handleJoinLeave = require("../handlers/joinLeave");
 const AdminModule = require("../models/AdminModule");
+const handleExpMessages = require("../handlers/expMessages");
+const userLastMessageTimestamps = require("../helpers/userLastMessageTimestamps");
 
 module.exports = {
   name: "messageCreate",
@@ -24,5 +26,10 @@ module.exports = {
     ) {
       await handleJoinLeave(message, moduleDoc.settings.user);
     }
+    await handleExpMessages(message);
+
+    const voiceChannel = message.member?.voice?.channel;
+    if (!voiceChannel) return; // user not in VC
+    userLastMessageTimestamps.set(message.author.id, Date.now());
   },
 };

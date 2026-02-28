@@ -5,11 +5,10 @@ const { ActivityType } = require("discord.js");
 async function handleSetStatus(client) {
   try {
     const statusModule = await AdminModule.findOne({ moduleId: "status" });
-    let status;
-    if (statusModule.enabled) {
-      status = statusModule.settings.statusMessage;
-    } else {
-      status = "";
+    let status = "";
+
+    if (statusModule?.enabled) {
+      status = String(statusModule.settings?.statusMessage || "");
     }
 
     client.user.setPresence({

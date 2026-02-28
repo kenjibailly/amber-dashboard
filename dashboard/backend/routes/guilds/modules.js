@@ -66,6 +66,12 @@ const availableModules = [
     description: "Configure the introduction posts",
     category: "brawlstars",
   },
+  {
+    id: "level",
+    title: "Level System",
+    description: "Configure the level system",
+    category: "brawlstars",
+  },
 ];
 
 // Get all modules for a guild

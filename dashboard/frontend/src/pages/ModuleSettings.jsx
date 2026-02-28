@@ -14,6 +14,7 @@ import JoinLeaveSettings from "../components/modules/JoinLeaveSettings";
 import EconomySettings from "../components/modules/EconomySettings";
 import StaffRoleSettings from "../components/modules/StaffRoleSettings";
 import IntroductionSettings from "../components/modules/IntroductionSettings";
+import LevelSettings from "../components/modules/LevelSettings";
 
 export default function ModuleSettings() {
   const { guildId, moduleId } = useParams();
@@ -49,6 +50,8 @@ export default function ModuleSettings() {
         return <StaffRoleSettings guildId={guildId} user={user} />;
       case "intro":
         return <IntroductionSettings guildId={guildId} user={user} />;
+      case "level":
+        return <LevelSettings guildId={guildId} user={user} />;
       default:
         return (
           <div>
@@ -72,6 +75,7 @@ export default function ModuleSettings() {
       economy: "Economy",
       staffrole: "Staff Role",
       intro: "Introduction",
+      level: "Level System",
     };
     return titles[moduleId] || moduleId;
   };
