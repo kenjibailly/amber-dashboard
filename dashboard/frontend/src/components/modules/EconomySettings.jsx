@@ -3,6 +3,7 @@ import axios from "axios";
 import EmojiPicker, { Theme, EmojiStyle } from "emoji-picker-react";
 import styles from "../../styles/ModuleSettings.module.css";
 import ecoStyles from "../../styles/EconomySettings.module.css";
+import editorStyles from "../../styles/EditorStyles.module.css";
 
 const REWARDS = [
   { id: "changeNickname", label: "Change your nickname" },
@@ -283,8 +284,8 @@ export default function EconomySettings({ guildId, user }) {
   return (
     <form onSubmit={handleSave} className={styles.settingsForm}>
       {/* ── INDIVIDUAL REWARDS ── */}
-      <section className={ecoStyles.section}>
-        <h2 className={ecoStyles.sectionTitle}>Rewards</h2>
+      <section className={editorStyles.section}>
+        <h2>Rewards</h2>
         <p className={ecoStyles.sectionDesc}>
           Configure each reward individually. These settings are overridden if
           "All Rewards" is configured.
@@ -293,7 +294,11 @@ export default function EconomySettings({ guildId, user }) {
         {REWARDS.map((reward) => {
           const r = formData.rewards[reward.id] || defaultReward;
           return (
-            <div key={reward.id} className={ecoStyles.rewardRow}>
+            <div
+              key={reward.id}
+              className={editorStyles.input}
+              style={{ marginBottom: "20px" }}
+            >
               <div className={ecoStyles.rewardHeader}>
                 <span className={ecoStyles.rewardLabel}>{reward.label}</span>
                 <label className={ecoStyles.toggle}>
@@ -344,7 +349,7 @@ export default function EconomySettings({ guildId, user }) {
       </section>
 
       {/* ── ALL REWARDS ── */}
-      <section className={ecoStyles.section}>
+      <section className={editorStyles.section}>
         <h2 className={ecoStyles.sectionTitle}>All Rewards</h2>
         <p className={ecoStyles.sectionDesc}>
           Overrides the individual settings above and applies these values to
@@ -360,7 +365,7 @@ export default function EconomySettings({ guildId, user }) {
               value={formData.allRewards.price}
               onChange={(e) => setAllRewards("price", e.target.value)}
               placeholder="Leave empty to use individual prices"
-              className={styles.input}
+              className={editorStyles.input}
             />
           </div>
           <div className={ecoStyles.fieldGroup}>
@@ -371,7 +376,7 @@ export default function EconomySettings({ guildId, user }) {
               value={formData.allRewards.time}
               onChange={(e) => setAllRewards("time", e.target.value)}
               placeholder="Leave empty to use individual durations"
-              className={styles.input}
+              className={editorStyles.input}
             />
             <small className={styles.hint}>
               Days before reward is removed. 0 = permanent.
@@ -381,10 +386,10 @@ export default function EconomySettings({ guildId, user }) {
       </section>
 
       {/* ── WALLET CONFIG ── */}
-      <section className={ecoStyles.section}>
+      <section className={editorStyles.section}>
         <h2 className={ecoStyles.sectionTitle}>Wallet Config</h2>
 
-        <div className={styles.formGroup}>
+        <div className={editorStyles.formGroup}>
           <EmojiPickerField
             label="Token Emoji"
             value={formData.wallet.tokenEmoji}
@@ -396,7 +401,7 @@ export default function EconomySettings({ guildId, user }) {
           </small>
         </div>
 
-        <div className={ecoStyles.rewardRow}>
+        <div className={editorStyles.input}>
           <div className={ecoStyles.rewardHeader}>
             <span className={ecoStyles.rewardLabel}>Extra Currency</span>
             <label className={ecoStyles.toggle}>
@@ -425,13 +430,13 @@ export default function EconomySettings({ guildId, user }) {
       </section>
 
       {/* ── CHANNEL NAME CONFIG ── */}
-      <section className={ecoStyles.section}>
+      <section className={editorStyles.section}>
         <h2 className={ecoStyles.sectionTitle}>Channel Name Configuration</h2>
         <p className={ecoStyles.sectionDesc}>
           Control how the economy channel name is formatted.
         </p>
 
-        <div className={ecoStyles.rewardRow}>
+        <div className={editorStyles.input}>
           <div className={ecoStyles.rewardHeader}>
             <span className={ecoStyles.rewardLabel}>Emoji Prefix</span>
             <label className={ecoStyles.toggle}>
@@ -447,7 +452,7 @@ export default function EconomySettings({ guildId, user }) {
           </div>
         </div>
 
-        <div className={ecoStyles.rewardRow} style={{ marginTop: "1rem" }}>
+        <div className={editorStyles.input} style={{ marginTop: "1rem" }}>
           <div className={ecoStyles.rewardHeader}>
             <span className={ecoStyles.rewardLabel}>Separator</span>
             <label className={ecoStyles.toggle}>
@@ -481,7 +486,7 @@ export default function EconomySettings({ guildId, user }) {
       </section>
 
       {/* ── REWARD CHANNEL ── */}
-      <section className={ecoStyles.section}>
+      <section className={editorStyles.section}>
         <h2 className={ecoStyles.sectionTitle}>Reward Channel</h2>
         <div className={styles.formGroup}>
           <label htmlFor="rewardChannelId" className={styles.label}>
