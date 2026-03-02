@@ -1,66 +1,66 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
-const awardRole = require("./award/role");
-const awardUser = require("./award/user");
+const deductRole = require("./deduct/role");
+const deductUser = require("./deduct/user");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("award")
-    .setDescription("Award a user or role shop coins")
+    .setName("deduct")
+    .setDescription("Deduct shop coins from a user or role")
     .addSubcommand((subcommand) =>
       subcommand
         .setName("user")
-        .setDescription("Award shop coins to a user")
+        .setDescription("Deduct shop coins from a user")
         .addUserOption((option) =>
           option
             .setName("user")
-            .setDescription("The user to award shop coins to")
+            .setDescription("The user to deduct shop coins from")
             .setRequired(true),
         )
         .addIntegerOption((option) =>
           option
             .setName("amount")
-            .setDescription("The amount of shop coins to award")
+            .setDescription("The amount of shop coins to deduct")
             .setRequired(true),
         )
         .addIntegerOption((option) =>
           option
             .setName("extra_amount")
-            .setDescription("The extra currency amount of shop coins to award")
+            .setDescription("The extra currency amount of shop coins to deduct")
             .setRequired(false),
         )
         .addStringOption((option) =>
           option
             .setName("reason")
-            .setDescription("Reason for the awarding")
+            .setDescription("Reason for the deducting")
             .setRequired(false),
         ),
     )
     .addSubcommand((subcommand) =>
       subcommand
         .setName("role")
-        .setDescription("Award shop coins to a role")
+        .setDescription("Deduct shop coins from a role")
         .addRoleOption((option) =>
           option
             .setName("role")
-            .setDescription("The role to award shop coins to")
+            .setDescription("The role to deduct shop coins from")
             .setRequired(true),
         )
         .addIntegerOption((option) =>
           option
             .setName("amount")
-            .setDescription("The amount of shop coins to award")
+            .setDescription("The amount of shop coins to deduct")
             .setRequired(true),
         )
         .addIntegerOption((option) =>
           option
             .setName("extra_amount")
-            .setDescription("The extra currency amount of shop coins to award")
+            .setDescription("The extra currency amount of shop coins to deduct")
             .setRequired(false),
         )
         .addStringOption((option) =>
           option
             .setName("reason")
-            .setDescription("Reason for the awarding")
+            .setDescription("Reason for the deducting")
             .setRequired(false),
         ),
     )
@@ -69,11 +69,11 @@ module.exports = {
     const subcommand = interaction.options.getSubcommand();
 
     if (subcommand === "role") {
-      await awardRole(interaction);
+      await deductRole(interaction);
     }
 
     if (subcommand === "user") {
-      await awardUser(interaction);
+      await deductUser(interaction);
     }
   },
 };
