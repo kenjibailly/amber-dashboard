@@ -1,0 +1,27 @@
+[
+  {
+    "name": "changeNickname",
+    "shortDescription": "Change your nickname"
+  },
+  {
+    "name": "changeOtherNickname",
+    "shortDescription": "Change someone's nickname"
+  },
+  {
+    "name": "addEmoji",
+    "shortDescription": "Add a custom server emoji"
+  },
+  {
+    "name": "addChannel",
+    "shortDescription": "Add a custom channel"
+  },
+  {
+    "name": "addRole",
+    "shortDescription": "Add a custom role name and color"
+  },
+  {
+    "name": "trollSomeone",
+    "shortDescription": "Troll someone",
+    "longDescription": "This person won't see any channels in the server until a mission on the list is completed. This person can choose their own mission from the list of missions. To see all missions use the `/troll-missions` command"
+  }
+]

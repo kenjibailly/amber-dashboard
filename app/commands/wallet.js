@@ -30,9 +30,22 @@ module.exports = {
       });
 
       // Retrieve wallet config
-      const moduleSettings = await getWalletConfig(guildId);
+      const walletConfig = await getWalletConfig(interaction.client, guildId);
 
-      if (!moduleSettings.enabled) {
+      // Check if we got an embed back instead of token emoji data
+      if (walletConfig && walletConfig.type === "error") {
+        await interaction.editReply({ embeds: [walletConfig] });
+        return;
+      }
+
+      if (walletConfig instanceof EmbedBuilder) {
+        return await interaction.editReply({
+          embeds: [walletConfig],
+          flags: 64,
+        });
+      }
+
+      if (!walletConfig.enabled) {
         const embed = new EmbedBuilder()
           .setTitle("Wallet")
           .setDescription("Economy for this server is disabled.")
@@ -40,14 +53,13 @@ module.exports = {
 
         return await interaction.editReply({ embeds: [embed], flags: 64 });
       }
-      const config = moduleSettings;
 
-      // Check if config is an embed (error case)
-      if (config.data) {
-        return await interaction.editReply({ embeds: [config], flags: 64 });
-      }
+      // // Check if config is an embed (error case)
+      // if (config.data) {
+      //   return await interaction.editReply({ embeds: [config], flags: 64 });
+      // }
 
-      let { tokenEmoji, extraTokenEmoji } = config;
+      let { tokenEmoji, extraTokenEmoji } = walletConfig;
 
       if (wallet) {
         let description = `${
@@ -56,7 +68,7 @@ module.exports = {
             : `<@${targetUser.id}> has`
         } **${wallet.amount}** ${tokenEmoji}.`;
 
-        if (extraCurrency.enabled) {
+        if (walletConfig.settings.wallet.extraCurrency.enabled) {
           description += `\n${
             targetUser.id === interaction.user.id
               ? "You also have"

@@ -1,53 +1,116 @@
 const WalletConfig = require("../models/GuildModule");
 const { EmbedBuilder } = require("discord.js");
 
-async function getWalletConfig(guild_id) {
+async function buildEmojiFormats(client, tokenEmoji) {
+  if (!tokenEmoji) return { formatted: null, object: null };
+
+  if (tokenEmoji.isCustom) {
+    let emojiObject;
+
+    // Try to fetch emoji from client cache first
+    emojiObject = client.emojis.cache.find(
+      (e) => e.name === tokenEmoji.emojiName,
+    );
+
+    // Fallback: try fetching from application emojis if not in cache
+    if (!emojiObject && client.application) {
+      try {
+        const appEmojis = await client.application.emojis.fetch();
+        emojiObject = appEmojis.find((e) => e.name === tokenEmoji.emojiName);
+      } catch (err) {
+        console.error("Failed to fetch application emojis:", err);
+      }
+    }
+
+    if (emojiObject) {
+      return {
+        formatted: `<:${emojiObject.name}:${emojiObject.id}>`,
+        object: emojiObject,
+      };
+    }
+
+    // If we still don’t have it, just return the name
+    return {
+      formatted: `:${tokenEmoji.emojiName}:`,
+      object: { name: tokenEmoji.emojiName },
+    };
+  }
+
+  // Unicode emoji
+  return { formatted: tokenEmoji.emoji, object: { name: tokenEmoji.emoji } };
+}
+
+async function getWalletConfig(client, guildId) {
   try {
     const walletConfig = await WalletConfig.findOne({
-      guildId: guild_id,
+      guildId,
       moduleId: "economy",
     });
 
-    let walletConfigSettings = walletConfig;
-
     if (!walletConfig) {
-      const embed = new EmbedBuilder()
+      return new EmbedBuilder()
         .setTitle("Error")
         .setDescription(
           "There was an error retrieving the wallet configuration. Please try again later.",
         )
         .setColor("Red");
-      return embed;
     }
 
-    if (walletConfig?.settings.wallet?.tokenEmoji?.isCustom) {
-      walletConfigSettings.tokenEmoji = `<:${walletConfig.settings.wallet.tokenEmoji.emojiName}:${walletConfig.settings.wallet.tokenEmoji.emoji}>`;
-    } else {
-      walletConfigSettings.tokenEmoji =
-        walletConfig.settings.wallet.tokenEmoji.emoji;
+    const settings = walletConfig.settings.wallet;
+
+    // ===============================
+    // MAIN TOKEN EMOJI
+    // ===============================
+    if (!settings?.tokenEmoji?.emoji) {
+      settings.tokenEmoji = {
+        emojiName: "coin",
+        isCustom: true,
+      };
     }
 
+    const mainEmoji = await buildEmojiFormats(client, settings.tokenEmoji);
+
+    walletConfig.tokenEmoji = mainEmoji.formatted;
+    walletConfig.tokenEmojiObject = mainEmoji.object;
+    walletConfig.settings.wallet.tokenEmoji.emojiName = mainEmoji.object.name;
+    walletConfig.settings.wallet.tokenEmoji.emoji = mainEmoji.object.id;
+
+    // ===============================
+    // EXTRA CURRENCY EMOJI
+    // ===============================
     if (
-      walletConfig?.settings?.wallet?.extraCurrency?.enabled &&
-      walletConfig?.settings?.wallet?.extraCurrency?.tokenEmoji?.isCustom
+      settings?.extraCurrency?.enabled &&
+      !settings?.extraCurrency?.tokenEmoji?.emoji
     ) {
-      walletConfigSettings.extraTokenEmoji = `<:${walletConfig.settings.wallet.extraCurrency.tokenEmoji.emojiName}:${walletConfig.settings.wallet.extraCurrency.tokenEmoji.emoji}>`;
-    } else {
-      walletConfigSettings.extraTokenEmoji =
-        walletConfig.settings.wallet.extraCurrency.tokenEmoji.emoji;
+      settings.extraCurrency.tokenEmoji = {
+        emojiName: "reward_extra",
+        isCustom: true,
+      };
     }
-    return walletConfigSettings;
-  } catch (error) {
-    logger.error(`Error fetching wallet configuration:`, error);
-    // Return an error embed for response
 
-    const embed = new EmbedBuilder()
+    if (settings?.extraCurrency?.enabled) {
+      const extraEmoji = await buildEmojiFormats(
+        client,
+        settings.extraCurrency.tokenEmoji,
+      );
+
+      walletConfig.extraTokenEmoji = extraEmoji.formatted;
+      walletConfig.extraTokenEmojiObject = extraEmoji.object;
+      walletConfig.settings.wallet.extraCurrency.tokenEmoji.emojiName =
+        mainEmoji.object.name;
+      walletConfig.settings.wallet.extraCurrency.tokenEmoji.emoji =
+        mainEmoji.object.id;
+    }
+    return walletConfig;
+  } catch (error) {
+    console.error("Error fetching wallet configuration:", error);
+
+    return new EmbedBuilder()
       .setTitle("Error")
       .setDescription(
         "There was an error retrieving the wallet configuration. Please try again later.",
       )
       .setColor("Red");
-    return embed;
   }
 }
 

@@ -10,7 +10,7 @@ const REWARDS = [
   { id: "changeOtherNickname", label: "Change someone's nickname" },
   { id: "addEmoji", label: "Add a custom server emoji" },
   { id: "addRole", label: "Add a custom role name and color" },
-  { id: "chooseNextGame", label: "Choose next game" },
+  { id: "addChannel", label: "Add a custom channel" },
   { id: "trollSomeone", label: "Troll someone" },
 ];
 
@@ -388,7 +388,9 @@ export default function EconomySettings({ guildId, user }) {
       {/* ── WALLET CONFIG ── */}
       <section className={editorStyles.section}>
         <h2 className={ecoStyles.sectionTitle}>Wallet Config</h2>
-
+        <p className={ecoStyles.sectionDesc}>
+          Default emoji have been set if none configured.
+        </p>
         <div className={editorStyles.formGroup}>
           <EmojiPickerField
             label="Token Emoji"
