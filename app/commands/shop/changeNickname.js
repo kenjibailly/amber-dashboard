@@ -37,7 +37,6 @@ async function changeNicknameMenu(interaction) {
           embeds: [embed],
           components: [],
         });
-
         await cancelThread(interaction);
         return;
       }
@@ -61,10 +60,13 @@ async function changeNicknameMenu(interaction) {
   const name = interaction.values[0].split("_")[1] + "Confirm";
 
   // Store interaction data for the specific user
-  userExchangeData.set(interaction.member.user.id, {
-    threadId: interaction.channelId,
-    name: name,
-  });
+  userExchangeData.set(
+    `${interaction.member.user.id}_${interaction.channelId}`,
+    {
+      threadId: interaction.channelId,
+      name,
+    },
+  );
 
   await interaction.editReply({
     embeds: [embed],
@@ -88,6 +90,7 @@ async function changeNicknameMenu(interaction) {
 async function changeNicknameConfirm(message, exchangeData) {
   const newNickname = message.content.trim();
   const guildId = message.guild.id;
+  const userId = message.author.id;
 
   const validationError = validateNicknameAndEmoji(newNickname);
 
@@ -102,6 +105,7 @@ async function changeNicknameConfirm(message, exchangeData) {
     await message.reply({
       embeds: [embed],
     });
+    userExchangeData.delete(`${userId}_${exchangeData?.threadId || channelId}`);
     await cancelThread({
       guildId: message.guild.id,
       channelId: message.channel.id,
@@ -128,6 +132,7 @@ async function changeNicknameConfirm(message, exchangeData) {
 
   if (walletConfig && walletConfig instanceof EmbedBuilder) {
     await message.reply({ embeds: [walletConfig] });
+    userExchangeData.delete(`${userId}_${exchangeData?.threadId || channelId}`);
     await cancelThread({
       guildId: message.guild.id,
       channelId: message.channel.id,
@@ -147,8 +152,8 @@ async function changeNicknameConfirm(message, exchangeData) {
     .setColor("Green");
 
   // Update or add new values to the existing data
-  userExchangeData.set(message.author.id, {
-    ...exchangeData, // Spread the existing data to keep it intact
+  userExchangeData.set(`${message.author.id}_${exchangeData.threadId}`, {
+    ...exchangeData,
     nickname: newNickname,
     rewardPrice: reward.price,
     tokenEmoji: walletConfig.tokenEmoji,
@@ -195,8 +200,10 @@ async function changeNicknameExchange(interaction) {
     const guildId = interaction.guildId;
     const channelId = interaction.channelId;
 
-    const user_exchange_data = userExchangeData.get(userId);
-    userExchangeData.delete(userId);
+    const user_exchange_data = userExchangeData.get(`${userId}_${channelId}`);
+    userExchangeData.delete(
+      `${userId}_${user_exchange_data?.threadId || channelId}`,
+    );
 
     const guild = await client.guilds.fetch(guildId);
     const thread = await guild.channels.fetch(channelId);
@@ -362,7 +369,6 @@ async function changeNicknameExchange(interaction) {
         components: [],
       });
     }
-
     await cancelThread(interaction);
 
     // Send message to the parent channel if available

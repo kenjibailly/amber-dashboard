@@ -12,11 +12,14 @@ module.exports = {
     if (message.author.bot) return;
     if (!message.guild) return;
 
-    const exchangeData = userExchangeData.get(message.author.id);
+    const userId = message.author.id;
+    const channelId = message.channel.id;
+
+    const exchangeData = userExchangeData.get(`${userId}_${channelId}`);
 
     if (exchangeData) {
       // Optional safety: make sure message is inside the correct thread
-      if (message.channel.id !== exchangeData.threadId) return;
+      if (channelId !== exchangeData.threadId) return;
 
       await rewardMessageRouter(message, exchangeData);
 

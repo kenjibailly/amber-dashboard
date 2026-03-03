@@ -10,53 +10,16 @@ const checkPermissions = require("../../helpers/checkPermissions");
 
 async function changeOtherNicknameMenu(interaction) {
   await interaction.deferReply();
-  const guildId = interaction.guildId;
-  const userId = interaction.user.id;
-
-  try {
-    const existingAwardedReward = await AwardedReward.findOne({
-      guildId,
-      awardedUserId: userId,
-      reward: "changeOtherNickname",
-    });
-
-    if (existingAwardedReward) {
-      const now = new Date();
-      const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-
-      if (existingAwardedReward.date > twentyFourHoursAgo) {
-        const embed = new EmbedBuilder()
-          .setTitle("Shop")
-          .setDescription(
-            "It hasn't been 24h yet since you last changed someone's nickname, please try again later.",
-          )
-          .setColor("Orange");
-        await interaction.editReply({
-          content: "",
-          embeds: [embed],
-          components: [],
-        });
-        await cancelThread(interaction);
-        return;
-      }
-    }
-  } catch (error) {
-    logger.error(error);
-    const embed = new EmbedBuilder()
-      .setTitle("Error")
-      .setDescription("Something went wrong, please try again later.")
-      .setColor("Red");
-    await interaction.editReply({ embeds: [embed] });
-    await cancelThread(interaction);
-    return;
-  }
 
   const name = interaction.values[0].split("_")[1] + "ChooseUser";
 
-  userExchangeData.set(interaction.member.user.id, {
-    threadId: interaction.channelId,
-    name,
-  });
+  userExchangeData.set(
+    `${interaction.member.user.id}_${interaction.channelId}`,
+    {
+      threadId: interaction.channelId,
+      name,
+    },
+  );
 
   const embed = new EmbedBuilder()
     .setTitle("Shop")
@@ -87,6 +50,7 @@ async function changeOtherNicknameMenu(interaction) {
 async function changeOtherNicknameChooseUser(message, exchangeData) {
   const guildId = message.guild.id;
   const guild = message.guild;
+  const userId = message.author.id;
 
   // Resolve user from mention or username
   let targetMember = null;
@@ -114,8 +78,62 @@ async function changeOtherNicknameChooseUser(message, exchangeData) {
       )
       .setColor("Red");
     await message.reply({ embeds: [embed] });
+    userExchangeData.delete(`${userId}_${exchangeData?.threadId || channelId}`);
+
     await cancelThread({
-      guildId: message.guild.id,
+      guildId,
+      channelId: message.channel.id,
+      client: message.client,
+    });
+    return;
+  }
+
+  try {
+    const existingAwardedReward = await AwardedReward.findOne({
+      guildId,
+      awardedUserId: targetMember.user.id,
+      reward: "changeOtherNickname",
+    });
+
+    if (existingAwardedReward) {
+      const now = new Date();
+      const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+
+      if (existingAwardedReward.date > twentyFourHoursAgo) {
+        const embed = new EmbedBuilder()
+          .setTitle("Shop")
+          .setDescription(
+            "It hasn't been 24h yet since you last changed someone's nickname, please try again later.",
+          )
+          .setColor("Orange");
+        await message.channel.send({
+          content: "",
+          embeds: [embed],
+          components: [],
+        });
+        userExchangeData.delete(
+          `${userId}_${exchangeData?.threadId || channelId}`,
+        );
+
+        await cancelThread({
+          guildId,
+          channelId: message.channel.id,
+          client: message.client,
+        });
+        return;
+      }
+    }
+  } catch (error) {
+    logger.error(error);
+    const embed = new EmbedBuilder()
+      .setTitle("Error")
+      .setDescription("Something went wrong, please try again later.")
+      .setColor("Red");
+    await message.channel.send({ embeds: [embed] });
+    userExchangeData.delete(`${userId}_${exchangeData?.threadId || channelId}`);
+
+    await cancelThread({
+      guildId,
       channelId: message.channel.id,
       client: message.client,
     });
@@ -123,7 +141,7 @@ async function changeOtherNicknameChooseUser(message, exchangeData) {
   }
 
   // Update exchange data with target user and move to confirm step
-  userExchangeData.set(message.author.id, {
+  userExchangeData.set(`${message.author.id}_${exchangeData.threadId}`, {
     ...exchangeData,
     name: "changeOtherNicknameConfirm",
     targetUserId: targetMember.user.id,
@@ -158,6 +176,7 @@ async function changeOtherNicknameChooseUser(message, exchangeData) {
 async function changeOtherNicknameConfirm(message, exchangeData) {
   const newNickname = message.content.trim();
   const guildId = message.guild.id;
+  const userId = message.author.id;
 
   const validationError = validateNicknameAndEmoji(newNickname);
   if (validationError) {
@@ -166,8 +185,10 @@ async function changeOtherNicknameConfirm(message, exchangeData) {
       .setDescription(`${validationError}\nPlease try again.`)
       .setColor("Red");
     await message.reply({ embeds: [embed] });
+    userExchangeData.delete(`${userId}_${exchangeData?.threadId || channelId}`);
+
     await cancelThread({
-      guildId: message.guild.id,
+      guildId: guildId,
       channelId: message.channel.id,
       client: message.client,
     });
@@ -192,6 +213,8 @@ async function changeOtherNicknameConfirm(message, exchangeData) {
 
   if (walletConfig && walletConfig instanceof EmbedBuilder) {
     await message.reply({ embeds: [walletConfig] });
+    userExchangeData.delete(`${userId}_${exchangeData?.threadId || channelId}`);
+
     await cancelThread({
       guildId: message.guild.id,
       channelId: message.channel.id,
@@ -202,7 +225,7 @@ async function changeOtherNicknameConfirm(message, exchangeData) {
 
   const reward = rewards.find((r) => r.id === "changeOtherNickname");
 
-  userExchangeData.set(message.author.id, {
+  userExchangeData.set(`${message.author.id}_${exchangeData.threadId}`, {
     ...exchangeData,
     name: "changeOtherNicknameExchange",
     nickname: newNickname,
@@ -257,8 +280,10 @@ async function changeOtherNicknameExchange(interaction) {
     const guildId = interaction.guildId;
     const channelId = interaction.channelId;
 
-    const user_exchange_data = userExchangeData.get(userId);
-    userExchangeData.delete(userId);
+    const user_exchange_data = userExchangeData.get(`${userId}_${channelId}`);
+    userExchangeData.delete(
+      `${userId}_${user_exchange_data?.threadId || channelId}`,
+    );
 
     const guild = await client.guilds.fetch(guildId);
     const thread = await guild.channels.fetch(channelId);
@@ -327,6 +352,7 @@ async function changeOtherNicknameExchange(interaction) {
         )
         .setColor("Red");
       await interaction.editReply({ embeds: [embed], components: [] });
+      userExchangeData.delete(interaction.member.user.id);
       await cancelThread(interaction);
       return;
     }
