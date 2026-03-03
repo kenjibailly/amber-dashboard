@@ -1,8 +1,13 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const GuildModule = require("../models/GuildModule");
 const getWalletConfig = require("../helpers/getWalletConfig");
 const Rewards = require("../config/rewards.json");
 const getRewards = require("../helpers/getRewards");
+const handleExchangeShop = require("./shop/exchangeShop");
+const { changeOtherNicknameMenu } = require("./shop/changeOtherNickname");
+const {
+  changeNicknameMenu,
+  changeNicknameExchange,
+} = require("./shop/changeNickname");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -18,7 +23,7 @@ module.exports = {
       walletConfig = await getWalletConfig(interaction.client, guildId);
 
       // Check if we got an embed back instead of token emoji data
-      if (walletConfig && walletConfig.type === "error") {
+      if (walletConfig && walletConfig instanceof EmbedBuilder) {
         await interaction.editReply({ embeds: [walletConfig] });
         return;
       }
@@ -73,7 +78,7 @@ module.exports = {
         style: 1, // Primary style
         label: "Exchange",
         emoji,
-        custom_id: `exchange-shop`,
+        custom_id: `shop_exchange`,
       };
 
       await interaction.editReply({
@@ -95,6 +100,46 @@ module.exports = {
         .setColor("Red");
 
       await interaction.editReply({ embeds: [embed] });
+    }
+  },
+
+  async handleButton(interaction) {
+    if (interaction.customId == "shop_exchange") {
+      handleExchangeShop(interaction);
+    }
+
+    if (interaction.customId == "shop_exchange_menu") {
+      const listOption = interaction.values[0];
+      switch (listOption) {
+        case "shop_changeNickname_menu":
+          await changeNicknameMenu(interaction);
+          break;
+        case "shop_changeOtherNickname":
+          await changeOtherNicknameMenu(interaction);
+          break;
+        case "shop_addEmoji":
+          break;
+        case "shop_addRole":
+          break;
+        case "shop_addChannel":
+          break;
+        case "shop_trollSomeone":
+          break;
+
+        default:
+          break;
+      }
+      return;
+    }
+
+    if (interaction.customId.endsWith("_exchange")) {
+      switch (interaction.customId) {
+        case "shop_changeNickname_exchange":
+          await changeNicknameExchange(interaction);
+          break;
+        default:
+          break;
+      }
     }
   },
 };

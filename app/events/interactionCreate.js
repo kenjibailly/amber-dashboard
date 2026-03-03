@@ -1,6 +1,7 @@
 const { Events, EmbedBuilder } = require("discord.js");
 const CustomCommand = require("../models/CustomCommand");
 const GuildModule = require("../models/GuildModule");
+const cancelThread = require("../helpers/cancelThread");
 module.exports = {
   name: Events.InteractionCreate,
   async execute(interaction) {
@@ -15,21 +16,25 @@ module.exports = {
       }
       return;
     }
-
     // Handle button interactions
-    if (interaction.isButton()) {
+    if (interaction.isButton() || interaction.isStringSelectMenu()) {
       console.log("Button clicked:", interaction.customId);
 
-      const ticketCommand = interaction.client.commands.get("tickets");
-      if (
-        ticketCommand &&
-        ticketCommand.handleButton &&
-        interaction.customId.startsWith("tickets_")
-      ) {
+      if (interaction.customId === "cancel-thread") {
+        await cancelThread(interaction);
+      }
+
+      // Get command name from customId (before first underscore)
+      const commandName = interaction.customId.split("_")[0];
+
+      const command = interaction.client.commands.get(commandName);
+
+      if (command && typeof command.handleButton === "function") {
         try {
-          return await ticketCommand.handleButton(interaction);
+          return await command.handleButton(interaction);
         } catch (error) {
           console.error("Button interaction error:", error);
+
           if (!interaction.replied && !interaction.deferred) {
             return await interaction.reply({
               content: "There was an error processing your selection!",
@@ -38,6 +43,7 @@ module.exports = {
           }
         }
       }
+
       return;
     }
 

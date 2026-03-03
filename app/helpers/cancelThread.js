@@ -1,32 +1,43 @@
 const { EmbedBuilder } = require("discord.js");
 
-async function handleCancelThreadButton(interaction) {
-  //   logger.log("Deleting thread");
+async function cancelThread(source) {
   try {
-    const guild = await interaction.client.guilds.fetch(interaction.guildId);
+    // 🔎 Determine source type
+    const isInteraction =
+      source?.isButton?.() || source?.isStringSelectMenu?.();
+
+    const guildId = isInteraction ? source.guildId : source.guildId;
+    const channelId = isInteraction ? source.channelId : source.channelId;
+    const client = isInteraction ? source.client : source.client;
+
+    const guild = await client.guilds.fetch(guildId);
 
     let thread;
     try {
-      thread = await guild.channels.fetch(interaction.channelId);
+      thread = await guild.channels.fetch(channelId);
     } catch (err) {
       console.warn(
         `Thread fetch failed: ${
           err.code === 10003 ? "Unknown Channel" : err.message
-        }`
+        }`,
       );
-      return interaction.reply({
-        content: "This thread no longer exists.",
-        flags: 64, // EPHEMERAL
-      });
+
+      if (isInteraction) {
+        return source.reply({
+          content: "This thread no longer exists.",
+          ephemeral: true,
+        });
+      }
+
+      return;
     }
 
-    const title = "Exit";
-    const description = `This thread will be closed shortly.`;
     const embed = new EmbedBuilder()
-      .setTitle(title)
-      .setDescription(description)
+      .setTitle("Exit")
+      .setDescription("This thread will be closed shortly.")
       .setColor("Red");
 
+    // 🔹 Send closing message + remove members
     setTimeout(async () => {
       try {
         await thread.send({ embeds: [embed] });
@@ -34,64 +45,58 @@ async function handleCancelThreadButton(interaction) {
         const members = await thread.members.fetch();
 
         for (const member of members.values()) {
-          if (member.id !== interaction.client.user.id) {
+          if (member.id !== client.user.id) {
             try {
               await thread.members.remove(member.id);
             } catch (removeErr) {
               console.warn(
-                `Failed to remove member ${member.id}: ${removeErr.message}`
+                `Failed to remove member ${member.id}: ${removeErr.message}`,
               );
             }
           }
         }
       } catch (err) {
         console.warn(
-          `Failed to send embed or fetch/remove members: ${err.message}`
+          `Failed to send embed or fetch/remove members: ${err.message}`,
         );
       }
     }, 1000);
 
+    // 🔹 Delete thread after delay
     setTimeout(async () => {
-      if (!thread) {
-        console.warn("Thread is undefined.");
-        return;
-      }
+      if (!thread) return;
 
       try {
         if (thread.archived) {
-          //   logger.log("Thread is archived, unarchiving...");
           await thread.setArchived(false);
         }
 
-        // logger.log(`Attempting to delete thread: ${thread.id}`);
         await thread.delete();
-        // logger.log(`Thread ${thread.id} deleted successfully`);
       } catch (err) {
         console.warn(`Thread deletion failed: ${err.message}`);
       }
     }, 20000);
 
-    try {
-      await interaction.deferUpdate();
-    } catch {}
+    // 🔹 Interaction acknowledgement
+    if (isInteraction) {
+      try {
+        if (!source.deferred && !source.replied) {
+          await source.deferUpdate();
+        }
+      } catch {}
+    }
   } catch (error) {
     console.error("Failed to close the thread:", error);
 
-    const title = "Exit";
-    const description = `An error occurred while trying to close this thread.`;
-    const embed = new EmbedBuilder()
-      .setTitle(title)
-      .setDescription(description)
-      .setColor("Red");
-    try {
-      await interaction.editReply({
-        embeds: [embed],
-        flags: 64, // EPHEMERAL
-      });
-    } catch (editErr) {
-      console.warn(`Failed to edit interaction reply: ${editErr.message}`);
+    if (source?.reply) {
+      try {
+        await source.reply({
+          content: "An error occurred while trying to close this thread.",
+          ephemeral: true,
+        });
+      } catch {}
     }
   }
 }
 
-module.exports = handleCancelThreadButton;
+module.exports = cancelThread;
