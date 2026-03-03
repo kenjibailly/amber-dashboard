@@ -10,6 +10,48 @@ const checkPermissions = require("../../helpers/checkPermissions");
 
 async function changeNicknameMenu(interaction) {
   await interaction.deferReply();
+  const guildId = interaction.guildId;
+  const userId = interaction.user.id;
+
+  try {
+    const existingAwardedReward = await AwardedReward.findOne({
+      guildId,
+      awardedUserId: userId,
+      $or: [{ reward: "changeOwnNickname" }, { reward: "changeOtherNickname" }],
+    });
+
+    if (existingAwardedReward) {
+      const now = new Date();
+      const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+
+      if (existingAwardedReward.date > twentyFourHoursAgo) {
+        // Send message
+        const embed = new EmbedBuilder()
+          .setTitle("Shop")
+          .setDescription(
+            "It hasn't been 24h yet since your nickname has been changed, please try again later.",
+          )
+          .setColor("Orange");
+        await interaction.editReply({
+          content: "",
+          embeds: [embed],
+          components: [],
+        });
+
+        await cancelThread(interaction);
+        return;
+      }
+    }
+  } catch (error) {
+    logger.error(error);
+    const embed = new EmbedBuilder()
+      .setTitle("Error")
+      .setDescription("Something went wrong, please try again later.")
+      .setColor("Red");
+    await interaction.reply({ embeds: [embed], flags: 64 });
+    await cancelThread(interaction);
+    return null;
+  }
 
   const embed = new EmbedBuilder()
     .setTitle("Shop")
