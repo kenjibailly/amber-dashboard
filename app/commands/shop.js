@@ -3,11 +3,14 @@ const getWalletConfig = require("../helpers/getWalletConfig");
 const Rewards = require("../config/rewards.json");
 const getRewards = require("../helpers/getRewards");
 const handleExchangeShop = require("./shop/exchangeShop");
-const { changeOtherNicknameMenu } = require("./shop/changeOtherNickname");
 const {
   changeNicknameMenu,
   changeNicknameExchange,
 } = require("./shop/changeNickname");
+const {
+  changeOtherNicknameMenu,
+  changeOtherNicknameExchange,
+} = require("./shop/changeOtherNickname");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -114,7 +117,7 @@ module.exports = {
         case "shop_changeNickname_menu":
           await changeNicknameMenu(interaction);
           break;
-        case "shop_changeOtherNickname":
+        case "shop_changeOtherNickname_menu":
           await changeOtherNicknameMenu(interaction);
           break;
         case "shop_addEmoji":
@@ -136,6 +139,9 @@ module.exports = {
       switch (interaction.customId) {
         case "shop_changeNickname_exchange":
           await changeNicknameExchange(interaction);
+          break;
+        case "shop_changeOtherNickname_exchange":
+          await changeOtherNicknameExchange(interaction);
           break;
         default:
           break;
