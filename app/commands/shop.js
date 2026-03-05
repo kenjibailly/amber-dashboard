@@ -11,6 +11,7 @@ const {
   changeOtherNicknameMenu,
   changeOtherNicknameExchange,
 } = require("./shop/changeOtherNickname");
+const { addChannelMenu, addChannelExchange } = require("./shop/addChannel");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -120,13 +121,14 @@ module.exports = {
         case "shop_changeOtherNickname_menu":
           await changeOtherNicknameMenu(interaction);
           break;
-        case "shop_addEmoji":
+        case "shop_addEmoji_menu":
           break;
-        case "shop_addRole":
+        case "shop_addRole_menu":
           break;
-        case "shop_addChannel":
+        case "shop_addChannel_menu":
+          await addChannelMenu(interaction);
           break;
-        case "shop_trollSomeone":
+        case "shop_trollSomeone_menu":
           break;
 
         default:
@@ -142,6 +144,9 @@ module.exports = {
           break;
         case "shop_changeOtherNickname_exchange":
           await changeOtherNicknameExchange(interaction);
+          break;
+        case "shop_addChannel_exchange":
+          await addChannelExchange(interaction);
           break;
         default:
           break;

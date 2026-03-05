@@ -3,38 +3,45 @@ class Logger {
     this.stat = stat;
   }
 
+  _timestamp() {
+    const date = new Date();
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
+
+  _print(color, level, ...args) {
+    process.stdout.write(color);
+    process.stdout.write(`[${this._timestamp()}] [${level}] ${this.stat}: `);
+    this._writeMessage(...args);
+    process.stdout.write("\x1b[0m\n");
+  }
+
   log(...args) {
-    process.stdout.write(`${this.stat}: `);
-    this._writeMessage(...args); // print message
-    process.stdout.write(`\n`);
+    this._print("\x1b[37m", "LOG", ...args);
   }
 
   info(...args) {
-    process.stdout.write("\x1b[34m"); // set color to blue
-    process.stdout.write(`${this.stat}: `);
-    this._writeMessage(...args); // print message
-    process.stdout.write("\x1b[0m\n"); // reset color
+    this._print("\x1b[34m", "INFO", ...args);
   }
 
   success(...args) {
-    process.stdout.write("\x1b[32m"); // set color to green
-    process.stdout.write(`${this.stat}: `);
-    this._writeMessage(...args); // print message
-    process.stdout.write("\x1b[0m\n"); // reset color
-  }
-
-  error(...args) {
-    process.stdout.write("\x1b[31m"); // set color to red
-    process.stdout.write(`${this.stat}: `);
-    this._writeMessage(...args); // print error message
-    process.stdout.write("\x1b[0m\n"); // reset color
+    this._print("\x1b[32m", "SUCCESS", ...args);
   }
 
   warn(...args) {
-    process.stdout.write("\x1b[33m"); // set color to yellow
-    process.stdout.write(`${this.stat}: `);
-    this._writeMessage(...args); // print message
-    process.stdout.write("\x1b[0m\n"); // reset color
+    this._print("\x1b[33m", "WARN", ...args);
+  }
+
+  error(...args) {
+    this._print("\x1b[31m", "ERROR", ...args);
   }
 
   async _writeMessage(...args) {
@@ -42,22 +49,20 @@ class Logger {
       if (arg instanceof Error) {
         process.stdout.write(`${arg.message}\n${arg.stack} `);
       } else if (arg instanceof Map) {
-        // Convert Map to an array of entries for logging
         process.stdout.write(
-          `\n${JSON.stringify(Array.from(arg.entries()), null, 2)} \n`
+          `\n${JSON.stringify(Array.from(arg.entries()), null, 2)} `,
         );
-      } else if (typeof arg === "object" && typeof arg.then === "function") {
-        // Handle promises by awaiting their result
+      } else if (typeof arg === "object" && typeof arg?.then === "function") {
         try {
-          const result = await arg; // Await the promise resolution
+          const result = await arg;
           process.stdout.write(
-            `\nResolved Promise: ${JSON.stringify(result, null, 2)} \n`
+            `\nResolved Promise: ${JSON.stringify(result, null, 2)} `,
           );
         } catch (error) {
-          process.stdout.write(`\nRejected Promise: ${error} \n`);
+          process.stdout.write(`\nRejected Promise: ${error} `);
         }
       } else if (typeof arg === "object") {
-        process.stdout.write(`\n${JSON.stringify(arg, null, 2)} \n`);
+        process.stdout.write(`\n${JSON.stringify(arg, null, 2)} `);
       } else {
         process.stdout.write(`${arg} `);
       }

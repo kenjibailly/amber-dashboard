@@ -7,26 +7,37 @@ const rewardHandlers = {
     .changeOtherNicknameChooseUser,
   //   addRole: require("./rewards/addRole"),
   //   addEmoji: require("./rewards/addEmoji"),
-  //   addChannel: require("./rewards/addChannel"),
+  addChannelConfirm: require("../commands/shop/addChannel").addChannelConfirm,
+  addChannelChooseChannel: require("../commands/shop/addChannel")
+    .addChannelChooseChannel,
+  addChannelChooseCategory: require("../commands/shop/addChannel")
+    .addChannelChooseCategory,
+  addChannelChooseEmoji: require("../commands/shop/addChannel")
+    .addChannelChooseEmoji,
   //   trollSomeone: require("./rewards/trollSomeone"),
 };
 const cancelThread = require("../helpers/cancelThread");
 const { EmbedBuilder } = require("discord.js");
+const logContext = require("../helpers/logContext");
 
 module.exports = async function rewardMessageRouter(message, exchangeData) {
   const { name } = exchangeData;
-
+  logger.info(
+    `${logContext(message.author, message.guild)} Reward Handler triggered: ${name}`,
+  );
   const handler = rewardHandlers[name];
 
   if (!handler) {
-    console.warn(`No reward handler found for: ${name}`);
+    logger.warn(
+      `${logContext(message.author, message.guild)} No reward handler found for: ${name}`,
+    );
     return;
   }
 
   try {
     await handler(message, exchangeData);
   } catch (error) {
-    console.error(`Error in reward handler (${name}):`, error);
+    logger.error(`Error in reward handler (${name}):`, error);
     const embed = new EmbedBuilder()
       .setTitle("Reward Error")
       .setDescription("Something went wrong while processing your reward.")

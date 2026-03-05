@@ -2,6 +2,8 @@ const { Events, EmbedBuilder } = require("discord.js");
 const CustomCommand = require("../models/CustomCommand");
 const GuildModule = require("../models/GuildModule");
 const cancelThread = require("../helpers/cancelThread");
+const logContext = require("../helpers/logContext");
+
 module.exports = {
   name: Events.InteractionCreate,
   async execute(interaction) {
@@ -18,7 +20,9 @@ module.exports = {
     }
     // Handle button interactions
     if (interaction.isButton() || interaction.isStringSelectMenu()) {
-      console.log("Button clicked:", interaction.customId);
+      logger.info(
+        `${logContext(interaction.user, interaction.guild)} clicked button: ${interaction.customId}`,
+      );
 
       if (interaction.customId === "cancel-thread") {
         await cancelThread(interaction);
