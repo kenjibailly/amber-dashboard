@@ -86,6 +86,16 @@ async function changeOtherNicknameChooseUser(message, exchangeData) {
       client: message.client,
     });
     return;
+  } else {
+    targetMember = await guild.members.fetch(mentionMatch[1]).catch(() => null);
+    try {
+      const thread = guild.channels.cache.get(exchangeData.threadId);
+      if (thread?.isThread()) {
+        await thread.members.remove(mentionMatch[1]);
+      }
+    } catch (err) {
+      // Non-fatal
+    }
   }
 
   try {
