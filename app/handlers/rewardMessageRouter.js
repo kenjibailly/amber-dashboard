@@ -5,7 +5,8 @@ const rewardHandlers = {
     .changeOtherNicknameConfirm,
   changeOtherNicknameChooseUser: require("../commands/shop/changeOtherNickname")
     .changeOtherNicknameChooseUser,
-  //   addRole: require("./rewards/addRole"),
+  addRoleChooseColor: require("../commands/shop/addRole").addRoleChooseColor,
+  addRoleChooseName: require("../commands/shop/addRole").addRoleChooseName,
   addEmojiConfirm: require("../commands/shop/addEmoji").addEmojiConfirm,
   addChannelConfirm: require("../commands/shop/addChannel").addChannelConfirm,
   addChannelChooseChannel: require("../commands/shop/addChannel")
@@ -19,6 +20,10 @@ const rewardHandlers = {
 const cancelThread = require("../helpers/cancelThread");
 const { EmbedBuilder } = require("discord.js");
 const logContext = require("../helpers/logContext");
+const {
+  addRoleChooseColor,
+  addRoleChooseName,
+} = require("../commands/shop/addRole");
 
 module.exports = async function rewardMessageRouter(message, exchangeData) {
   const { name } = exchangeData;
