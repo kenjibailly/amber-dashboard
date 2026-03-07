@@ -15,6 +15,7 @@ export default function GuildSettings() {
   const [hasPermission, setHasPermission] = useState(false);
   const [modules, setModules] = useState([]);
   const [modulesLoading, setModulesLoading] = useState(true);
+  const [syncing, setSyncing] = useState(false);
 
   useEffect(() => {
     if (!loading && guilds.length > 0) {
@@ -38,6 +39,23 @@ export default function GuildSettings() {
       }
     }
   }, [guildId, guilds, loading, navigate]);
+
+  const handleSync = async () => {
+    setSyncing(true);
+    try {
+      await axios.post(
+        `/guilds/${guildId}/sync-commands`,
+        {},
+        { withCredentials: true },
+      );
+      alert("Commands synced successfully!");
+    } catch (err) {
+      console.error("Failed to sync commands:", err);
+      alert("Failed to sync commands. Please try again.");
+    } finally {
+      setSyncing(false);
+    }
+  };
 
   const fetchModules = async () => {
     try {
@@ -94,6 +112,14 @@ export default function GuildSettings() {
         onClick={() => navigate(`/guild/${guildId}/change-logs`)}
       >
         Change Logs
+      </button>
+      <button
+        style={{ marginTop: "20px", marginLeft: "20px" }}
+        className={styles.button}
+        onClick={handleSync}
+        disabled={syncing}
+      >
+        {syncing ? "Syncing..." : "Sync"}
       </button>
       <div style={{ padding: "2rem" }}>
         <div

@@ -246,14 +246,10 @@ docker compose up -d
 
 #### 🎉 General Functions
 
-- ❌ /shop
+- ✅ /shop
   - Opens the shop
-- ❌ /wallet
+- ✅ /wallet
   - Checks your wallet balance
-- ❌ /games
-  - Lists all the available games
-- ❌ /upcoming-games
-  - Lists the upcoming games
 - ❌ /troll-missions
   - Lists all the troll missions
 - ❌ /create-image
@@ -261,10 +257,10 @@ docker compose up -d
   - Input: Prompt
 - ❌ /create-image-settings
   - Opens a settings menu in a DM with the bot, where the user can change the model, lora and dimensions. The compatible loras and dimensions can be chosen per model.
-- ❌ /introduction
+- ✅ /introduction
   - A user can introduce themselves using this command. An image will be generated with the provided data. Users can edit their introduction using the same command and the initial message will be updated.
   - You can edit the game characters in the `./introduction/game.json` file, the colors in the file are used to make a gradient background. You can also change the assets, but make sure they have the same dimensions.
-- ❌ /level
+- ✅ /level
   - A user can check their current level or they can check another user's level.
   - Input: optional: `user`
 

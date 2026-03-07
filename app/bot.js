@@ -13,6 +13,7 @@ const botApiRoutes = require("./routes/botApi");
 // Utilities
 const Logger = require("./utilities/logger.js");
 global.logger = new Logger("Bot");
+const registerSyncRoute = require("./syncServer");
 
 // MongoDB connection
 const mongodb_URI = require("./mongodb/URI");
@@ -49,7 +50,7 @@ for (const file of commandFiles) {
     client.commands.set(command.data.name, command);
   } else {
     logger.warn(
-      `[WARNING] The command at ${file} is missing a required "data" or "name" property.`
+      `[WARNING] The command at ${file} is missing a required "data" or "name" property.`,
     );
   }
 }
@@ -76,6 +77,7 @@ client.login(process.env.DISCORD_TOKEN);
 // Create Express app for internal API
 const app = express();
 app.use(express.json());
+registerSyncRoute(app);
 
 // Make Discord client available to routes
 app.set("discordClient", client);

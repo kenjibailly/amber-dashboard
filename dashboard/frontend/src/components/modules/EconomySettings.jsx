@@ -4,7 +4,7 @@ import EmojiPicker, { Theme, EmojiStyle } from "emoji-picker-react";
 import styles from "../../styles/ModuleSettings.module.css";
 import ecoStyles from "../../styles/EconomySettings.module.css";
 import editorStyles from "../../styles/EditorStyles.module.css";
-import defaultTrollMissions from "../../../../config/trollMissions.json";
+import defaultTrollMissions from "../../../config/trollMissions.json";
 
 const REWARDS = [
   { id: "changeNickname", label: "Change your nickname" },
