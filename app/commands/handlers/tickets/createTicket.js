@@ -36,7 +36,7 @@ async function handleCreateTicketButton(interaction, client) {
     .catch(() => null);
 
   if (!submitted) return;
-  await submitted.deferReply({ ephemeral: true });
+  await submitted.deferReply({ flags: 64 });
 
   // Step 3: Get input from modal
   const reason = submitted.fields.getTextInputValue("ticket-reason");

@@ -6,11 +6,11 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("register-slash-commands")
     .setDescription(
-      "Register your new slash commands when you have updated the bot!"
+      "Register your new slash commands when you have updated the bot!",
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild), // restrict to staff/admins
   async execute(interaction) {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
     const guildId = interaction.guild.id;
 
     // Double-check permissions (in case the bot missed it)

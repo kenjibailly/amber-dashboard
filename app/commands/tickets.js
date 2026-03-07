@@ -13,7 +13,7 @@ module.exports = {
     .addSubcommand((subcommand) =>
       subcommand
         .setName("send")
-        .setDescription("Send the ticket creation message")
+        .setDescription("Send the ticket creation message"),
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild), // restrict to staff/admins
 
@@ -21,7 +21,7 @@ module.exports = {
     const subcommand = interaction.options.getSubcommand();
 
     if (subcommand === "send") {
-      await interaction.deferReply({ ephemeral: true });
+      await interaction.deferReply({ flags: 64 });
 
       try {
         // Get settings from database
@@ -34,7 +34,7 @@ module.exports = {
           const embed = new EmbedBuilder()
             .setTitle("Tickets")
             .setDescription(
-              "❌ Tickets module is not enabled. Enable it from the dashboard first."
+              "❌ Tickets module is not enabled. Enable it from the dashboard first.",
             )
             .setColor("Red");
           await interaction.editReply({
@@ -47,7 +47,7 @@ module.exports = {
           const embed = new EmbedBuilder()
             .setTitle("Tickets")
             .setDescription(
-              "❌ No channel configured. Set it up in the dashboard first."
+              "❌ No channel configured. Set it up in the dashboard first.",
             )
             .setColor("Red");
           await interaction.editReply({
@@ -57,7 +57,7 @@ module.exports = {
         }
 
         const channel = interaction.guild.channels.cache.get(
-          module.settings.channelId
+          module.settings.channelId,
         );
 
         if (!channel) {

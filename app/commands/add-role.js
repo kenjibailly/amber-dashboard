@@ -44,7 +44,7 @@ module.exports = {
         .setColor("Red");
       return interaction.reply({
         embeds: [embed],
-        ephemeral: true,
+        flags: 64,
       });
     }
 
@@ -86,7 +86,7 @@ module.exports = {
 
       await interaction.reply({
         embeds: [embed],
-        ephemeral: true,
+        flags: 64,
       });
     } catch (error) {
       logger.error("Error assigning role:", error);
@@ -98,7 +98,7 @@ module.exports = {
         .setColor("Red");
       await interaction.reply({
         embeds: [embed],
-        ephemeral: true,
+        flags: 64,
       });
     }
   },

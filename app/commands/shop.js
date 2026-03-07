@@ -14,6 +14,11 @@ const {
 const { addChannelMenu, addChannelExchange } = require("./shop/addChannel");
 const { addEmojiMenu, addEmojiExchange } = require("./shop/addEmoji");
 const { addRoleMenu, addRoleExchange } = require("./shop/addRole");
+const {
+  trollSomeoneMenu,
+  trollSomeoneExchange,
+  trollLockInMission,
+} = require("./shop/trollSomeone");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -133,6 +138,7 @@ module.exports = {
           await addChannelMenu(interaction);
           break;
         case "shop_trollSomeone_menu":
+          await trollSomeoneMenu(interaction);
           break;
         default:
           break;
@@ -157,9 +163,16 @@ module.exports = {
         case "shop_addRole_exchange":
           await addRoleExchange(interaction);
           break;
+        case "shop_trollSomeone_exchange":
+          await trollSomeoneExchange(interaction);
+          break;
         default:
           break;
       }
+    }
+
+    if (interaction.customId === "shop_troll_lockInMission") {
+      await trollLockInMission(interaction);
     }
   },
 };

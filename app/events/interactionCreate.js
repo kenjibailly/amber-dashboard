@@ -42,7 +42,7 @@ module.exports = {
           if (!interaction.replied && !interaction.deferred) {
             return await interaction.reply({
               content: "There was an error processing your selection!",
-              ephemeral: true,
+              flags: 64,
             });
           }
         }
@@ -107,7 +107,7 @@ module.exports = {
             if (!hasRole) {
               return interaction.reply({
                 content: "You do not have permission to use this command.",
-                ephemeral: true,
+                flags: 64,
               });
             }
           }
@@ -119,7 +119,7 @@ module.exports = {
             if (!taggedUser) {
               return interaction.reply({
                 content: "Please mention a user.",
-                ephemeral: true,
+                flags: 64,
               });
             }
           }
@@ -161,14 +161,14 @@ module.exports = {
         logger.error("Error executing custom command:", error);
         await interaction.reply({
           content: "There was an error executing this command.",
-          ephemeral: true,
+          flags: 64,
         });
       }
     } catch (error) {
       logger.error(error);
       await interaction.reply({
         content: "There was an error while executing this command!",
-        ephemeral: true,
+        flags: 64,
       });
     }
   },

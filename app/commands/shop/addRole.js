@@ -12,6 +12,9 @@ function validateRoleName(name) {
   if (!name || name.length === 0) return "Role name cannot be empty.";
   if (name.length > 100)
     return "Role name cannot be longer than 100 characters.";
+  if (!/^[a-zA-Z0-9 _-]+$/.test(name)) {
+    return "Role name contains invalid characters. Only letters, numbers, spaces, hyphens and underscores are allowed.";
+  }
   return null;
 }
 
@@ -26,39 +29,6 @@ async function addRoleMenu(interaction) {
   await interaction.deferReply();
   const userId = interaction.member.user.id;
   const key = `${userId}_${interaction.channelId}`;
-
-  try {
-    const existingAwardedReward = await AwardedReward.findOne({
-      guildId: interaction.guildId,
-      awardedUserId: userId,
-      reward: "addRole",
-    });
-
-    if (existingAwardedReward) {
-      const now = new Date();
-      const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-      if (existingAwardedReward.date > twentyFourHoursAgo) {
-        const embed = new EmbedBuilder()
-          .setTitle("Shop")
-          .setDescription(
-            "It hasn't been 24h yet since you last added a role, please try again later.",
-          )
-          .setColor("Orange");
-        await interaction.editReply({ embeds: [embed], components: [] });
-        await cancelThread(interaction);
-        return;
-      }
-    }
-  } catch (error) {
-    logger.error(error);
-    const embed = new EmbedBuilder()
-      .setTitle("Error")
-      .setDescription("Something went wrong, please try again later.")
-      .setColor("Red");
-    await interaction.editReply({ embeds: [embed] });
-    await cancelThread(interaction);
-    return;
-  }
 
   userExchangeData.set(key, {
     threadId: interaction.channelId,
@@ -261,6 +231,10 @@ async function addRoleExchange(interaction) {
       reason: `Shop reward by ${interaction.member.user.tag}`,
     });
 
+    // Assign the role to the user who exchanged
+    const member = await guild.members.fetch(userId);
+    await member.roles.add(newRole);
+
     // Determine position — under admin/manage server roles and staff role
     await positionRole(guild, newRole, client, guildId);
 
@@ -312,7 +286,7 @@ async function addRoleExchange(interaction) {
         `The role <@&${newRole.id}> has been created!\n` +
           `You now have **${wallet.amount}** ${user_exchange_data.tokenEmoji} in your wallet.`,
       )
-      .setColor(colorInt);
+      .setColor("Green");
 
     await interaction.editReply({ embeds: [embed], components: [] });
     await cancelThread(interaction);
@@ -324,7 +298,7 @@ async function addRoleExchange(interaction) {
         .setDescription(
           `<@${userId}> has added a new role <@&${newRole.id}> to the server.`,
         )
-        .setColor(colorInt);
+        .setColor("Green");
       await parentChannel.send({ embeds: [parentEmbed] });
     }
   } catch (error) {

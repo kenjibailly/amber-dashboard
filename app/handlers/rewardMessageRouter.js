@@ -15,15 +15,14 @@ const rewardHandlers = {
     .addChannelChooseCategory,
   addChannelChooseEmoji: require("../commands/shop/addChannel")
     .addChannelChooseEmoji,
-  //   trollSomeone: require("./rewards/trollSomeone"),
+  trollSomeoneChooseUser: require("../commands/shop/trollSomeone")
+    .trollSomeoneChooseUser,
+  trollHandleMissionChoice: require("../commands/shop/trollSomeone")
+    .trollHandleMissionChoice,
 };
 const cancelThread = require("../helpers/cancelThread");
 const { EmbedBuilder } = require("discord.js");
 const logContext = require("../helpers/logContext");
-const {
-  addRoleChooseColor,
-  addRoleChooseName,
-} = require("../commands/shop/addRole");
 
 module.exports = async function rewardMessageRouter(message, exchangeData) {
   const { name } = exchangeData;

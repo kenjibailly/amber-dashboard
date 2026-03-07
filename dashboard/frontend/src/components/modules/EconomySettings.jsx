@@ -4,6 +4,7 @@ import EmojiPicker, { Theme, EmojiStyle } from "emoji-picker-react";
 import styles from "../../styles/ModuleSettings.module.css";
 import ecoStyles from "../../styles/EconomySettings.module.css";
 import editorStyles from "../../styles/EditorStyles.module.css";
+import defaultTrollMissions from "../../../../config/trollMissions.json";
 
 const REWARDS = [
   { id: "changeNickname", label: "Change your nickname" },
@@ -32,9 +33,9 @@ const defaultFormData = {
     separator: "",
   },
   rewardChannelId: "",
+  trollMissions: [],
 };
 
-// Emoji picker dropdown component
 function EmojiPickerField({ value, onChange, guildEmojis = [], label }) {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState("standard");
@@ -176,7 +177,18 @@ export default function EconomySettings({ guildId, user }) {
         response.data.settings &&
         Object.keys(response.data.settings).length > 0
       ) {
-        setFormData((prev) => ({ ...prev, ...response.data.settings }));
+        const settings = response.data.settings;
+        // If no custom troll missions saved, use the JSON defaults
+        if (!settings.trollMissions || settings.trollMissions.length === 0) {
+          settings.trollMissions = defaultTrollMissions.map((m) => ({ ...m }));
+        }
+        setFormData((prev) => ({ ...prev, ...settings }));
+      } else {
+        // No settings at all — still load default missions
+        setFormData((prev) => ({
+          ...prev,
+          trollMissions: defaultTrollMissions.map((m) => ({ ...m })),
+        }));
       }
     } catch (err) {
       console.error("Failed to fetch economy settings:", err);
@@ -225,7 +237,6 @@ export default function EconomySettings({ guildId, user }) {
     }
   };
 
-  // Reward helpers
   const setReward = (rewardId, field, value) => {
     setFormData((prev) => ({
       ...prev,
@@ -243,7 +254,6 @@ export default function EconomySettings({ guildId, user }) {
     }));
   };
 
-  // Wallet helpers
   const setWalletEmoji = (emojiVal) => {
     setFormData((prev) => ({
       ...prev,
@@ -271,12 +281,42 @@ export default function EconomySettings({ guildId, user }) {
     }));
   };
 
-  // Channel name helpers
   const setChannelName = (field, value) => {
     setFormData((prev) => ({
       ...prev,
       channelName: { ...prev.channelName, [field]: value },
     }));
+  };
+
+  const addMission = () => {
+    const missions = formData.trollMissions || [];
+    const nextId =
+      missions.length > 0
+        ? String(Math.max(...missions.map((m) => parseInt(m.id) || 0)) + 1)
+        : "1";
+    setFormData((prev) => ({
+      ...prev,
+      trollMissions: [
+        ...(prev.trollMissions || []),
+        { id: nextId, title: "", description: "" },
+      ],
+    }));
+  };
+
+  const updateMission = (index, field, value) => {
+    setFormData((prev) => {
+      const updated = [...(prev.trollMissions || [])];
+      updated[index] = { ...updated[index], [field]: value };
+      return { ...prev, trollMissions: updated };
+    });
+  };
+
+  const removeMission = (index) => {
+    setFormData((prev) => {
+      const updated = [...(prev.trollMissions || [])];
+      updated.splice(index, 1);
+      return { ...prev, trollMissions: updated };
+    });
   };
 
   if (loading) return <div>Loading settings...</div>;
@@ -290,7 +330,6 @@ export default function EconomySettings({ guildId, user }) {
           Configure each reward individually. These settings are overridden if
           "All Rewards" is configured.
         </p>
-
         {REWARDS.map((reward) => {
           const r = formData.rewards[reward.id] || defaultReward;
           return (
@@ -355,7 +394,6 @@ export default function EconomySettings({ guildId, user }) {
           Overrides the individual settings above and applies these values to
           every reward.
         </p>
-
         <div className={ecoStyles.rewardFields}>
           <div className={ecoStyles.fieldGroup}>
             <label className={styles.label}>Price</label>
@@ -402,7 +440,6 @@ export default function EconomySettings({ guildId, user }) {
             The emoji shown next to the currency in wallets.
           </small>
         </div>
-
         <div className={editorStyles.input}>
           <div className={ecoStyles.rewardHeader}>
             <span className={ecoStyles.rewardLabel}>Extra Currency</span>
@@ -437,7 +474,6 @@ export default function EconomySettings({ guildId, user }) {
         <p className={ecoStyles.sectionDesc}>
           Control how the economy channel name is formatted.
         </p>
-
         <div className={editorStyles.input}>
           <div className={ecoStyles.rewardHeader}>
             <span className={ecoStyles.rewardLabel}>Emoji Prefix</span>
@@ -453,7 +489,6 @@ export default function EconomySettings({ guildId, user }) {
             </label>
           </div>
         </div>
-
         <div className={editorStyles.input} style={{ marginTop: "1rem" }}>
           <div className={ecoStyles.rewardHeader}>
             <span className={ecoStyles.rewardLabel}>Separator</span>
@@ -516,6 +551,72 @@ export default function EconomySettings({ guildId, user }) {
             Reward updates and notifications will be posted here.
           </small>
         </div>
+      </section>
+
+      {/* ── TROLL MISSIONS ── */}
+      <section className={editorStyles.section}>
+        <h2 className={ecoStyles.sectionTitle}>Troll Missions</h2>
+        <p className={ecoStyles.sectionDesc}>
+          Customize the troll missions users must complete. The default missions
+          are pre-loaded — edit, remove, or add as needed.
+        </p>
+
+        {(formData.trollMissions || []).map((mission, index) => (
+          <div
+            key={index}
+            className={editorStyles.entryBlock}
+            style={{ marginBottom: "16px" }}
+          >
+            <div className={editorStyles.entryHeader}>
+              <span className={editorStyles.entryType}>
+                Mission {index + 1}
+              </span>
+              <button
+                type="button"
+                className={editorStyles.removeButton}
+                onClick={() => removeMission(index)}
+              >
+                Remove
+              </button>
+            </div>
+            <div className={editorStyles.entryFields}>
+              <div className={ecoStyles.fieldGroup}>
+                <label className={styles.label}>Title</label>
+                <input
+                  type="text"
+                  value={mission.title}
+                  onChange={(e) =>
+                    updateMission(index, "title", e.target.value)
+                  }
+                  placeholder="Mission title"
+                  className={styles.input}
+                />
+              </div>
+              <div className={ecoStyles.fieldGroup}>
+                <label className={styles.label}>Description</label>
+                <textarea
+                  value={mission.description || ""}
+                  onChange={(e) =>
+                    updateMission(index, "description", e.target.value)
+                  }
+                  placeholder="Optional description"
+                  className={styles.input}
+                  rows={2}
+                  style={{ resize: "vertical" }}
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+
+        <button
+          type="button"
+          onClick={addMission}
+          className={styles.saveButton}
+          style={{ marginTop: "8px" }}
+        >
+          + Add Mission
+        </button>
       </section>
 
       {/* ── SAVE ── */}

@@ -25,7 +25,7 @@ async function cancelThread(source) {
       if (isInteraction) {
         return source.reply({
           content: "This thread no longer exists.",
-          ephemeral: true,
+          flags: 64,
         });
       }
 
@@ -92,7 +92,7 @@ async function cancelThread(source) {
       try {
         await source.reply({
           content: "An error occurred while trying to close this thread.",
-          ephemeral: true,
+          flags: 64,
         });
       } catch {}
     }

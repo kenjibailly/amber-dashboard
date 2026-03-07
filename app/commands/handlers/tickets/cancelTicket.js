@@ -15,7 +15,7 @@ async function handleCancelTicketButton(interaction) {
         .setTitle(title)
         .setDescription(description)
         .setColor("Red");
-      await interaction.reply({ embeds: [embed], ephemeral: true });
+      await interaction.reply({ embeds: [embed], flags: 64 });
       return; // Add return to stop execution
     }
     const replyEmbed = new EmbedBuilder()
@@ -25,7 +25,7 @@ async function handleCancelTicketButton(interaction) {
     // Reply immediately to avoid timeout
     await interaction.reply({
       embeds: [replyEmbed],
-      ephemeral: true,
+      flags: 64,
     });
 
     const user = await interaction.client.users
@@ -94,7 +94,7 @@ async function handleCancelTicketButton(interaction) {
     if (interaction.replied || interaction.deferred) {
       await interaction.editReply({ embeds: [embed] });
     } else {
-      await interaction.reply({ embeds: [embed], ephemeral: true });
+      await interaction.reply({ embeds: [embed], flags: 64 });
     }
   }
 }
