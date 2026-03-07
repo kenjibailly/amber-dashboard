@@ -1,5 +1,10 @@
-const { Events, EmbedBuilder } = require("discord.js");
-const GuildModule = require("../models/GuildModule");
+const { Events } = require("discord.js");
+const handleAutoRole = require("../handlers/memberJoin/handleAutoRole");
+const handleWelcomeMessage = require("../handlers/memberJoin/handleWelcomeMessage");
+const handleTrollRejoin = require("../handlers/memberJoin/handleTrollRejoin");
+const handleTrollerRejoin = require("../handlers/memberJoin/handleTrollerRejoin");
+const handleAwardedRole = require("../handlers/memberJoin/handleAwardedRole");
+const handleAwardedNickname = require("../handlers/memberJoin/handleAwardedNickname");
 
 module.exports = {
   name: Events.GuildMemberAdd,
@@ -7,86 +12,20 @@ module.exports = {
     const guildId = member.guild.id;
 
     try {
-      // Check for Auto Role module
-      const autoRoleModule = await GuildModule.findOne({
-        guildId: guildId,
-        moduleId: "autorole",
-        enabled: true,
-      });
+      const isTrolled = await handleTrollRejoin(member, guildId);
+      await handleTrollerRejoin(member, guildId);
+      await handleAwardedRole(member, guildId);
+      await handleAwardedNickname(member, guildId);
 
-      if (autoRoleModule && autoRoleModule.settings.roleId) {
-        const roleId = autoRoleModule.settings.roleId;
-        const role = member.guild.roles.cache.get(roleId);
-
-        if (role) {
-          try {
-            await member.roles.add(role);
-            logger.success(
-              `Added role "${role.name}" to ${member.user.tag} in ${member.guild.name}`
-            );
-          } catch (error) {
-            logger.error(
-              `Failed to add role to ${member.user.tag} in ${member.guild.name}:`,
-              error
-            );
-          }
-        } else {
-          logger.warn(
-            `Auto role ${roleId} not found in guild ${member.guild.name}`
-          );
-        }
-      }
-
-      // Check for Welcome Message module
-      const welcomeModule = await GuildModule.findOne({
-        guildId: guildId,
-        moduleId: "welcome",
-        enabled: true,
-      });
-
-      if (
-        welcomeModule &&
-        welcomeModule.settings.welcomeMessage &&
-        welcomeModule.settings.channelId
-      ) {
-        const channel = member.guild.channels.cache.get(
-          welcomeModule.settings.channelId
-        );
-
-        if (channel) {
-          let message = welcomeModule.settings.welcomeMessage;
-
-          // Replace placeholders
-          message = message.replace(/{user}/g, `<@${member.id}>`);
-          message = message.replace(/{username}/g, member.user.username);
-          message = message.replace(/{server}/g, `**${member.guild.name}**`);
-
-          const embed = new EmbedBuilder()
-            .setTitle("Welcome!")
-            .setDescription(message)
-            .setColor("Green");
-
-          try {
-            await channel.send({ embeds: [embed] });
-            logger.success(
-              `Sent welcome message for ${member.user.tag} in ${member.guild.name}`
-            );
-          } catch (error) {
-            logger.error(
-              `Failed to send welcome message in ${member.guild.name}:`,
-              error
-            );
-          }
-        } else {
-          logger.warn(
-            `Welcome channel ${welcomeModule.settings.channelId} not found in guild ${member.guild.name}`
-          );
-        }
+      // Skip auto role and welcome if user is being trolled
+      if (!isTrolled) {
+        await handleAutoRole(member, guildId);
+        await handleWelcomeMessage(member, guildId);
       }
     } catch (error) {
       logger.error(
         `Error handling member join in ${member.guild.name}:`,
-        error
+        error,
       );
     }
   },
