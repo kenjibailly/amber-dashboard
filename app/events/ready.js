@@ -3,12 +3,16 @@ const { setupAppEmojis } = require("../utilities/setupEmojis");
 const { cacheAppEmojis } = require("../utilities/cacheAppEmojis");
 const { startStatusScheduler } = require("../schedulers/statusScheduler");
 const kickInactiveVCUser = require("../helpers/kickInactiveVCUser");
+const {
+  startRewardExpiryScheduler,
+} = require("../schedulers/rewardExpiryScheduler");
 
 module.exports = {
   name: Events.ClientReady,
   once: true,
   async execute(client) {
     logger.success(`Logged in as ${client.user.tag}!`);
+    startRewardExpiryScheduler(client);
 
     // Start schedulers
     startStatusScheduler(client);
