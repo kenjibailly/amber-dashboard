@@ -6,7 +6,7 @@ const rewardHandlers = {
   changeOtherNicknameChooseUser: require("../commands/shop/changeOtherNickname")
     .changeOtherNicknameChooseUser,
   //   addRole: require("./rewards/addRole"),
-  //   addEmoji: require("./rewards/addEmoji"),
+  addEmojiConfirm: require("../commands/shop/addEmoji").addEmojiConfirm,
   addChannelConfirm: require("../commands/shop/addChannel").addChannelConfirm,
   addChannelChooseChannel: require("../commands/shop/addChannel")
     .addChannelChooseChannel,
