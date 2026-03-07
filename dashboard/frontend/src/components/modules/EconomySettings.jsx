@@ -564,7 +564,7 @@ export default function EconomySettings({ guildId, user }) {
         {(formData.trollMissions || []).map((mission, index) => (
           <div
             key={index}
-            className={editorStyles.entryBlock}
+            className={editorStyles.input}
             style={{ marginBottom: "16px" }}
           >
             <div className={editorStyles.entryHeader}>
@@ -575,12 +575,16 @@ export default function EconomySettings({ guildId, user }) {
                 type="button"
                 className={editorStyles.removeButton}
                 onClick={() => removeMission(index)}
+                style={{ float: "right" }}
               >
                 Remove
               </button>
             </div>
             <div className={editorStyles.entryFields}>
-              <div className={ecoStyles.fieldGroup}>
+              <div
+                className={ecoStyles.fieldGroup}
+                style={{ width: "100%", marginBottom: "10px" }}
+              >
                 <label className={styles.label}>Title</label>
                 <input
                   type="text"
