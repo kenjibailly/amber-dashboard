@@ -61,6 +61,12 @@ const availableModules = [
     category: "general",
   },
   {
+    id: "moderation",
+    title: "Moderation",
+    description: "Configure moderation settings",
+    category: "general",
+  },
+  {
     id: "intro",
     title: "Introduction",
     description: "Configure the introduction posts",
