@@ -1,27 +1,33 @@
 [
   {
     "name": "changeNickname",
-    "shortDescription": "Change your nickname"
+    "shortDescription": "Change your nickname",
+    "menuDescription": "Change your own nickname for a limited time."
   },
   {
     "name": "changeOtherNickname",
-    "shortDescription": "Change someone's nickname"
+    "shortDescription": "Change someone's nickname",
+    "menuDescription": "Change someone's nickname for a limited time."
   },
   {
     "name": "addEmoji",
-    "shortDescription": "Add a custom server emoji"
+    "shortDescription": "Add a custom server emoji",
+    "menuDescription": "Create a temporary custom emoji of your choosing."
   },
   {
     "name": "addChannel",
-    "shortDescription": "Add a custom channel"
+    "shortDescription": "Add a custom channel",
+    "menuDescription": "Create a temporary custom channel of your choosing."
   },
   {
     "name": "addRole",
-    "shortDescription": "Add a custom role name and color"
+    "shortDescription": "Add a custom role name and color",
+    "menuDescription": "Create and assign a role to yourself with a color of your choosing."
   },
   {
     "name": "trollSomeone",
     "shortDescription": "Troll someone",
-    "longDescription": "This person won't see any channels in the server until a mission on the list is completed. This person can choose their own mission from the list of missions. To see all missions use the `/troll-missions` command"
+    "longDescription": "This person won't see any channels in the server until a mission on the list is completed. This person can choose their own mission from the list of missions. To see all missions use the `/troll-missions` command",
+    "menuDescription": "This person won't see any channels in the server until a mission on the list is completed."
   }
 ]

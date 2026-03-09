@@ -29,14 +29,22 @@ async function handleExchangeShop(interaction) {
     });
 
     const rewards = await getRewards(economyModule);
-
     rewards.forEach((reward, index) => {
       optionsList.push({
         label: reward.shortDescription.substring(0, 100), // max 100 chars
         value: `shop_${reward.id}_menu`,
-        // description: reward.value?.substring(0, 100) || undefined, // max 100 chars
+        description: reward.menuDescription?.substring(0, 100) || undefined, // max 100 chars
       });
     });
+
+    const gamble = economyModule.settings.gamble;
+    if (gamble.currency.enabled || gamble.extraCurrency.enabled) {
+      optionsList.push({
+        label: "Gamble",
+        value: "shop_gamble_menu",
+        description: "Gamble your shop currency for a chance to double it.",
+      });
+    }
   } catch (error) {
     logger.error("Exchange Shop Error:" + error);
 

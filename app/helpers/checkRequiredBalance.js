@@ -3,7 +3,13 @@ const Wallet = require("../models/Wallet");
 const cancelThread = require("../helpers/cancelThread");
 const { EmbedBuilder } = require("discord.js");
 
-async function checkRequiredBalance(interaction, client, price, thread) {
+async function checkRequiredBalance(
+  interaction,
+  client,
+  price,
+  thread,
+  amount = "default",
+) {
   const guildId = interaction.guildId;
   const userId = interaction.member.user.id;
   const walletConfig = await getWalletConfig(interaction.client, guildId);
@@ -30,22 +36,42 @@ async function checkRequiredBalance(interaction, client, price, thread) {
       return null;
     }
 
-    // Check wallet balance
-    if (wallet.amount < Number(price)) {
-      const embed = new EmbedBuilder()
-        .setTitle("Wallet")
-        .setDescription(
-          `You don't have enough ${tokenEmoji.token_emoji} to make this exchange.\n` +
-            `You currently have **${wallet.amount}** ${walletConfig.token_Emoji} and you need **${price}** ${walletConfig.tokenEmoji}`,
-        )
-        .setColor("Orange");
+    if (amount === "default") {
+      // Check wallet balance
+      if (wallet.amount < Number(price)) {
+        const embed = new EmbedBuilder()
+          .setTitle("Wallet")
+          .setDescription(
+            `You don't have enough ${walletConfig.tokenEmoji} to make this exchange.\n` +
+              `You currently have **${wallet.amount}** ${walletConfig.tokenEmoji} and you need **${price}** ${walletConfig.tokenEmoji}`,
+          )
+          .setColor("Orange");
 
-      await thread.send({ embeds: [embed] });
+        await thread.send({ embeds: [embed] });
 
-      await cancelThread(interaction);
-      return null;
-    } else {
-      return wallet;
+        await cancelThread(interaction);
+        return null;
+      } else {
+        return wallet;
+      }
+    } else if (amount === "extra") {
+      // Check wallet balance
+      if (wallet.extraAmount < Number(price)) {
+        const embed = new EmbedBuilder()
+          .setTitle("Wallet")
+          .setDescription(
+            `You don't have enough ${walletConfig.extraTokenEmoji} to make this exchange.\n` +
+              `You currently have **${wallet.extraAmount}** ${walletConfig.extraTokenEmoji} and you need **${price}** ${walletConfig.extraTokenEmoji}`,
+          )
+          .setColor("Orange");
+
+        await thread.send({ embeds: [embed] });
+
+        await cancelThread(interaction);
+        return null;
+      } else {
+        return wallet;
+      }
     }
   } catch (error) {
     logger.error("Check Required Balance Error:", error);

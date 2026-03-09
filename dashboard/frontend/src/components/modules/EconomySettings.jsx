@@ -34,6 +34,16 @@ const defaultFormData = {
   },
   rewardChannelId: "",
   trollMissions: [],
+  gamble: {
+    currency: {
+      enabled: false,
+      cooldownDays: "",
+    },
+    extraCurrency: {
+      enabled: false,
+      cooldownDays: "",
+    },
+  },
 };
 
 function EmojiPickerField({ value, onChange, guildEmojis = [], label }) {
@@ -178,13 +188,24 @@ export default function EconomySettings({ guildId, user }) {
         Object.keys(response.data.settings).length > 0
       ) {
         const settings = response.data.settings;
-        // If no custom troll missions saved, use the JSON defaults
         if (!settings.trollMissions || settings.trollMissions.length === 0) {
           settings.trollMissions = defaultTrollMissions.map((m) => ({ ...m }));
         }
+        // Merge gamble defaults so missing keys don't cause crashes
+        settings.gamble = {
+          ...defaultFormData.gamble,
+          ...settings.gamble,
+          currency: {
+            ...defaultFormData.gamble.currency,
+            ...settings.gamble?.currency,
+          },
+          extraCurrency: {
+            ...defaultFormData.gamble.extraCurrency,
+            ...settings.gamble?.extraCurrency,
+          },
+        };
         setFormData((prev) => ({ ...prev, ...settings }));
       } else {
-        // No settings at all — still load default missions
         setFormData((prev) => ({
           ...prev,
           trollMissions: defaultTrollMissions.map((m) => ({ ...m })),
@@ -285,6 +306,16 @@ export default function EconomySettings({ guildId, user }) {
     setFormData((prev) => ({
       ...prev,
       channelName: { ...prev.channelName, [field]: value },
+    }));
+  };
+
+  const setGamble = (currencyKey, field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      gamble: {
+        ...prev.gamble,
+        [currencyKey]: { ...prev.gamble[currencyKey], [field]: value },
+      },
     }));
   };
 
@@ -551,6 +582,97 @@ export default function EconomySettings({ guildId, user }) {
             Reward updates and notifications will be posted here.
           </small>
         </div>
+      </section>
+
+      {/* ── GAMBLE ── */}
+      <section className={editorStyles.section}>
+        <h2 className={ecoStyles.sectionTitle}>Gamble</h2>
+        <p className={ecoStyles.sectionDesc}>
+          Configure gambling for each currency. Set a cooldown to limit how
+          often users can gamble.
+        </p>
+
+        {/* Currency */}
+        <div className={editorStyles.input} style={{ marginBottom: "1rem" }}>
+          <div className={ecoStyles.rewardHeader}>
+            <span className={ecoStyles.rewardLabel}>Currency</span>
+            <label className={ecoStyles.toggle}>
+              <input
+                type="checkbox"
+                checked={formData.gamble.currency.enabled}
+                onChange={(e) =>
+                  setGamble("currency", "enabled", e.target.checked)
+                }
+              />
+              <span className={ecoStyles.toggleSlider} />
+            </label>
+          </div>
+          {formData.gamble.currency.enabled && (
+            <div
+              className={ecoStyles.rewardFields}
+              style={{ marginTop: "1rem" }}
+            >
+              <div className={ecoStyles.fieldGroup}>
+                <label className={styles.label}>Cooldown (days)</label>
+                <input
+                  type="number"
+                  min="0"
+                  value={formData.gamble.currency.cooldownDays}
+                  onChange={(e) =>
+                    setGamble("currency", "cooldownDays", e.target.value)
+                  }
+                  placeholder="0 = no cooldown"
+                  className={styles.input}
+                />
+                <small className={styles.hint}>
+                  Days a user must wait before gambling again. 0 = no limit.
+                </small>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Extra Currency — only shown if extra currency is enabled in wallet */}
+        {formData.wallet.extraCurrency.enabled && (
+          <div className={editorStyles.input}>
+            <div className={ecoStyles.rewardHeader}>
+              <span className={ecoStyles.rewardLabel}>Extra Currency</span>
+              <label className={ecoStyles.toggle}>
+                <input
+                  type="checkbox"
+                  checked={formData.gamble.extraCurrency.enabled}
+                  onChange={(e) =>
+                    setGamble("extraCurrency", "enabled", e.target.checked)
+                  }
+                />
+                <span className={ecoStyles.toggleSlider} />
+              </label>
+            </div>
+            {formData.gamble.extraCurrency.enabled && (
+              <div
+                className={ecoStyles.rewardFields}
+                style={{ marginTop: "1rem" }}
+              >
+                <div className={ecoStyles.fieldGroup}>
+                  <label className={styles.label}>Cooldown (days)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={formData.gamble.extraCurrency.cooldownDays}
+                    onChange={(e) =>
+                      setGamble("extraCurrency", "cooldownDays", e.target.value)
+                    }
+                    placeholder="0 = no cooldown"
+                    className={styles.input}
+                  />
+                  <small className={styles.hint}>
+                    Days a user must wait before gambling again. 0 = no limit.
+                  </small>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </section>
 
       {/* ── TROLL MISSIONS ── */}

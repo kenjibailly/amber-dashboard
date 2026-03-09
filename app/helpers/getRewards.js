@@ -23,6 +23,7 @@ async function getRewards(walletConfig) {
       shortDescription: rewardMeta.shortDescription,
       id: rewardMeta.name,
       price: price,
+      menuDescription: rewardMeta.menuDescription,
     });
   });
 

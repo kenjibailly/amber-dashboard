@@ -19,6 +19,11 @@ const {
   trollSomeoneExchange,
   trollLockInMission,
 } = require("./shop/trollSomeone");
+const {
+  gambleMenu,
+  gambleCurrencyExchange,
+  gambleExtraCurrencyExchange,
+} = require("./shop/gamble");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -71,6 +76,16 @@ module.exports = {
       )
       .setColor("Green");
     const rewardsList = await getRewards(walletConfig);
+    if (
+      walletConfig.settings.gamble.currency.enabled ||
+      walletConfig.settings.gamble.extraCurrency.enabled
+    ) {
+      rewardsList.push({
+        name: `1 ${walletConfig.tokenEmoji} or 1 ${walletConfig.extraTokenEmoji} - Gamble`,
+        inline: false,
+        value: `Gamble for a chance to double your ${walletConfig.tokenEmoji} or ${walletConfig.extraTokenEmoji}.`,
+      });
+    }
 
     embed.addFields(rewardsList); // Add the fields to the embed
     const walletConfigSettings = walletConfig.settings.wallet;
@@ -87,7 +102,7 @@ module.exports = {
       const buttonComponent = {
         type: 2, // Button type
         style: 1, // Primary style
-        label: "Exchange",
+        label: "Open Shop",
         emoji,
         custom_id: `shop_exchange`,
       };
@@ -140,6 +155,8 @@ module.exports = {
         case "shop_trollSomeone_menu":
           await trollSomeoneMenu(interaction);
           break;
+        case "shop_gamble_menu":
+          await gambleMenu(interaction);
         default:
           break;
       }
@@ -165,6 +182,12 @@ module.exports = {
           break;
         case "shop_trollSomeone_exchange":
           await trollSomeoneExchange(interaction);
+          break;
+        case "shop_gamble_currency_exchange":
+          await gambleCurrencyExchange(interaction);
+          break;
+        case "shop_gamble_extraCurrency_exchange":
+          await gambleExtraCurrencyExchange(interaction);
           break;
         default:
           break;
