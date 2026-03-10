@@ -1,0 +1,904 @@
+{
+  "brawlers": [
+    {
+      "name": "Shelly",
+      "rarity": "Starter",
+      "class": "Damage Dealer",
+      "movement": "Fast",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2017"
+    },
+    {
+      "name": "Colt",
+      "rarity": "Rare",
+      "class": "Damage Dealer",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Fast",
+      "release": "2017"
+    },
+    {
+      "name": "Bull",
+      "rarity": "Rare",
+      "class": "Tank",
+      "movement": "Fast",
+      "range": "Normal",
+      "reload": "Normal",
+      "release": "2017"
+    },
+    {
+      "name": "Brock",
+      "rarity": "Rare",
+      "class": "Marksman",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Slow",
+      "release": "2017"
+    },
+    {
+      "name": "Barley",
+      "rarity": "Rare",
+      "class": "Artillery",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Slow",
+      "release": "2017"
+    },
+    {
+      "name": "Nita",
+      "rarity": "Rare",
+      "class": "Damage Dealer",
+      "movement": "Normal",
+      "range": "Normal",
+      "reload": "Very Fast",
+      "release": "2017"
+    },
+    {
+      "name": "El Primo",
+      "rarity": "Rare",
+      "class": "Tank",
+      "movement": "Fast",
+      "range": "Short",
+      "reload": "Very Fast",
+      "release": "2017"
+    },
+    {
+      "name": "Poco",
+      "rarity": "Rare",
+      "class": "Support",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2017"
+    },
+    {
+      "name": "Rosa",
+      "rarity": "Rare",
+      "class": "Tank",
+      "movement": "Fast",
+      "range": "Short",
+      "reload": "Very Fast",
+      "release": "2019"
+    },
+    {
+      "name": "Rico",
+      "rarity": "Super Rare",
+      "class": "Damage Dealer",
+      "movement": "Normal",
+      "range": "Very Long",
+      "reload": "Very Fast",
+      "release": "2017"
+    },
+    {
+      "name": "Jessie",
+      "rarity": "Super Rare",
+      "class": "Controller",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2017"
+    },
+    {
+      "name": "Dynamike",
+      "rarity": "Super Rare",
+      "class": "Artillery",
+      "movement": "Fast",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2017"
+    },
+    {
+      "name": "Darryl",
+      "rarity": "Super Rare",
+      "class": "Tank",
+      "movement": "Fast",
+      "range": "Normal",
+      "reload": "Normal",
+      "release": "2017"
+    },
+    {
+      "name": "Penny",
+      "rarity": "Super Rare",
+      "class": "Controller",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Slow",
+      "release": "2018"
+    },
+    {
+      "name": "Tick",
+      "rarity": "Super Rare",
+      "class": "Artillery",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Very Slow",
+      "release": "2019"
+    },
+    {
+      "name": "Carl",
+      "rarity": "Super Rare",
+      "class": "Damage Dealer",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Slow",
+      "release": "2019"
+    },
+    {
+      "name": "8-Bit",
+      "rarity": "Super Rare",
+      "class": "Damage Dealer",
+      "movement": "Very Slow",
+      "range": "Very Long",
+      "reload": "Normal",
+      "release": "2019"
+    },
+    {
+      "name": "Jacky",
+      "rarity": "Super Rare",
+      "class": "Tank",
+      "movement": "Fast",
+      "range": "Short",
+      "reload": "Normal",
+      "release": "2020"
+    },
+    {
+      "name": "Gus",
+      "rarity": "Super Rare",
+      "class": "Support",
+      "movement": "Normal",
+      "range": "Very Long",
+      "reload": "Normal",
+      "release": "2022"
+    },
+    {
+      "name": "Bo",
+      "rarity": "Epic",
+      "class": "Controller",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2017"
+    },
+    {
+      "name": "Piper",
+      "rarity": "Epic",
+      "class": "Marksman",
+      "movement": "Normal",
+      "range": "Very Long",
+      "reload": "Very Slow",
+      "release": "2017"
+    },
+    {
+      "name": "Pam",
+      "rarity": "Epic",
+      "class": "Support",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Very Fast",
+      "release": "2017"
+    },
+    {
+      "name": "Frank",
+      "rarity": "Epic",
+      "class": "Tank",
+      "movement": "Fast",
+      "range": "Normal",
+      "reload": "Very Fast",
+      "release": "2018"
+    },
+    {
+      "name": "Bibi",
+      "rarity": "Epic",
+      "class": "Tank",
+      "movement": "Very Fast",
+      "range": "Short",
+      "reload": "Very Fast",
+      "release": "2019"
+    },
+    {
+      "name": "Bea",
+      "rarity": "Epic",
+      "class": "Marksman",
+      "movement": "Normal",
+      "range": "Very Long",
+      "reload": "Very Fast",
+      "release": "2019"
+    },
+    {
+      "name": "Emz",
+      "rarity": "Epic",
+      "class": "Controller",
+      "movement": "Normal",
+      "range": "Normal",
+      "reload": "Slow",
+      "release": "2019"
+    },
+    {
+      "name": "Gale",
+      "rarity": "Epic",
+      "class": "Controller",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Very Fast",
+      "release": "2020"
+    },
+    {
+      "name": "Nani",
+      "rarity": "Epic",
+      "class": "Marksman",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2020"
+    },
+    {
+      "name": "Colette",
+      "rarity": "Epic",
+      "class": "Damage Dealer",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2020"
+    },
+    {
+      "name": "Edgar",
+      "rarity": "Epic",
+      "class": "Assassin",
+      "movement": "Very Fast",
+      "range": "Short",
+      "reload": "Very Fast",
+      "release": "2020"
+    },
+    {
+      "name": "Stu",
+      "rarity": "Epic",
+      "class": "Assassin",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2021"
+    },
+    {
+      "name": "Belle",
+      "rarity": "Epic",
+      "class": "Marksman",
+      "movement": "Normal",
+      "range": "Very Long",
+      "reload": "Fast",
+      "release": "2021"
+    },
+    {
+      "name": "Grom",
+      "rarity": "Epic",
+      "class": "Artillery",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Slow",
+      "release": "2021"
+    },
+    {
+      "name": "Griff",
+      "rarity": "Epic",
+      "class": "Controller",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2021"
+    },
+    {
+      "name": "Ash",
+      "rarity": "Epic",
+      "class": "Tank",
+      "movement": "Normal",
+      "range": "Normal",
+      "reload": "Fast",
+      "release": "2021"
+    },
+    {
+      "name": "Lola",
+      "rarity": "Epic",
+      "class": "Damage Dealer",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2021"
+    },
+    {
+      "name": "Bonnie",
+      "rarity": "Epic",
+      "class": "Marksman",
+      "movement": "Slow",
+      "range": "Long",
+      "reload": "Very Fast",
+      "release": "2022"
+    },
+    {
+      "name": "Sam",
+      "rarity": "Epic",
+      "class": "Assassin",
+      "movement": "Fast",
+      "range": "Short",
+      "reload": "Normal",
+      "release": "2022"
+    },
+    {
+      "name": "Mandy",
+      "rarity": "Epic",
+      "class": "Marksman",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2023"
+    },
+    {
+      "name": "Maisie",
+      "rarity": "Epic",
+      "class": "Marksman",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2023"
+    },
+    {
+      "name": "Hank",
+      "rarity": "Epic",
+      "class": "Tank",
+      "movement": "Normal",
+      "range": "Short",
+      "reload": "Very Fast",
+      "release": "2023"
+    },
+    {
+      "name": "Pearl",
+      "rarity": "Epic",
+      "class": "Damage Dealer",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2023"
+    },
+    {
+      "name": "Larry & Lawrie",
+      "rarity": "Epic",
+      "class": "Artillery",
+      "movement": "Fast",
+      "range": "Long",
+      "reload": "Very Slow",
+      "release": "2024"
+    },
+    {
+      "name": "Angelo",
+      "rarity": "Epic",
+      "class": "Marksman",
+      "movement": "Very Fast",
+      "range": "Very Long",
+      "reload": "Very Fast",
+      "release": "2024"
+    },
+    {
+      "name": "Berry",
+      "rarity": "Epic",
+      "class": "Support",
+      "movement": "Normal",
+      "range": "Normal",
+      "reload": "Very Slow",
+      "release": "2024"
+    },
+    {
+      "name": "Trunk",
+      "rarity": "Epic",
+      "class": "Tank",
+      "movement": "Fast",
+      "range": "Short",
+      "reload": "Normal",
+      "release": "2025"
+    },
+    {
+      "name": "Shade",
+      "rarity": "Epic",
+      "class": "Assassin",
+      "movement": "Very Fast",
+      "range": "Very Short",
+      "reload": "Very Fast",
+      "release": "2024"
+    },
+    {
+      "name": "Meeple",
+      "rarity": "Epic",
+      "class": "Controller",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Slow",
+      "release": "2025"
+    },
+    {
+      "name": "Mortis",
+      "rarity": "Mythic",
+      "class": "Assassin",
+      "movement": "Very Fast",
+      "range": "Short",
+      "reload": "Very Slow",
+      "release": "2017"
+    },
+    {
+      "name": "Tara",
+      "rarity": "Mythic",
+      "class": "Damage Dealer",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Slow",
+      "release": "2017"
+    },
+    {
+      "name": "Gene",
+      "rarity": "Mythic",
+      "class": "Controller",
+      "movement": "Normal",
+      "range": "Very Long",
+      "reload": "Slow",
+      "release": "2019"
+    },
+    {
+      "name": "Mr. P",
+      "rarity": "Mythic",
+      "class": "Controller",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2020"
+    },
+    {
+      "name": "Max",
+      "rarity": "Mythic",
+      "class": "Support",
+      "movement": "Very Fast",
+      "range": "Long",
+      "reload": "Very Fast",
+      "release": "2019"
+    },
+    {
+      "name": "Sprout",
+      "rarity": "Mythic",
+      "class": "Artillery",
+      "movement": "Normal",
+      "range": "Normal",
+      "reload": "Normal",
+      "release": "2020"
+    },
+    {
+      "name": "Lou",
+      "rarity": "Mythic",
+      "class": "Controller",
+      "movement": "Normal",
+      "range": "Very Long",
+      "reload": "Very Fast",
+      "release": "2020"
+    },
+    {
+      "name": "Byron",
+      "rarity": "Mythic",
+      "class": "Support",
+      "movement": "Normal",
+      "range": "Very Long",
+      "reload": "Fast",
+      "release": "2020"
+    },
+    {
+      "name": "Ruffs",
+      "rarity": "Mythic",
+      "class": "Support",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Fast",
+      "release": "2021"
+    },
+    {
+      "name": "Lumi",
+      "rarity": "Mythic",
+      "class": "Damage Dealer",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Very Fast",
+      "release": "2025"
+    },
+    {
+      "name": "Squeak",
+      "rarity": "Mythic",
+      "class": "Controller",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Slow",
+      "release": "2021"
+    },
+    {
+      "name": "Buzz",
+      "rarity": "Mythic",
+      "class": "Assassin",
+      "movement": "Fast",
+      "range": "Short",
+      "reload": "Very Fast",
+      "release": "2021"
+    },
+    {
+      "name": "Fang",
+      "rarity": "Mythic",
+      "class": "Assassin",
+      "movement": "Fast",
+      "range": "Very Long",
+      "reload": "Very Fast",
+      "release": "2022"
+    },
+    {
+      "name": "Eve",
+      "rarity": "Mythic",
+      "class": "Damage Dealer",
+      "movement": "Normal",
+      "range": "Very Long",
+      "reload": "Normal",
+      "release": "2022"
+    },
+    {
+      "name": "Janet",
+      "rarity": "Mythic",
+      "class": "Marksman",
+      "movement": "Normal",
+      "range": "Normal",
+      "reload": "Normal",
+      "release": "2022"
+    },
+    {
+      "name": "Otis",
+      "rarity": "Mythic",
+      "class": "Controller",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2022"
+    },
+    {
+      "name": "Buster",
+      "rarity": "Mythic",
+      "class": "Tank",
+      "movement": "Fast",
+      "range": "Normal",
+      "reload": "Normal",
+      "release": "2022"
+    },
+    {
+      "name": "Gray",
+      "rarity": "Mythic",
+      "class": "Support",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Fast",
+      "release": "2022"
+    },
+    {
+      "name": "R-T",
+      "rarity": "Mythic",
+      "class": "Damage Dealer",
+      "movement": "Normal",
+      "range": "Very Long",
+      "reload": "Normal",
+      "release": "2023"
+    },
+    {
+      "name": "Alli",
+      "rarity": "Mythic",
+      "class": "Assassin",
+      "movement": "Fast",
+      "range": "Short",
+      "reload": "Normal",
+      "release": "2025"
+    },
+    {
+      "name": "Willow",
+      "rarity": "Mythic",
+      "class": "Controller",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Slow",
+      "release": "2023"
+    },
+    {
+      "name": "Doug",
+      "rarity": "Mythic",
+      "class": "Support",
+      "movement": "Fast",
+      "range": "Short",
+      "reload": "Normal",
+      "release": "2023"
+    },
+    {
+      "name": "Chuck",
+      "rarity": "Mythic",
+      "class": "Controller",
+      "movement": "Fast",
+      "range": "Normal",
+      "reload": "Slow",
+      "release": "2023"
+    },
+    {
+      "name": "Charlie",
+      "rarity": "Mythic",
+      "class": "Controller",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Slow",
+      "release": "2023"
+    },
+    {
+      "name": "Mico",
+      "rarity": "Mythic",
+      "class": "Assassin",
+      "movement": "Very Fast",
+      "range": "Normal",
+      "reload": "Very Slow",
+      "release": "2023"
+    },
+    {
+      "name": "Melodie",
+      "rarity": "Mythic",
+      "class": "Assassin",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2024"
+    },
+    {
+      "name": "Lily",
+      "rarity": "Mythic",
+      "class": "Assassin",
+      "movement": "Very Fast",
+      "range": "Short",
+      "reload": "Very Fast",
+      "release": "2024"
+    },
+    {
+      "name": "Clancy",
+      "rarity": "Mythic",
+      "class": "Damage Dealer",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Slow",
+      "release": "2024"
+    },
+    {
+      "name": "Moe",
+      "rarity": "Mythic",
+      "class": "Damage Dealer",
+      "movement": "Fast",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2024"
+    },
+    {
+      "name": "Juju",
+      "rarity": "Mythic",
+      "class": "Artillery",
+      "movement": "Very Fast",
+      "range": "Normal",
+      "reload": "Normal",
+      "release": "2024"
+    },
+    {
+      "name": "Ziggy",
+      "rarity": "Mythic",
+      "class": "Controller",
+      "movement": "Fast",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2025"
+    },
+    {
+      "name": "Ollie",
+      "rarity": "Mythic",
+      "class": "Tank",
+      "movement": "Fast",
+      "range": "Normal",
+      "reload": "Normal",
+      "release": "2025"
+    },
+    {
+      "name": "Jae-Yong",
+      "rarity": "Mythic",
+      "class": "Support",
+      "movement": "Fast",
+      "range": "Long",
+      "reload": "Fast",
+      "release": "2025"
+    },
+    {
+      "name": "mina",
+      "rarity": "Mythic",
+      "class": "Damage Dealer",
+      "movement": "Fast",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2025"
+    },
+    {
+      "name": "Finx",
+      "rarity": "Mythic",
+      "class": "Damage Dealer",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2025"
+    },
+    {
+      "name": "Gigi",
+      "rarity": "Mythic",
+      "class": "Assassin",
+      "movement": "Very Fast",
+      "range": "Short",
+      "reload": "Very Fast",
+      "release": "2025"
+    },
+    {
+      "name": "Glowy",
+      "rarity": "Mythic",
+      "class": "Support",
+      "movement": "Fast",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2026"
+    },
+    {
+      "name": "Draco",
+      "rarity": "Legendary",
+      "class": "Tank",
+      "movement": "Normal",
+      "range": "Normal",
+      "reload": "Normal",
+      "release": "2024"
+    },
+    {
+      "name": "Kenji",
+      "rarity": "Legendary",
+      "class": "Assassin",
+      "movement": "Very Fast",
+      "range": "Short",
+      "reload": "Very Fast",
+      "release": "2024"
+    },
+    {
+      "name": "Pierce",
+      "rarity": "Legendary",
+      "class": "Marksman",
+      "movement": "Normal",
+      "range": "Very Long",
+      "reload": "Very Slow",
+      "release": "2025"
+    },
+    {
+      "name": "Spike",
+      "rarity": "Legendary",
+      "class": "Damage Dealer",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Slow",
+      "release": "2017"
+    },
+    {
+      "name": "Crow",
+      "rarity": "Legendary",
+      "class": "Assassin",
+      "movement": "Very Fast",
+      "range": "Long",
+      "reload": "Fast",
+      "release": "2017"
+    },
+    {
+      "name": "Leon",
+      "rarity": "Legendary",
+      "class": "Assassin",
+      "movement": "Very Fast",
+      "range": "Very Long",
+      "reload": "Normal",
+      "release": "2018"
+    },
+    {
+      "name": "Sandy",
+      "rarity": "Legendary",
+      "class": "Controller",
+      "movement": "Fast",
+      "range": "Normal",
+      "reload": "Normal",
+      "release": "2019"
+    },
+    {
+      "name": "Surge",
+      "rarity": "Legendary",
+      "class": "Damage Dealer",
+      "movement": "Slow",
+      "range": "Normal",
+      "reload": "Slow",
+      "release": "2020"
+    },
+    {
+      "name": "Amber",
+      "rarity": "Legendary",
+      "class": "Controller",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Very Fast",
+      "release": "2020"
+    },
+    {
+      "name": "Meg",
+      "rarity": "Legendary",
+      "class": "Tank",
+      "movement": "Normal",
+      "range": "Long",
+      "reload": "Very Fast",
+      "release": "2021"
+    },
+    {
+      "name": "Chester",
+      "rarity": "Legendary",
+      "class": "Damage Dealer",
+      "movement": "Fast",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2022"
+    },
+    {
+      "name": "Kit",
+      "rarity": "Legendary",
+      "class": "Support",
+      "movement": "Very Fast",
+      "range": "Short",
+      "reload": "Very Fast",
+      "release": "2024"
+    },
+    {
+      "name": "Cordelius",
+      "rarity": "Legendary",
+      "class": "Assassin",
+      "movement": "Very Fast",
+      "range": "Normal",
+      "reload": "Very Fast",
+      "release": "2023"
+    },
+    {
+      "name": "Sirius",
+      "rarity": "Ultra Legendary",
+      "class": "Controller",
+      "movement": "Fast",
+      "range": "Long",
+      "reload": "Normal",
+      "release": "2026"
+    },
+    {
+      "name": "Kaze",
+      "rarity": "Ultra Legendary",
+      "class": "Assassin",
+      "movement": "Very Fast",
+      "range": "Short",
+      "reload": "Very Fast",
+      "release": "2025"
+    }
+  ]
+}

@@ -12,6 +12,7 @@ export default function JoinLeaveSettings({ guildId, user }) {
   const [saving, setSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [channels, setChannels] = useState([]);
+  const [voiceChannels, setVoiceChannels] = useState([]);
   const [users, setUsers] = useState([]);
 
   const [formData, setFormData] = useState({
@@ -24,6 +25,7 @@ export default function JoinLeaveSettings({ guildId, user }) {
   useEffect(() => {
     fetchSettings();
     fetchChannels();
+    fetchVoiceChannels();
     fetchUsers();
   }, [guildId]);
 
@@ -57,7 +59,6 @@ export default function JoinLeaveSettings({ guildId, user }) {
       const response = await axios.get(`/guilds/${guildId}/channels`, {
         withCredentials: true,
       });
-
       setChannels(response.data.channels || []);
       setLoading(false);
     } catch (err) {
@@ -66,12 +67,22 @@ export default function JoinLeaveSettings({ guildId, user }) {
     }
   };
 
+  const fetchVoiceChannels = async () => {
+    try {
+      const response = await axios.get(`/guilds/${guildId}/voicechannels`, {
+        withCredentials: true,
+      });
+      setVoiceChannels(response.data.channels || []);
+    } catch (err) {
+      console.error("Failed to fetch voice channels:", err);
+    }
+  };
+
   const fetchUsers = async () => {
     try {
       const response = await axios.get(`/guilds/${guildId}/users`, {
         withCredentials: true,
       });
-
       setUsers(response.data.users || []);
       setLoading(false);
     } catch (err) {
@@ -179,17 +190,34 @@ export default function JoinLeaveSettings({ guildId, user }) {
             }));
           }}
           className={editorStyles.multiSelect}
-          size={Math.min(channels.length, 10)}
+          size={Math.min(channels.length + voiceChannels.length, 10)}
         >
-          {channels.map((channel) => (
-            <option
-              key={channel.id}
-              value={channel.id}
-              selected={formData.extraChannels?.includes(channel.id)}
-            >
-              {channel.name}
-            </option>
-          ))}
+          {channels.length > 0 && (
+            <optgroup label="Text Channels">
+              {channels.map((channel) => (
+                <option
+                  key={channel.id}
+                  value={channel.id}
+                  selected={formData.extraChannels?.includes(channel.id)}
+                >
+                  # {channel.name}
+                </option>
+              ))}
+            </optgroup>
+          )}
+          {voiceChannels.length > 0 && (
+            <optgroup label="Voice Channels">
+              {voiceChannels.map((channel) => (
+                <option
+                  key={channel.id}
+                  value={channel.id}
+                  selected={formData.extraChannels?.includes(channel.id)}
+                >
+                  🔊 {channel.name}
+                </option>
+              ))}
+            </optgroup>
+          )}
         </select>
         <small>Leave empty for no extra channels.</small>
       </div>
