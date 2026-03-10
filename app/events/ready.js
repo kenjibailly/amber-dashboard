@@ -7,6 +7,7 @@ const {
   startRewardExpiryScheduler,
 } = require("../schedulers/rewardExpiryScheduler");
 const { startBrawldleScheduler } = require("../schedulers/brawldleScheduler");
+const startDailyBrawlerPollScheduler = require("../schedulers/dailyBrawlerPoll");
 
 module.exports = {
   name: Events.ClientReady,
@@ -24,6 +25,8 @@ module.exports = {
     await cacheAppEmojis(client);
 
     await kickInactiveVCUser(client);
+
+    startDailyBrawlerPollScheduler(client);
 
     startBrawldleScheduler();
   },

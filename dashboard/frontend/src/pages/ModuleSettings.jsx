@@ -16,6 +16,7 @@ import StaffRoleSettings from "../components/modules/StaffRoleSettings";
 import IntroductionSettings from "../components/modules/IntroductionSettings";
 import LevelSettings from "../components/modules/LevelSettings";
 import ModerationSettings from "../components/modules/ModerationSettings";
+import DailyBrawlerPollSettings from "../components/modules/DailyBrawlerPoll";
 
 export default function ModuleSettings() {
   const { guildId, moduleId } = useParams();
@@ -55,6 +56,8 @@ export default function ModuleSettings() {
         return <LevelSettings guildId={guildId} user={user} />;
       case "moderation":
         return <ModerationSettings guildId={guildId} user={user} />;
+      case "dailybrawlerpoll":
+        return <DailyBrawlerPollSettings guildId={guildId} user={user} />;
       default:
         return (
           <div>
@@ -80,6 +83,7 @@ export default function ModuleSettings() {
       intro: "Introduction",
       level: "Level System",
       moderation: "Moderation",
+      dailybrawlerpoll: "Daily Brawler Poll",
     };
     return titles[moduleId] || moduleId;
   };
