@@ -9,11 +9,18 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminSettings from "./pages/AdminSettings";
 import ChangeLogs from "./pages/ChangeLogs";
 import CustomCommandEditor from "./pages/CustomCommandEditor";
+import Brawldle from "./pages/Brawldle";
+import BrawldleCallback from "./pages/BrawldleCallback";
+import BrawldleRedirect from "./pages/BrawldleRedirect";
+
+const isBrawldleActivity =
+  window.location.hostname === "brawldle.mindglowing.art" ||
+  window.location.hostname.endsWith(".discordsays.com");
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      {/* <Route path="/" element={<Home />} /> */}
       <Route
         path="/dashboard"
         element={
@@ -118,6 +125,12 @@ export default function App() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/"
+        element={isBrawldleActivity ? <BrawldleRedirect /> : <Home />}
+      />
+      <Route path="/brawldle" element={<Brawldle />} />
+      <Route path="/brawldle/callback" element={<BrawldleCallback />} />
     </Routes>
   );
 }

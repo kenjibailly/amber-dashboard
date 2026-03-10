@@ -8,4 +8,29 @@ function requireAuth(req, res, next) {
   next();
 }
 
-module.exports = { requireAuth };
+function requireSession(req, res, next) {
+  // Normal session check
+  if (req.session.user) return next();
+
+  // Activity token check
+  const token = req.headers["x-discord-token"];
+  if (token) {
+    // Verify token with Discord and get user
+    const axios = require("axios");
+    axios
+      .get("https://discord.com/api/users/@me", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        req.session.user = response.data;
+        next();
+      })
+      .catch(() => {
+        res.status(401).json({ error: "Invalid token" });
+      });
+    return;
+  }
+
+  res.status(401).json({ error: "Not authenticated" });
+}
+module.exports = { requireAuth, requireSession };

@@ -5,6 +5,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
   return {
+    base: "/",
     plugins: [react()],
     define: {
       "import.meta.env.VITE_DISCORD_CLIENT_ID": JSON.stringify(
@@ -16,6 +17,7 @@ export default defineConfig(({ mode }) => {
       port: 5173,
       allowedHosts: [
         "amber-dashboard.mindglowing.art",
+        "brawldle.mindglowing.art",
         "localhost",
         "127.0.0.1",
       ],

@@ -6,6 +6,7 @@ const kickInactiveVCUser = require("../helpers/kickInactiveVCUser");
 const {
   startRewardExpiryScheduler,
 } = require("../schedulers/rewardExpiryScheduler");
+const { startBrawldleScheduler } = require("../schedulers/brawldleScheduler");
 
 module.exports = {
   name: Events.ClientReady,
@@ -23,5 +24,7 @@ module.exports = {
     await cacheAppEmojis(client);
 
     await kickInactiveVCUser(client);
+
+    startBrawldleScheduler();
   },
 };

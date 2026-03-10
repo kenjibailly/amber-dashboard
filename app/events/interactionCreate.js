@@ -7,6 +7,12 @@ const logContext = require("../helpers/logContext");
 module.exports = {
   name: Events.InteractionCreate,
   async execute(interaction) {
+    if (interaction.isButton() && interaction.customId === "brawldle_launch") {
+      await interaction.client.rest.post(
+        `/interactions/${interaction.id}/${interaction.token}/callback`,
+        { body: { type: 12, data: {} } },
+      );
+    }
     // Handle autocomplete FIRST
     if (interaction.isAutocomplete()) {
       const command = interaction.client.commands.get(interaction.commandName);

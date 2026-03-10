@@ -5,6 +5,7 @@ const router = express.Router();
 const CLIENT_ID = process.env.DISCORD_CLIENT_ID;
 const CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET;
 const REDIRECT_URI = `${process.env.DOMAIN}/auth/callback`;
+const BRAWLDLE_REDIRECT_URI = `${process.env.DOMAIN}/brawldle/callback`;
 
 // Add logging to see what env vars are set
 console.log("=== Auth Route Configuration ===");
@@ -171,6 +172,51 @@ router.get("/logout", (req, res) => {
     res.clearCookie("connect.sid");
     res.redirect(process.env.FRONTEND_URL || "/");
   });
+});
+
+// Activity SDK token exchange — used by the Brawldle Discord Activity
+router.post("/discord-activity", async (req, res) => {
+  const { code } = req.body;
+  if (!code) return res.status(400).json({ error: "No code provided" });
+
+  // If already have a proper dashboard session, don't overwrite it
+  if (req.session.user) {
+    return res.json({ user: req.session.user });
+  }
+
+  try {
+    const tokenResponse = await axios.post(
+      "https://discord.com/api/oauth2/token",
+      new URLSearchParams({
+        client_id: CLIENT_ID,
+        client_secret: CLIENT_SECRET,
+        code,
+        grant_type: "authorization_code",
+        redirect_uri: `${process.env.BRAWLDLE_DOMAIN}/brawldle/callback`,
+        scope: "identify",
+      }),
+      { headers: { "Content-Type": "application/x-www-form-urlencoded" } },
+    );
+
+    const userResponse = await axios.get("https://discord.com/api/users/@me", {
+      headers: { Authorization: `Bearer ${tokenResponse.data.access_token}` },
+    });
+
+    req.session.user = userResponse.data;
+    req.session.guilds = req.session.guilds || [];
+    req.session.accessToken = tokenResponse.data.access_token;
+
+    req.session.save((err) => {
+      if (err) return res.status(500).json({ error: "Failed to save session" });
+      res.json({
+        user: userResponse.data,
+        access_token: tokenResponse.data.access_token, // add this
+      });
+    });
+  } catch (err) {
+    console.error("Activity auth error:", err.response?.data || err.message);
+    res.status(500).json({ error: "Activity auth failed" });
+  }
 });
 
 module.exports = router;
