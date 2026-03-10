@@ -147,7 +147,15 @@ module.exports = function registerSyncRoute(app) {
         wonToday: true,
         activeDate: today,
         userId: { $in: [...memberIds] },
-      }).sort({ currentStreak: -1 });
+      });
+
+      todayWinners.sort((a, b) => {
+        // Primary: highest streak first
+        if (b.currentStreak !== a.currentStreak)
+          return b.currentStreak - a.currentStreak;
+        // Tiebreaker: fewest guesses today first
+        return (a.guesses?.length ?? 99) - (b.guesses?.length ?? 99);
+      });
 
       if (todayWinners.length === 0) return res.json({ success: true });
 
