@@ -221,9 +221,16 @@
   font-size: 0.8rem;
   font-weight: 600;
   min-height: 52px;
-  transition: transform 0.2s;
-  animation: popIn 0.25s ease;
+  animation: popIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  transform-origin: center;
 }
+
+/* @keyframes popIn {
+  0%   { transform: scale(0.5);  opacity: 0; }
+  60%  { transform: scale(1.08); opacity: 1; }
+  80%  { transform: scale(0.97); }
+  100% { transform: scale(1);    opacity: 1; }
+} */
 
 @keyframes popIn {
   from { transform: scale(0.85); opacity: 0; }
@@ -243,12 +250,14 @@
   background: #1a4d1a;
   border: 1px solid #2e7d2e;
   color: #7fff7f;
+  background-image: linear-gradient(90deg, #2da660 0%, #178029 100%);
 }
 
 .wrong {
   background: #4d1a1a;
   border: 1px solid #7d2e2e;
   color: #ff9999;
+  background-image: linear-gradient(90deg, #a62d46 0%, #801717 100%);
 }
 
 /* ── Empty state ─────────────────────────────────────────────── */
@@ -361,6 +370,35 @@
   opacity: 0.85;
 }
 
+.brawlerIcon {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.suggestionIcon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.answerIcon {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+.suggestion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
 /* ── Responsive ──────────────────────────────────────────────── */
 
 @media (max-width: 640px) {
@@ -410,12 +448,51 @@
   }
 
   .cell {
-    font-size: 0.4rem;
+    font-size: 0.5rem;
   }
 
   .headerCell {
-    font-size: 0.4rem;
+    font-size: 0.5rem;
   }
+}
+
+
+.loaderWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #0d0d0d;
+  gap: 20px;
+}
+
+.loaderDots {
+  display: flex;
+  gap: 10px;
+}
+
+.loaderDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffd700;
+  animation: dotBounce 0.6s ease-in-out infinite alternate;
+}
+
+.loaderDot:nth-child(2) { animation-delay: 0.2s; background: #ff6b35; }
+.loaderDot:nth-child(3) { animation-delay: 0.4s; background: #ff3860; }
+
+@keyframes dotBounce {
+  from { transform: translateY(0);    opacity: 0.4; }
+  to   { transform: translateY(-16px); opacity: 1;   }
+}
+
+.loaderText {
+  color: #888;
+  font-size: 14px;
+  font-family: system-ui;
+  letter-spacing: 0.05em;
 }
 
 @media (max-width: 350px) {

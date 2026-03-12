@@ -8,8 +8,8 @@ services:
     volumes:
       - ./app:/home/ubuntu/amber
       - /home/ubuntu/amber/node_modules
-      - ./config/brawlers.json:/home/ubuntu/airona/config/brawlers.json:ro
-      - ./config/trollMissions.json:/home/ubuntu/airona/config/trollMissions.json:ro
+      - ./config/brawlers.json:/home/ubuntu/amber/config/brawlers.json:ro
+      - ./config/trollMissions.json:/home/ubuntu/amber/config/trollMissions.json:ro
     env_file:
       - .env
     ports:

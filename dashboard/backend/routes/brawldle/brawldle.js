@@ -36,6 +36,7 @@ function compareBrawler(guess, answer) {
   return {
     name: {
       value: guess.name,
+      image: guess.image,
       result: guess.name === answer.name ? "correct" : "wrong",
     },
     rarity: {
@@ -99,7 +100,7 @@ router.get("/today", requireSession, async (req, res) => {
         guesses: [],
         wonToday: false,
         totalBrawlers: brawlers.length,
-        brawlerNames: brawlers.map((b) => b.name),
+        brawlerNames: brawlers.map((b) => ({ name: b.name, image: b.image })),
       });
     }
 
@@ -118,7 +119,7 @@ router.get("/today", requireSession, async (req, res) => {
       guesses: guessResults,
       wonToday: userDoc.wonToday,
       totalBrawlers: brawlers.length,
-      brawlerNames: brawlers.map((b) => b.name),
+      brawlerNames: brawlers.map((b) => ({ name: b.name, image: b.image })),
       answer: userDoc.wonToday ? answer : undefined,
     });
   } catch (err) {

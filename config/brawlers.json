@@ -7,7 +7,8 @@
       "movement": "Fast",
       "range": "Long",
       "reload": "Normal",
-      "release": "2017"
+      "release": "2017",
+      "image": "shelly"
     },
     {
       "name": "Colt",
@@ -16,7 +17,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Fast",
-      "release": "2017"
+      "release": "2017",
+      "image": "colt"
     },
     {
       "name": "Bull",
@@ -25,7 +27,8 @@
       "movement": "Fast",
       "range": "Normal",
       "reload": "Normal",
-      "release": "2017"
+      "release": "2017",
+      "image": "bull"
     },
     {
       "name": "Brock",
@@ -34,7 +37,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Slow",
-      "release": "2017"
+      "release": "2017",
+      "image": "brock"
     },
     {
       "name": "Barley",
@@ -43,7 +47,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Slow",
-      "release": "2017"
+      "release": "2017",
+      "image": "barley"
     },
     {
       "name": "Nita",
@@ -52,7 +57,8 @@
       "movement": "Normal",
       "range": "Normal",
       "reload": "Very Fast",
-      "release": "2017"
+      "release": "2017",
+      "image": "nita"
     },
     {
       "name": "El Primo",
@@ -61,7 +67,8 @@
       "movement": "Fast",
       "range": "Short",
       "reload": "Very Fast",
-      "release": "2017"
+      "release": "2017",
+      "image": "el-primo"
     },
     {
       "name": "Poco",
@@ -70,7 +77,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Normal",
-      "release": "2017"
+      "release": "2017",
+      "image": "poco"
     },
     {
       "name": "Rosa",
@@ -79,7 +87,8 @@
       "movement": "Fast",
       "range": "Short",
       "reload": "Very Fast",
-      "release": "2019"
+      "release": "2019",
+      "image": "rosa"
     },
     {
       "name": "Rico",
@@ -88,7 +97,8 @@
       "movement": "Normal",
       "range": "Very Long",
       "reload": "Very Fast",
-      "release": "2017"
+      "release": "2017",
+      "image": "rico"
     },
     {
       "name": "Jessie",
@@ -97,7 +107,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Normal",
-      "release": "2017"
+      "release": "2017",
+      "image": "jessie"
     },
     {
       "name": "Dynamike",
@@ -106,7 +117,8 @@
       "movement": "Fast",
       "range": "Long",
       "reload": "Normal",
-      "release": "2017"
+      "release": "2017",
+      "image": "dynamike"
     },
     {
       "name": "Darryl",
@@ -115,7 +127,8 @@
       "movement": "Fast",
       "range": "Normal",
       "reload": "Normal",
-      "release": "2017"
+      "release": "2017",
+      "image": "darryl"
     },
     {
       "name": "Penny",
@@ -124,7 +137,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Slow",
-      "release": "2018"
+      "release": "2018",
+      "image": "penny"
     },
     {
       "name": "Tick",
@@ -133,7 +147,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Very Slow",
-      "release": "2019"
+      "release": "2019",
+      "image": "tick"
     },
     {
       "name": "Carl",
@@ -142,7 +157,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Slow",
-      "release": "2019"
+      "release": "2019",
+      "image": "carl"
     },
     {
       "name": "8-Bit",
@@ -151,7 +167,8 @@
       "movement": "Very Slow",
       "range": "Very Long",
       "reload": "Normal",
-      "release": "2019"
+      "release": "2019",
+      "image": "8-bit"
     },
     {
       "name": "Jacky",
@@ -160,7 +177,8 @@
       "movement": "Fast",
       "range": "Short",
       "reload": "Normal",
-      "release": "2020"
+      "release": "2020",
+      "image": "jacky"
     },
     {
       "name": "Gus",
@@ -169,7 +187,8 @@
       "movement": "Normal",
       "range": "Very Long",
       "reload": "Normal",
-      "release": "2022"
+      "release": "2022",
+      "image": "gus"
     },
     {
       "name": "Bo",
@@ -178,7 +197,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Normal",
-      "release": "2017"
+      "release": "2017",
+      "image": "bo"
     },
     {
       "name": "Piper",
@@ -187,7 +207,8 @@
       "movement": "Normal",
       "range": "Very Long",
       "reload": "Very Slow",
-      "release": "2017"
+      "release": "2017",
+      "image": "piper"
     },
     {
       "name": "Pam",
@@ -196,7 +217,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Very Fast",
-      "release": "2017"
+      "release": "2017",
+      "image": "pam"
     },
     {
       "name": "Frank",
@@ -205,7 +227,8 @@
       "movement": "Fast",
       "range": "Normal",
       "reload": "Very Fast",
-      "release": "2018"
+      "release": "2018",
+      "image": "frank"
     },
     {
       "name": "Bibi",
@@ -214,7 +237,8 @@
       "movement": "Very Fast",
       "range": "Short",
       "reload": "Very Fast",
-      "release": "2019"
+      "release": "2019",
+      "image": "bibi"
     },
     {
       "name": "Bea",
@@ -223,7 +247,8 @@
       "movement": "Normal",
       "range": "Very Long",
       "reload": "Very Fast",
-      "release": "2019"
+      "release": "2019",
+      "image": "bea"
     },
     {
       "name": "Emz",
@@ -232,7 +257,8 @@
       "movement": "Normal",
       "range": "Normal",
       "reload": "Slow",
-      "release": "2019"
+      "release": "2019",
+      "image": "emz"
     },
     {
       "name": "Gale",
@@ -241,7 +267,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Very Fast",
-      "release": "2020"
+      "release": "2020",
+      "image": "gale"
     },
     {
       "name": "Nani",
@@ -250,7 +277,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Normal",
-      "release": "2020"
+      "release": "2020",
+      "image": "nani"
     },
     {
       "name": "Colette",
@@ -259,7 +287,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Normal",
-      "release": "2020"
+      "release": "2020",
+      "image": "colette"
     },
     {
       "name": "Edgar",
@@ -268,7 +297,8 @@
       "movement": "Very Fast",
       "range": "Short",
       "reload": "Very Fast",
-      "release": "2020"
+      "release": "2020",
+      "image": "edgar"
     },
     {
       "name": "Stu",
@@ -277,7 +307,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Normal",
-      "release": "2021"
+      "release": "2021",
+      "image": "stu"
     },
     {
       "name": "Belle",
@@ -286,7 +317,8 @@
       "movement": "Normal",
       "range": "Very Long",
       "reload": "Fast",
-      "release": "2021"
+      "release": "2021",
+      "image": "belle"
     },
     {
       "name": "Grom",
@@ -295,7 +327,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Slow",
-      "release": "2021"
+      "release": "2021",
+      "image": "grom"
     },
     {
       "name": "Griff",
@@ -304,7 +337,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Normal",
-      "release": "2021"
+      "release": "2021",
+      "image": "griff"
     },
     {
       "name": "Ash",
@@ -313,7 +347,8 @@
       "movement": "Normal",
       "range": "Normal",
       "reload": "Fast",
-      "release": "2021"
+      "release": "2021",
+      "image": "ash"
     },
     {
       "name": "Lola",
@@ -322,7 +357,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Normal",
-      "release": "2021"
+      "release": "2021",
+      "image": "lola"
     },
     {
       "name": "Bonnie",
@@ -331,7 +367,8 @@
       "movement": "Slow",
       "range": "Long",
       "reload": "Very Fast",
-      "release": "2022"
+      "release": "2022",
+      "image": "bonnie"
     },
     {
       "name": "Sam",
@@ -340,7 +377,8 @@
       "movement": "Fast",
       "range": "Short",
       "reload": "Normal",
-      "release": "2022"
+      "release": "2022",
+      "image": "sam"
     },
     {
       "name": "Mandy",
@@ -349,7 +387,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Normal",
-      "release": "2023"
+      "release": "2023",
+      "image": "mandy"
     },
     {
       "name": "Maisie",
@@ -358,7 +397,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Normal",
-      "release": "2023"
+      "release": "2023",
+      "image": "maisie"
     },
     {
       "name": "Hank",
@@ -367,7 +407,8 @@
       "movement": "Normal",
       "range": "Short",
       "reload": "Very Fast",
-      "release": "2023"
+      "release": "2023",
+      "image": "hank"
     },
     {
       "name": "Pearl",
@@ -376,7 +417,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Normal",
-      "release": "2023"
+      "release": "2023",
+      "image": "pearl"
     },
     {
       "name": "Larry & Lawrie",
@@ -385,7 +427,8 @@
       "movement": "Fast",
       "range": "Long",
       "reload": "Very Slow",
-      "release": "2024"
+      "release": "2024",
+      "image": "larry-and-lawrie"
     },
     {
       "name": "Angelo",
@@ -394,7 +437,8 @@
       "movement": "Very Fast",
       "range": "Very Long",
       "reload": "Very Fast",
-      "release": "2024"
+      "release": "2024",
+      "image": "angelo"
     },
     {
       "name": "Berry",
@@ -403,7 +447,8 @@
       "movement": "Normal",
       "range": "Normal",
       "reload": "Very Slow",
-      "release": "2024"
+      "release": "2024",
+      "image": "berry"
     },
     {
       "name": "Trunk",
@@ -412,7 +457,8 @@
       "movement": "Fast",
       "range": "Short",
       "reload": "Normal",
-      "release": "2025"
+      "release": "2025",
+      "image": "trunk"
     },
     {
       "name": "Shade",
@@ -421,7 +467,8 @@
       "movement": "Very Fast",
       "range": "Very Short",
       "reload": "Very Fast",
-      "release": "2024"
+      "release": "2024",
+      "image": "shade"
     },
     {
       "name": "Meeple",
@@ -430,7 +477,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Slow",
-      "release": "2025"
+      "release": "2025",
+      "image": "meeple"
     },
     {
       "name": "Mortis",
@@ -439,7 +487,8 @@
       "movement": "Very Fast",
       "range": "Short",
       "reload": "Very Slow",
-      "release": "2017"
+      "release": "2017",
+      "image": "mortis"
     },
     {
       "name": "Tara",
@@ -448,7 +497,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Slow",
-      "release": "2017"
+      "release": "2017",
+      "image": "tara"
     },
     {
       "name": "Gene",
@@ -457,7 +507,8 @@
       "movement": "Normal",
       "range": "Very Long",
       "reload": "Slow",
-      "release": "2019"
+      "release": "2019",
+      "image": "gene"
     },
     {
       "name": "Mr. P",
@@ -466,7 +517,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Normal",
-      "release": "2020"
+      "release": "2020",
+      "image": "mr-p"
     },
     {
       "name": "Max",
@@ -475,7 +527,8 @@
       "movement": "Very Fast",
       "range": "Long",
       "reload": "Very Fast",
-      "release": "2019"
+      "release": "2019",
+      "image": "max"
     },
     {
       "name": "Sprout",
@@ -484,7 +537,8 @@
       "movement": "Normal",
       "range": "Normal",
       "reload": "Normal",
-      "release": "2020"
+      "release": "2020",
+      "image": "sprout"
     },
     {
       "name": "Lou",
@@ -493,7 +547,8 @@
       "movement": "Normal",
       "range": "Very Long",
       "reload": "Very Fast",
-      "release": "2020"
+      "release": "2020",
+      "image": "lou"
     },
     {
       "name": "Byron",
@@ -502,7 +557,8 @@
       "movement": "Normal",
       "range": "Very Long",
       "reload": "Fast",
-      "release": "2020"
+      "release": "2020",
+      "image": "byron"
     },
     {
       "name": "Ruffs",
@@ -511,7 +567,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Fast",
-      "release": "2021"
+      "release": "2021",
+      "image": "ruffs"
     },
     {
       "name": "Lumi",
@@ -520,7 +577,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Very Fast",
-      "release": "2025"
+      "release": "2025",
+      "image": "lumi"
     },
     {
       "name": "Squeak",
@@ -529,7 +587,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Slow",
-      "release": "2021"
+      "release": "2021",
+      "image": "squeak"
     },
     {
       "name": "Buzz",
@@ -538,7 +597,8 @@
       "movement": "Fast",
       "range": "Short",
       "reload": "Very Fast",
-      "release": "2021"
+      "release": "2021",
+      "image": "buzz"
     },
     {
       "name": "Fang",
@@ -547,7 +607,8 @@
       "movement": "Fast",
       "range": "Very Long",
       "reload": "Very Fast",
-      "release": "2022"
+      "release": "2022",
+      "image": "fang"
     },
     {
       "name": "Eve",
@@ -556,7 +617,8 @@
       "movement": "Normal",
       "range": "Very Long",
       "reload": "Normal",
-      "release": "2022"
+      "release": "2022",
+      "image": "eve"
     },
     {
       "name": "Janet",
@@ -565,7 +627,8 @@
       "movement": "Normal",
       "range": "Normal",
       "reload": "Normal",
-      "release": "2022"
+      "release": "2022",
+      "image": "janet"
     },
     {
       "name": "Otis",
@@ -574,7 +637,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Normal",
-      "release": "2022"
+      "release": "2022",
+      "image": "otis"
     },
     {
       "name": "Buster",
@@ -583,7 +647,8 @@
       "movement": "Fast",
       "range": "Normal",
       "reload": "Normal",
-      "release": "2022"
+      "release": "2022",
+      "image": "buster"
     },
     {
       "name": "Gray",
@@ -592,7 +657,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Fast",
-      "release": "2022"
+      "release": "2022",
+      "image": "gray"
     },
     {
       "name": "R-T",
@@ -601,7 +667,8 @@
       "movement": "Normal",
       "range": "Very Long",
       "reload": "Normal",
-      "release": "2023"
+      "release": "2023",
+      "image": "r-t"
     },
     {
       "name": "Alli",
@@ -610,7 +677,8 @@
       "movement": "Fast",
       "range": "Short",
       "reload": "Normal",
-      "release": "2025"
+      "release": "2025",
+      "image": "alli"
     },
     {
       "name": "Willow",
@@ -619,7 +687,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Slow",
-      "release": "2023"
+      "release": "2023",
+      "image": "willow"
     },
     {
       "name": "Doug",
@@ -628,7 +697,8 @@
       "movement": "Fast",
       "range": "Short",
       "reload": "Normal",
-      "release": "2023"
+      "release": "2023",
+      "image": "doug"
     },
     {
       "name": "Chuck",
@@ -637,7 +707,8 @@
       "movement": "Fast",
       "range": "Normal",
       "reload": "Slow",
-      "release": "2023"
+      "release": "2023",
+      "image": "chuck"
     },
     {
       "name": "Charlie",
@@ -646,7 +717,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Slow",
-      "release": "2023"
+      "release": "2023",
+      "image": "charlie"
     },
     {
       "name": "Mico",
@@ -655,7 +727,8 @@
       "movement": "Very Fast",
       "range": "Normal",
       "reload": "Very Slow",
-      "release": "2023"
+      "release": "2023",
+      "image": "mico"
     },
     {
       "name": "Melodie",
@@ -664,7 +737,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Normal",
-      "release": "2024"
+      "release": "2024",
+      "image": "melodie"
     },
     {
       "name": "Lily",
@@ -673,7 +747,8 @@
       "movement": "Very Fast",
       "range": "Short",
       "reload": "Very Fast",
-      "release": "2024"
+      "release": "2024",
+      "image": "lily"
     },
     {
       "name": "Clancy",
@@ -682,7 +757,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Slow",
-      "release": "2024"
+      "release": "2024",
+      "image": "clancy"
     },
     {
       "name": "Moe",
@@ -691,7 +767,8 @@
       "movement": "Fast",
       "range": "Long",
       "reload": "Normal",
-      "release": "2024"
+      "release": "2024",
+      "image": "moe"
     },
     {
       "name": "Juju",
@@ -700,7 +777,8 @@
       "movement": "Very Fast",
       "range": "Normal",
       "reload": "Normal",
-      "release": "2024"
+      "release": "2024",
+      "image": "juju"
     },
     {
       "name": "Ziggy",
@@ -709,7 +787,8 @@
       "movement": "Fast",
       "range": "Long",
       "reload": "Normal",
-      "release": "2025"
+      "release": "2025",
+      "image": "ziggy"
     },
     {
       "name": "Ollie",
@@ -718,7 +797,8 @@
       "movement": "Fast",
       "range": "Normal",
       "reload": "Normal",
-      "release": "2025"
+      "release": "2025",
+      "image": "ollie"
     },
     {
       "name": "Jae-Yong",
@@ -727,7 +807,8 @@
       "movement": "Fast",
       "range": "Long",
       "reload": "Fast",
-      "release": "2025"
+      "release": "2025",
+      "image": "jae-yong"
     },
     {
       "name": "mina",
@@ -736,7 +817,8 @@
       "movement": "Fast",
       "range": "Long",
       "reload": "Normal",
-      "release": "2025"
+      "release": "2025",
+      "image": "mina"
     },
     {
       "name": "Finx",
@@ -745,7 +827,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Normal",
-      "release": "2025"
+      "release": "2025",
+      "image": "finx"
     },
     {
       "name": "Gigi",
@@ -754,7 +837,8 @@
       "movement": "Very Fast",
       "range": "Short",
       "reload": "Very Fast",
-      "release": "2025"
+      "release": "2025",
+      "image": "gigi"
     },
     {
       "name": "Glowy",
@@ -763,7 +847,8 @@
       "movement": "Fast",
       "range": "Long",
       "reload": "Normal",
-      "release": "2026"
+      "release": "2026",
+      "image": "glowy"
     },
     {
       "name": "Draco",
@@ -772,7 +857,8 @@
       "movement": "Normal",
       "range": "Normal",
       "reload": "Normal",
-      "release": "2024"
+      "release": "2024",
+      "image": "draco"
     },
     {
       "name": "Kenji",
@@ -781,7 +867,8 @@
       "movement": "Very Fast",
       "range": "Short",
       "reload": "Very Fast",
-      "release": "2024"
+      "release": "2024",
+      "image": "kenji"
     },
     {
       "name": "Pierce",
@@ -790,7 +877,8 @@
       "movement": "Normal",
       "range": "Very Long",
       "reload": "Very Slow",
-      "release": "2025"
+      "release": "2025",
+      "image": "pierce"
     },
     {
       "name": "Spike",
@@ -799,7 +887,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Slow",
-      "release": "2017"
+      "release": "2017",
+      "image": "spike"
     },
     {
       "name": "Crow",
@@ -808,7 +897,8 @@
       "movement": "Very Fast",
       "range": "Long",
       "reload": "Fast",
-      "release": "2017"
+      "release": "2017",
+      "image": "crow"
     },
     {
       "name": "Leon",
@@ -817,7 +907,8 @@
       "movement": "Very Fast",
       "range": "Very Long",
       "reload": "Normal",
-      "release": "2018"
+      "release": "2018",
+      "image": "leon"
     },
     {
       "name": "Sandy",
@@ -826,7 +917,8 @@
       "movement": "Fast",
       "range": "Normal",
       "reload": "Normal",
-      "release": "2019"
+      "release": "2019",
+      "image": "sandy"
     },
     {
       "name": "Surge",
@@ -835,7 +927,8 @@
       "movement": "Slow",
       "range": "Normal",
       "reload": "Slow",
-      "release": "2020"
+      "release": "2020",
+      "image": "surge"
     },
     {
       "name": "Amber",
@@ -844,7 +937,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Very Fast",
-      "release": "2020"
+      "release": "2020",
+      "image": "amber"
     },
     {
       "name": "Meg",
@@ -853,7 +947,8 @@
       "movement": "Normal",
       "range": "Long",
       "reload": "Very Fast",
-      "release": "2021"
+      "release": "2021",
+      "image": "meg"
     },
     {
       "name": "Chester",
@@ -862,7 +957,8 @@
       "movement": "Fast",
       "range": "Long",
       "reload": "Normal",
-      "release": "2022"
+      "release": "2022",
+      "image": "chester"
     },
     {
       "name": "Kit",
@@ -871,7 +967,8 @@
       "movement": "Very Fast",
       "range": "Short",
       "reload": "Very Fast",
-      "release": "2024"
+      "release": "2024",
+      "image": "kit"
     },
     {
       "name": "Cordelius",
@@ -880,7 +977,8 @@
       "movement": "Very Fast",
       "range": "Normal",
       "reload": "Very Fast",
-      "release": "2023"
+      "release": "2023",
+      "image": "cordelius"
     },
     {
       "name": "Sirius",
@@ -889,7 +987,8 @@
       "movement": "Fast",
       "range": "Long",
       "reload": "Normal",
-      "release": "2026"
+      "release": "2026",
+      "image": "sirius"
     },
     {
       "name": "Kaze",
@@ -898,7 +997,8 @@
       "movement": "Very Fast",
       "range": "Short",
       "reload": "Very Fast",
-      "release": "2025"
+      "release": "2025",
+      "image": "kaze"
     }
   ]
 }

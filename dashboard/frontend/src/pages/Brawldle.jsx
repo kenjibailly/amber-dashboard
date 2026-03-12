@@ -6,12 +6,6 @@ import { DiscordSDK } from "@discord/embedded-app-sdk";
 const isInsideDiscord = new URLSearchParams(window.location.search).has(
   "frame_id",
 );
-console.log(
-  "isInsideDiscord:",
-  isInsideDiscord,
-  "search:",
-  window.location.search,
-);
 
 const COLUMNS = [
   { key: "rarity", label: "Rarity" },
@@ -22,10 +16,49 @@ const COLUMNS = [
   { key: "release", label: "Release" },
 ];
 
-// ── Auth ─────────────────────────────────────────────────────────────────────
+// ── LocalStorage safety wrapper (Discord Activity iframes may block it) ───────
+
+const getCache = (key) => {
+  try {
+    return localStorage.getItem(key);
+  } catch (_) {
+    return null;
+  }
+};
+const setCache = (key, val) => {
+  try {
+    localStorage.setItem(key, val);
+  } catch (_) {}
+};
+const clearCache = (key) => {
+  try {
+    localStorage.removeItem(key);
+  } catch (_) {}
+};
+
+// ── Auth ──────────────────────────────────────────────────────────────────────
 
 async function authenticateWithDiscord() {
   if (isInsideDiscord) {
+    // Try cached token first to avoid Discord OAuth rate limits
+    const cachedToken = getCache("discord_access_token");
+    if (cachedToken) {
+      try {
+        const res = await axios.post(
+          "/auth/discord-activity",
+          { accessToken: cachedToken }, // ✅ pass accessToken, no code needed
+          { withCredentials: true },
+        );
+        if (res.data.user) {
+          axios.defaults.headers.common["X-Discord-Token"] = cachedToken;
+          return res.data.user;
+        }
+      } catch (_) {
+        clearCache("discord_access_token");
+      }
+    }
+
+    // No cached token — go through full SDK OAuth flow
     let discordSdk;
     try {
       discordSdk = new DiscordSDK(import.meta.env.VITE_DISCORD_CLIENT_ID);
@@ -51,16 +84,16 @@ async function authenticateWithDiscord() {
 
     const res = await axios.post(
       "/auth/discord-activity",
-      { code },
+      { code, sdkFlow: true }, // ✅ pass sdkFlow flag
       { withCredentials: true },
     );
+
+    setCache("discord_access_token", res.data.access_token);
+    axios.defaults.headers.common["X-Discord-Token"] = res.data.access_token;
 
     await discordSdk.commands.authenticate({
       access_token: res.data.access_token,
     });
-
-    // Store token for future requests
-    axios.defaults.headers.common["X-Discord-Token"] = res.data.access_token;
 
     return res.data.user;
   } else {
@@ -78,14 +111,32 @@ async function authenticateWithDiscord() {
   }
 }
 
-// ── GuessRow ─────────────────────────────────────────────────────────────────
+// ── Loader ────────────────────────────────────────────────────────────────────
 
-function Cell({ value, result }) {
+function Loader({ text }) {
+  return (
+    <div className={styles.loaderWrapper}>
+      <div className={styles.loaderDots}>
+        <div className={styles.loaderDot} />
+        <div className={styles.loaderDot} />
+        <div className={styles.loaderDot} />
+      </div>
+      <span className={styles.loaderText}>{text}</span>
+    </div>
+  );
+}
+
+// ── GuessRow ──────────────────────────────────────────────────────────────────
+
+function Cell({ value, result, index, isNew }) {
   const isCorrect = result === "correct";
   const arrow = result === "up" ? " ↑" : result === "down" ? " ↓" : "";
   return (
     <div
       className={`${styles.cell} ${isCorrect ? styles.correct : styles.wrong}`}
+      style={
+        isNew ? { animationDelay: `${index * 0.1}s` } : { animation: "none" }
+      }
     >
       <span className={styles.cellValue}>
         {value}
@@ -95,19 +146,30 @@ function Cell({ value, result }) {
   );
 }
 
-function GuessRow({ comparison, brawlerName }) {
+function GuessRow({ comparison, isNew }) {
+  const isCorrect = comparison.name.result === "correct";
   return (
     <div className={styles.guessRow}>
       <div
-        className={`${styles.cell} ${styles.nameCell} ${comparison.name.result === "correct" ? styles.correct : styles.wrong}`}
+        className={`${styles.cell} ${styles.nameCell} ${isCorrect ? styles.correct : styles.wrong}`}
+        style={isNew ? { animationDelay: "0s" } : { animation: "none" }}
       >
-        <span className={styles.cellValue}>{brawlerName}</span>
+        <img
+          src={`/brawlers/${comparison.name.image}.png`}
+          alt={comparison.name.value}
+          className={styles.brawlerIcon}
+          onError={(e) => {
+            e.target.style.display = "none";
+          }}
+        />
       </div>
-      {COLUMNS.map((col) => (
+      {COLUMNS.map((col, i) => (
         <Cell
           key={col.key}
           value={comparison[col.key].value}
           result={comparison[col.key].result}
+          index={i + 1}
+          isNew={isNew}
         />
       ))}
     </div>
@@ -121,10 +183,19 @@ function StatsModal({ stats, guessCount, answer, onClose }) {
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <h2 className={styles.modalTitle}>🎉 You got it!</h2>
-        <p className={styles.answerReveal}>
-          Today's brawler was <strong>{answer?.name}</strong>
-        </p>
-
+        {answer && (
+          <div className={styles.answerReveal}>
+            <img
+              src={`/brawlers/${answer.image}.png`}
+              alt={answer.name}
+              className={styles.answerIcon}
+              onError={(e) => (e.target.style.display = "none")}
+            />
+            <p>
+              Today's brawler was <strong>{answer.name}</strong>
+            </p>
+          </div>
+        )}
         <div className={styles.statsGrid}>
           <div className={styles.statBox}>
             <span className={styles.statNumber}>{guessCount}</span>
@@ -155,7 +226,6 @@ function StatsModal({ stats, guessCount, answer, onClose }) {
             <span className={styles.statLabel}>Days played</span>
           </div>
         </div>
-
         <button className={styles.closeBtn} onClick={onClose}>
           Close
         </button>
@@ -171,7 +241,7 @@ export default function Brawldle() {
   const [authLoading, setAuthLoading] = useState(true);
 
   const [brawlerNames, setBrawlerNames] = useState([]);
-  const [guesses, setGuesses] = useState([]); // array of comparison objects
+  const [guesses, setGuesses] = useState([]);
   const [wonToday, setWonToday] = useState(false);
   const [answer, setAnswer] = useState(null);
   const [gameLoading, setGameLoading] = useState(true);
@@ -184,10 +254,11 @@ export default function Brawldle() {
 
   const [stats, setStats] = useState(null);
   const [showStats, setShowStats] = useState(false);
+  const [lastGuessed, setLastGuessed] = useState(null);
 
   const inputRef = useRef(null);
 
-  // ── Auth on mount ──────────────────────────────────────────────────────────
+  // ── Auth on mount ─────────────────────────────────────────────────────────
   useEffect(() => {
     (async () => {
       const u = await authenticateWithDiscord();
@@ -195,25 +266,17 @@ export default function Brawldle() {
         setUser(u);
         setAuthLoading(false);
       }
-      // if null, we redirected — component will unmount
     })();
   }, []);
 
-  // ── Load game state once authenticated ────────────────────────────────────
-  //   useEffect(() => {
-  //     if (!user) return;
-  //     loadGameState();
-  //   }, [user]);
-
+  // ── Load game state once authenticated ───────────────────────────────────
   useEffect(() => {
     if (!user) return;
 
-    // Grab guild/channel from the Discord SDK URL params (only present in Activity)
     const params = new URLSearchParams(window.location.search);
     const guildId = params.get("guild_id");
     const channelId = params.get("channel_id");
 
-    // Only call start-session if we're inside the Discord Activity
     if (guildId && channelId) {
       axios
         .post(
@@ -234,7 +297,7 @@ export default function Brawldle() {
         withCredentials: true,
       });
       setBrawlerNames(res.data.brawlerNames || []);
-      setGuesses(res.data.guesses || []);
+      setGuesses((res.data.guesses || []).reverse());
       setWonToday(res.data.wonToday || false);
       if (res.data.answer) setAnswer(res.data.answer);
       if (res.data.wonToday) {
@@ -258,7 +321,7 @@ export default function Brawldle() {
     } catch (_) {}
   };
 
-  // ── Autocomplete ───────────────────────────────────────────────────────────
+  // ── Autocomplete ──────────────────────────────────────────────────────────
   const guessedNames = guesses.map((g) => g.name?.value?.toLowerCase());
 
   const handleInputChange = (e) => {
@@ -270,9 +333,9 @@ export default function Brawldle() {
       return;
     }
     const filtered = brawlerNames.filter(
-      (name) =>
-        name.toLowerCase().includes(val.toLowerCase()) &&
-        !guessedNames.includes(name.toLowerCase()),
+      (b) =>
+        b.name.toLowerCase().includes(val.toLowerCase()) &&
+        !guessedNames.includes(b.name.toLowerCase()),
     );
     setSuggestions(filtered.slice(0, 8));
   };
@@ -284,9 +347,10 @@ export default function Brawldle() {
       setSelectedIdx((i) => Math.max(i - 1, -1));
     } else if (e.key === "Enter") {
       e.preventDefault();
-      const name =
-        selectedIdx >= 0 ? suggestions[selectedIdx] : suggestions[0] || input;
-      if (name) submitGuess(name);
+      const brawler =
+        selectedIdx >= 0 ? suggestions[selectedIdx] : suggestions[0];
+      if (brawler) submitGuess(brawler.name);
+      else if (input) submitGuess(input);
     } else if (e.key === "Escape") {
       setSuggestions([]);
     }
@@ -307,6 +371,7 @@ export default function Brawldle() {
         { withCredentials: true },
       );
 
+      setLastGuessed(res.data.comparison.name.value);
       setGuesses((prev) => [res.data.comparison, ...prev]);
 
       if (res.data.isCorrect) {
@@ -323,22 +388,14 @@ export default function Brawldle() {
     }
   };
 
-  // ── Render ─────────────────────────────────────────────────────────────────
+  // ── Render ────────────────────────────────────────────────────────────────
 
   if (authLoading) {
-    return (
-      <div className={styles.page}>
-        <div className={styles.loading}>Connecting to Discord…</div>
-      </div>
-    );
+    return <Loader text="Connecting to Discord…" />;
   }
 
   if (gameLoading) {
-    return (
-      <div className={styles.page}>
-        <div className={styles.loading}>Loading today's game…</div>
-      </div>
-    );
+    return <Loader text="Loading today's game…" />;
   }
 
   return (
@@ -377,13 +434,19 @@ export default function Brawldle() {
             />
             {suggestions.length > 0 && (
               <ul className={styles.suggestions}>
-                {suggestions.map((name, i) => (
+                {suggestions.map((brawler, i) => (
                   <li
-                    key={name}
+                    key={brawler.name}
                     className={`${styles.suggestion} ${i === selectedIdx ? styles.selectedSuggestion : ""}`}
-                    onMouseDown={() => submitGuess(name)}
+                    onMouseDown={() => submitGuess(brawler.name)}
                   >
-                    {name}
+                    <img
+                      src={`/brawlers/${brawler.image}.png`}
+                      alt={brawler.name}
+                      className={styles.suggestionIcon}
+                      onError={(e) => (e.target.style.display = "none")}
+                    />
+                    {brawler.name}
                   </li>
                 ))}
               </ul>
@@ -392,8 +455,9 @@ export default function Brawldle() {
           <button
             className={styles.guessBtn}
             onClick={() => {
-              const name = suggestions[0] || input;
-              if (name) submitGuess(name);
+              const brawler = suggestions[0];
+              if (brawler) submitGuess(brawler.name);
+              else if (input) submitGuess(input);
             }}
             disabled={submitting || !input.trim()}
           >
@@ -428,12 +492,11 @@ export default function Brawldle() {
               </div>
             ))}
           </div>
-
-          {guesses.map((comparison, i) => (
+          {guesses.map((comparison) => (
             <GuessRow
-              key={i}
+              key={comparison.name.value}
               comparison={comparison}
-              brawlerName={comparison.name?.value}
+              isNew={comparison.name.value === lastGuessed}
             />
           ))}
         </div>

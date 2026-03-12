@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
       port: 5173,
       allowedHosts: [
         "amber-dashboard.mindglowing.art",
-        "brawldle.mindglowing.art",
+        "brawldle-dashboard.mindglowing.art",
         "localhost",
         "127.0.0.1",
       ],
