@@ -11,3 +11,5 @@ function formatDuration(ms) {
   const days = Math.floor(s / 86400);
   return `${days} ${days === 1 ? "day" : "days"}`;
 }
+
+module.exports = formatDuration;
