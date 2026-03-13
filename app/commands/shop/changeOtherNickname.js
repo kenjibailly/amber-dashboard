@@ -97,12 +97,12 @@ async function changeOtherNicknameChooseUser(message, exchangeData) {
       // Non-fatal
     }
   }
-
+  logger.warn(targetMember.user.id, targetMember.userId);
   try {
     const existingAwardedReward = await AwardedReward.findOne({
       guildId,
       awardedUserId: targetMember.user.id,
-      reward: "changeOtherNickname",
+      $or: [{ reward: "changeOwnNickname" }, { reward: "changeOtherNickname" }],
     });
 
     if (existingAwardedReward) {
@@ -366,14 +366,18 @@ async function changeOtherNicknameExchange(interaction) {
       await cancelThread(interaction);
       return;
     }
-
     try {
       await AwardedReward.findOneAndUpdate(
-        { guildId, awardedUserId: userId, reward: "changeOtherNickname" },
+        {
+          guildId,
+          awardedUserId: user_exchange_data.targetUserId,
+          reward: "changeOtherNickname",
+        },
         {
           userId,
           value: user_exchange_data.nickname,
           reward: "changeOtherNickname",
+          awardedUserId: user_exchange_data.targetUserId,
           date: new Date(),
         },
         { upsert: true, new: true, setDefaultsOnInsert: true },
