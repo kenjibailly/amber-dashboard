@@ -85,6 +85,19 @@ async function generateBrawldleImage({
   ctx.fillStyle = BG;
   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
+  try {
+    const patternImg = await loadImage(
+      path.join(__dirname, "../assets/bs_pattern.png"),
+    );
+    const pattern = ctx.createPattern(patternImg, "repeat");
+    ctx.fillStyle = pattern;
+    ctx.globalAlpha = 0.2; // adjust opacity — subtle is better
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.globalAlpha = 1; // reset alpha for everything after
+  } catch (_) {
+    // Pattern not found — skip it
+  }
+
   // ── Title ─────────────────────────────────────────────────────
   ctx.fillStyle = GOLD;
   ctx.font = "bold 28px SegoeUIBoldBlack, sans-serif";
