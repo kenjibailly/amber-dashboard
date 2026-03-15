@@ -18,8 +18,7 @@ function getCurrentMonthStr() {
 }
 
 async function runMonthlyPayout(client) {
-  //   const month = getLastMonthStr();
-  const month = getCurrentMonthStr();
+  const month = getLastMonthStr();
 
   logger.info(`[BrawldleMonthly] Running payout for ${month}`);
 

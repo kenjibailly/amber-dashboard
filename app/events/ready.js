@@ -35,6 +35,5 @@ module.exports = {
     startBrawldleScheduler();
 
     startBrawldleMonthlyScheduler(client);
-    runMonthlyPayout(client);
   },
 };
