@@ -165,7 +165,7 @@ export default function BrawldleSettings({ guildId, user }) {
         {formData.rewards.map((reward, i) => (
           <div
             key={i}
-            className={editorStyles.entryBlock}
+            className={editorStyles.input}
             style={{ marginBottom: "12px" }}
           >
             <div className={editorStyles.entryHeader}>
