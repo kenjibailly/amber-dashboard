@@ -139,6 +139,17 @@ module.exports = {
             .sort({ wins: -1, totalGuesses: 1 })
             .limit(10);
 
+          topPlayers.sort((a, b) => {
+            // Primary: most wins
+            if (b.totalWins !== a.totalWins) return b.totalWins - a.totalWins;
+            // Secondary: best max streak
+            if (b.maxStreak !== a.maxStreak) return b.maxStreak - a.maxStreak;
+            // Tiebreaker: fewest avg guesses
+            const avgA = a.totalWins > 0 ? a.totalGuesses / a.totalWins : 99;
+            const avgB = b.totalWins > 0 ? b.totalGuesses / b.totalWins : 99;
+            return avgA - avgB;
+          });
+
           if (topPlayers.length === 0) {
             const embed = new EmbedBuilder()
               .setTitle(`🎯 Brawldle — ${month} Leaderboard`)
