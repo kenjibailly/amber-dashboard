@@ -65,6 +65,7 @@ module.exports = {
         await interaction.guild.members.fetch();
         const memberIds = [...interaction.guild.members.cache.keys()];
 
+        // ── Today ───────────────────────────────────────────────
         if (type === "today") {
           const today = getTodayUTC();
           const daily = await BrawldleDaily.findOne({ date: today });
@@ -77,8 +78,10 @@ module.exports = {
           });
 
           winners.sort((a, b) => {
+            // Primary: highest streak
             if (b.currentStreak !== a.currentStreak)
               return b.currentStreak - a.currentStreak;
+            // Tiebreaker: fewest guesses today
             return (a.guesses?.length ?? 99) - (b.guesses?.length ?? 99);
           });
 
@@ -128,6 +131,7 @@ module.exports = {
           return await interaction.editReply({ embeds: [embed] });
         }
 
+        // ── Monthly ─────────────────────────────────────────────
         if (type === "monthly") {
           const month = getCurrentMonthStr();
 
@@ -135,9 +139,69 @@ module.exports = {
             guildId,
             month,
             userId: { $in: memberIds },
-          })
-            .sort({ wins: -1, totalGuesses: 1 })
-            .limit(10);
+          }).limit(20);
+
+          topPlayers.sort((a, b) => {
+            // Primary: most wins
+            if (b.wins !== a.wins) return b.wins - a.wins;
+            // Tiebreaker: fewest avg guesses
+            const avgA = a.wins > 0 ? a.totalGuesses / a.wins : 99;
+            const avgB = b.wins > 0 ? b.totalGuesses / b.wins : 99;
+            return avgA - avgB;
+          });
+
+          if (topPlayers.length === 0) {
+            const embed = new EmbedBuilder()
+              .setTitle(`🎯 Brawldle — ${month} Leaderboard`)
+              .setDescription("No wins recorded this month yet!")
+              .setColor(0xffd700);
+            return await interaction.editReply({ embeds: [embed] });
+          }
+
+          const rows = topPlayers.slice(0, 10).map((u, i) => {
+            const member = interaction.guild.members.cache.get(u.userId);
+            const name = member?.displayName || `<@${u.userId}>`;
+            const avg = u.wins > 0 ? (u.totalGuesses / u.wins).toFixed(1) : "—";
+            const medal = MEDALS[i] || `**${i + 1}.**`;
+            return `${medal} **${name}** — ${u.wins} wins · avg ${avg} guesses`;
+          });
+
+          // Overall monthly avg across all players
+          const totalWins = topPlayers.reduce((s, u) => s + u.wins, 0);
+          const totalGuesses = topPlayers.reduce(
+            (s, u) => s + u.totalGuesses,
+            0,
+          );
+          const monthlyAvg =
+            totalWins > 0 ? (totalGuesses / totalWins).toFixed(1) : "—";
+
+          const embed = new EmbedBuilder()
+            .setTitle(`🎯 Brawldle — ${month} Leaderboard`)
+            .setDescription(rows.join("\n"))
+            .addFields(
+              {
+                name: "Total Wins (Server)",
+                value: `${totalWins}`,
+                inline: true,
+              },
+              {
+                name: "Avg Guesses (Server)",
+                value: `${monthlyAvg}`,
+                inline: true,
+              },
+            )
+            .setColor(0xffd700)
+            .setFooter({ text: "Rewards paid out at the end of the month!" });
+
+          return await interaction.editReply({ embeds: [embed] });
+        }
+
+        // ── All Time ────────────────────────────────────────────
+        if (type === "alltime") {
+          const topPlayers = await BrawldleUser.find({
+            userId: { $in: memberIds },
+            totalWins: { $gt: 0 },
+          }).limit(20);
 
           topPlayers.sort((a, b) => {
             // Primary: most wins
@@ -152,46 +216,13 @@ module.exports = {
 
           if (topPlayers.length === 0) {
             const embed = new EmbedBuilder()
-              .setTitle(`🎯 Brawldle — ${month} Leaderboard`)
-              .setDescription("No wins recorded this month yet!")
-              .setColor(0xffd700);
-            return await interaction.editReply({ embeds: [embed] });
-          }
-
-          const rows = topPlayers.map((u, i) => {
-            const member = interaction.guild.members.cache.get(u.userId);
-            const name = member?.displayName || `<@${u.userId}>`;
-            const avg = u.wins > 0 ? (u.totalGuesses / u.wins).toFixed(1) : "—";
-            const medal = MEDALS[i] || `**${i + 1}.**`;
-            return `${medal} **${name}** — ${u.wins} wins · avg ${avg} guesses`;
-          });
-
-          const embed = new EmbedBuilder()
-            .setTitle(`🎯 Brawldle — ${month} Leaderboard`)
-            .setDescription(rows.join("\n"))
-            .setColor(0xffd700)
-            .setFooter({ text: "Rewards paid out at the end of the month!" });
-
-          return await interaction.editReply({ embeds: [embed] });
-        }
-
-        if (type === "alltime") {
-          const topPlayers = await BrawldleUser.find({
-            userId: { $in: memberIds },
-            totalWins: { $gt: 0 },
-          })
-            .sort({ totalWins: -1, maxStreak: -1 })
-            .limit(10);
-
-          if (topPlayers.length === 0) {
-            const embed = new EmbedBuilder()
               .setTitle("🎯 Brawldle — All Time Leaderboard")
               .setDescription("No wins recorded yet!")
               .setColor(0xffd700);
             return await interaction.editReply({ embeds: [embed] });
           }
 
-          const rows = topPlayers.map((u, i) => {
+          const rows = topPlayers.slice(0, 10).map((u, i) => {
             const member = interaction.guild.members.cache.get(u.userId);
             const name = member?.displayName || `<@${u.userId}>`;
             const avg =
@@ -200,9 +231,30 @@ module.exports = {
             return `${medal} **${name}** — ${u.totalWins} wins · ${u.maxStreak} best streak · avg ${avg} guesses`;
           });
 
+          // Overall all time avg
+          const totalWins = topPlayers.reduce((s, u) => s + u.totalWins, 0);
+          const totalGuesses = topPlayers.reduce(
+            (s, u) => s + u.totalGuesses,
+            0,
+          );
+          const overallAvg =
+            totalWins > 0 ? (totalGuesses / totalWins).toFixed(1) : "—";
+
           const embed = new EmbedBuilder()
             .setTitle("🎯 Brawldle — All Time Leaderboard")
             .setDescription(rows.join("\n"))
+            .addFields(
+              {
+                name: "Total Wins (Server)",
+                value: `${totalWins}`,
+                inline: true,
+              },
+              {
+                name: "Avg Guesses (Server)",
+                value: `${overallAvg}`,
+                inline: true,
+              },
+            )
             .setColor(0xffd700);
 
           return await interaction.editReply({ embeds: [embed] });
