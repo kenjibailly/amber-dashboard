@@ -3,6 +3,9 @@ const router = express.Router();
 const { requireSession } = require("../admin/middleware");
 const BrawldleDaily = require("../../models/BrawldleDaily");
 const BrawldleUser = require("../../models/BrawldleUser");
+const BrawldleMonthly = require("../../models/BrawldleMonthly");
+const getCurrentMonthStr = () => new Date().toISOString().slice(0, 7);
+
 const {
   postBrawldleMessage,
   postWinAnnouncement,
@@ -290,6 +293,19 @@ router.post("/guess", requireSession, async (req, res) => {
       await BrawldleDaily.updateOne(
         { date: today },
         { $inc: { totalWins: 1, totalGuesses: userDoc.guesses.length } },
+      );
+
+      const month = getCurrentMonthStr();
+      await BrawldleMonthly.findOneAndUpdate(
+        { guildId: userDoc.activeGuildId, userId, month },
+        {
+          $inc: {
+            wins: 1,
+            totalGuesses: userDoc.guesses.length,
+            daysPlayed: 1,
+          },
+        },
+        { upsert: true },
       );
     }
 

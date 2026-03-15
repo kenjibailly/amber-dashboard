@@ -8,6 +8,5 @@ router.use("/", require("./customCommands"));
 router.use("/", require("./messages"));
 router.use("/", require("./changeLogs"));
 router.use("/", require("./syncCommands"));
-// router.use("/", require("./economy"));
 
 module.exports = router;

@@ -84,6 +84,12 @@ const availableModules = [
     description: "Configure the daily brawler poll",
     category: "brawlstars",
   },
+  {
+    id: "brawldle",
+    title: "Brawldle",
+    description: "Configure the brawldle rewards",
+    category: "brawlstars",
+  },
 ];
 
 // Get all modules for a guild

@@ -8,6 +8,10 @@ const {
 } = require("../schedulers/rewardExpiryScheduler");
 const { startBrawldleScheduler } = require("../schedulers/brawldleScheduler");
 const startDailyBrawlerPollScheduler = require("../schedulers/dailyBrawlerPoll");
+const {
+  startBrawldleMonthlyScheduler,
+  runMonthlyPayout,
+} = require("../schedulers/brawldleMonthlyScheduler");
 
 module.exports = {
   name: Events.ClientReady,
@@ -29,5 +33,8 @@ module.exports = {
     startDailyBrawlerPollScheduler(client);
 
     startBrawldleScheduler();
+
+    startBrawldleMonthlyScheduler(client);
+    runMonthlyPayout(client);
   },
 };
