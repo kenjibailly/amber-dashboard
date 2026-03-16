@@ -90,6 +90,12 @@ const availableModules = [
     description: "Configure the brawldle rewards",
     category: "brawlstars",
   },
+  {
+    id: "gift",
+    title: "Gift",
+    description: "Configure the gifting system",
+    category: "general",
+  },
 ];
 
 // Get all modules for a guild

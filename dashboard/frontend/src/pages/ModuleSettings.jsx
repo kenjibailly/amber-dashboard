@@ -18,6 +18,7 @@ import LevelSettings from "../components/modules/LevelSettings";
 import ModerationSettings from "../components/modules/ModerationSettings";
 import DailyBrawlerPollSettings from "../components/modules/DailyBrawlerPoll";
 import BrawldleSettings from "../components/modules/BrawldleSettings";
+import GiftSettings from "../components/modules/GiftSettings";
 
 export default function ModuleSettings() {
   const { guildId, moduleId } = useParams();
@@ -61,6 +62,8 @@ export default function ModuleSettings() {
         return <DailyBrawlerPollSettings guildId={guildId} user={user} />;
       case "brawldle":
         return <BrawldleSettings guildId={guildId} user={user} />;
+      case "gift":
+        return <GiftSettings guildId={guildId} user={user} />;
       default:
         return (
           <div>
@@ -88,6 +91,7 @@ export default function ModuleSettings() {
       moderation: "Moderation",
       dailybrawlerpoll: "Daily Brawler Poll",
       brawldle: "Brawldle",
+      gift: "Gift",
     };
     return titles[moduleId] || moduleId;
   };
